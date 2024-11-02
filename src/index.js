@@ -13,6 +13,8 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 // ** ThemeColors Context
 
 import { ThemeContext } from "./utility/context/ThemeColors";
@@ -63,6 +65,7 @@ root.render(
         <Suspense fallback={<Spinner />}>
           <ThemeContext>
             <LazyApp />
+            <ReactQueryDevtools initialIsOpen={false} />
             <Toaster
               position={themeConfig.layout.toastPosition}
               toastOptions={{ className: "react-hot-toast" }}
