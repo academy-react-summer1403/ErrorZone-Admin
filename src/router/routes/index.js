@@ -48,33 +48,33 @@ const Routes = [
   },
   {
     path: "/home",
-    element: <Home />,
+    element: isLogin ? <Home /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
   },
   {
     path: "/sample",
-    element: <Sample />,
+    element: isLogin ? <Sample /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} /> ,
   },
   {
     path: "/second-page",
-    element: <SecondPage />,
+    element: isLogin ? <SecondPage /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
   },
   {
     path: "/login",
-    element: <Login />,
+    element: !isLogin ? <Login /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
     meta: {
       layout: "blank",
     },
   },
   {
     path: "/register",
-    element: <Register />,
+    element: !isLogin ? <Register /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
     meta: {
       layout: "blank",
     },
   },
   {
     path: "/forgot-password",
-    element: <ForgotPassword />,
+    element: !isLogin ? <ForgotPassword /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
     meta: {
       layout: "blank",
     },
