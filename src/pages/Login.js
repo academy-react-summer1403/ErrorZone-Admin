@@ -102,7 +102,7 @@ const Login = () => {
               </g>
             </g>
           </svg>
-          <h2 className="brand-text text-primary ms-1">Vuexy</h2>
+          <h2 className="brand-text text-primary ms-1">ErrorZone</h2>
         </Link>
         <Col className="d-none d-lg-flex align-items-center p-5" lg="8" sm="12">
           <div className="w-100 d-lg-flex align-items-center justify-content-center px-5">
@@ -113,13 +113,14 @@ const Login = () => {
           className="d-flex align-items-center auth-bg px-2 p-lg-5"
           lg="4"
           sm="12"
+          dir="rtl"
         >
           <Col className="px-xl-2 mx-auto" sm="8" md="6" lg="12">
             <CardTitle tag="h2" className="fw-bold mb-1">
-              Welcome to Vuexy! 👋
+              به ErrorZone خوش آمدید 👋 
             </CardTitle>
             <CardText className="mb-2">
-              Please sign-in to your account and start the adventure
+              لطفا وارد شوید
             </CardText>
             <Form
               className="auth-login-form mt-2"
@@ -127,10 +128,10 @@ const Login = () => {
             >
               <div className="mb-1">
                 <Label className="form-label" for="login-email">
-                  Email
+                  ایمیل یا شماره همراه
                 </Label>
                 <Input
-                  type="email"
+                  type="text"
                   id="login-email"
                   placeholder="john@example.com"
                   autoFocus
@@ -139,10 +140,10 @@ const Login = () => {
               <div className="mb-1">
                 <div className="d-flex justify-content-between">
                   <Label className="form-label" for="login-password">
-                    Password
+                    رمز عبور
                   </Label>
                   <Link to="/forgot-password">
-                    <small>Forgot Password?</small>
+                    <small>فراموشی رمز</small>
                   </Link>
                 </div>
                 <InputPasswordToggle
@@ -153,21 +154,21 @@ const Login = () => {
               <div className="form-check mb-1">
                 <Input type="checkbox" id="remember-me" />
                 <Label className="form-check-label" for="remember-me">
-                  Remember Me
+                  مرا به خاطر بسپار
                 </Label>
               </div>
               <Button tag={Link} to="/" color="primary" block>
-                Sign in
+                ورود
               </Button>
             </Form>
             <p className="text-center mt-2">
-              <span className="me-25">New on our platform?</span>
+              <span className="me-25">تا به حال اکانتی نداشته اید ؟</span>
               <Link to="/register">
-                <span>Create an account</span>
+                <span>ثبت نام</span>
               </Link>
             </p>
             <div className="divider my-2">
-              <div className="divider-text">or</div>
+              <div className="divider-text">یا</div>
             </div>
             <div className="auth-footer-btn d-flex justify-content-center">
               <Button color="facebook">
