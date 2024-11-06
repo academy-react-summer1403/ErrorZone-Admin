@@ -13,6 +13,9 @@ import PublicRoute from "@components/routes/PublicRoute";
 // ** Utils
 import { isObjEmpty } from "@utils";
 import { getItem } from "../../core/services/common/storage.services";
+import Blogs from "../../pages/Blog";
+import PapperViews from "../../pages/PapperViews";
+import CreatePapers from "../../pages/CreatePapper";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -58,6 +61,21 @@ const Routes = [
     path: "/second-page",
     element: isLogin ? <SecondPage /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
   },
+  {
+    path: "/Blog",
+   element: <Blogs />
+  },
+
+  {
+    path: "/papers/view/:id",
+   element: <PapperViews />
+  }, 
+
+  {
+    path: "/createPapers",
+   element: <CreatePapers />
+  },   
+
   {
     path: "/login",
     element: !isLogin ? <Login /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,

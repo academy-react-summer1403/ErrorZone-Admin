@@ -15,16 +15,22 @@ export default [
   },
   {
     id: "smaplePage",
-    title: "Sample Page",
+    title: "مدیریت اخبار و مقالات",
     icon: <Airplay size={20} />,
     // navLink: "/sample",
     children: [
       {
         id: "invoiceList",
-        title: "List",
+        title: "لیست اخبار ومقالات",
         icon: <Circle size={12} />,
-        navLink: "/apps/invoice/list",
+        navLink: "/Blog",
       },
+      {
+        id: "invoiceList",
+        title: "افزودن اخبار و مقالات",
+        icon: <Circle size={12} />,
+        navLink: "/createPapers",
+      },      
     ],
   },
 ];
