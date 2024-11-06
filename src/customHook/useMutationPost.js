@@ -1,36 +1,38 @@
-import axios from 'axios';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
+import http from '../core/services/interceptor';
+// import { useMutation, useQueryClient } from 'react-query';
 
 
 
-const useMutationPost = (url , key) => {
+export const useMutationPost = (url, key) => {
     const queryClient = useQueryClient();
 
-    const handleAdd = async ( values) => {
-        const res = await axios.post(url, values);
-        return res.data;
+    const handleAdd = async (values) => {
+        const res = await http.post(url, values);
+        return res;
     };
 
-    
 
 
-    return useMutation( handleAdd,{
 
-        onSuccess:(data)=>{
+    return useMutation({
+        mutationFn: handleAdd,
+
+        onSuccess: (data) => {
             queryClient.invalidateQueries(key)
 
 
             // extra option
 
 
-            
+
             // queryClient.setQueryData('list' , (oldData)=>{
             //     let newData = [...oldData]
             //     newData.push(data)
 
             //     console.log(oldData);
             //     return newData
-                
+
             // })
         },
 
@@ -44,7 +46,7 @@ const useMutationPost = (url , key) => {
         //         newarr.push(data.values)
         //         return newarr
         //     }
-            
+
         //     )
         //     return lastData
 
@@ -62,12 +64,21 @@ const useMutationPost = (url , key) => {
         //     // console.log(context[0][1]);
         // },
 
-    } 
+    }
     )
 
 
 
-    
+
 };
+
+
+
+export const useMutationPostOnSuccesOpt = (url, onSuccessFn) => {
+    return useMutation({
+        mutationFn: async (value) => await http.post(url, value),
+        onSuccess: onSuccessFn,
+    })
+}
 
 export default useMutationPost;
