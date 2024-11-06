@@ -1,4 +1,4 @@
-import { Mail, Home } from "react-feather";
+import { Mail, Home, Airplay, Circle } from "react-feather";
 
 export default [
   {
@@ -12,5 +12,25 @@ export default [
     title: "Second Page",
     icon: <Mail size={20} />,
     navLink: "/second-page",
+  },
+  {
+    id: "smaplePage",
+    title: "مدیریت اخبار و مقالات",
+    icon: <Airplay size={20} />,
+    // navLink: "/sample",
+    children: [
+      {
+        id: "invoiceList",
+        title: "لیست اخبار ومقالات",
+        icon: <Circle size={12} />,
+        navLink: "/papers",
+      },
+      {
+        id: "invoiceList",
+        title: "افزودن اخبار و مقالات",
+        icon: <Circle size={12} />,
+        navLink: "/createPapers",
+      },
+    ],
   },
 ];
