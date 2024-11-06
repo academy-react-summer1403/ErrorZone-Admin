@@ -59,7 +59,7 @@ const root = createRoot(container);
 const queryClient = new QueryClient()
 
 root.render(
-  <BrowserRouter>
+  <BrowserRouter >
     <QueryClientProvider client={queryClient} >
       <Provider store={store}>
         <Suspense fallback={<Spinner />}>

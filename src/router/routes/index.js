@@ -13,6 +13,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 // ** Utils
 import { isObjEmpty } from "@utils";
 import { getItem } from "../../core/services/common/storage.services";
+import { useSelector } from "react-redux";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -37,7 +38,10 @@ const Error = lazy(() => import("../../pages/Error"));
 const Sample = lazy(() => import("../../pages/Sample"));
 
 // ** login situation
-var isLogin = Boolean(getItem("Token"));
+
+// console.log(useSelector((state) => state.islogin.isLogin));
+
+const isLogin = Boolean(getItem("Token"));
 
 // ** Merge Routes
 const Routes = [
@@ -48,33 +52,33 @@ const Routes = [
   },
   {
     path: "/home",
-    element: isLogin ? <Home /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element:<Home />,
   },
   {
     path: "/sample",
-    element: isLogin ? <Sample /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} /> ,
+    element: <Sample />,
   },
   {
     path: "/second-page",
-    element: isLogin ? <SecondPage /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element: <SecondPage />,
   },
   {
     path: "/login",
-    element: !isLogin ? <Login /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element: <Login />,
     meta: {
       layout: "blank",
     },
   },
   {
     path: "/register",
-    element: !isLogin ? <Register /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element: <Register />,
     meta: {
       layout: "blank",
     },
   },
   {
     path: "/forgot-password",
-    element: !isLogin ? <ForgotPassword /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element: <ForgotPassword /> ,
     meta: {
       layout: "blank",
     },
