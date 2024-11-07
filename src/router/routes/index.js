@@ -36,6 +36,7 @@ const Register = lazy(() => import("../../pages/Register"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const Error = lazy(() => import("../../pages/Error"));
 const Sample = lazy(() => import("../../pages/Sample"));
+const Courses = lazy(() => import("../../pages/courses/Courses"));
 
 // ** login situation
 
@@ -61,6 +62,10 @@ const Routes = [
   {
     path: "/second-page",
     element: <SecondPage />,
+  },
+  {
+    path: "/courses",
+    element: <Courses />,
   },
   {
     path: "/login",
