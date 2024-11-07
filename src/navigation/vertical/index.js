@@ -23,7 +23,7 @@ export default [
         id: "invoiceList",
         title: "لیست اخبار ومقالات",
         icon: <Circle size={12} />,
-        navLink: "/Blog",
+        navLink: "/papers",
       },
       {
         id: "invoiceList",
