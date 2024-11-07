@@ -77,8 +77,8 @@ const Avatar = forwardRef((props, ref) => {
           })}
           src={img}
           alt="avatarImg"
-          height={imgHeight && !size ? imgHeight : 32}
-          width={imgWidth && !size ? imgWidth : 32}
+          height={imgHeight && !size ? imgHeight : 48}
+          width={imgWidth && !size ? imgWidth : 48}
         />
       )}
       {status ? (

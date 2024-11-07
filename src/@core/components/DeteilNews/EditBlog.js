@@ -47,8 +47,7 @@ const EditBlog = ({ isOpen, toggle, blogId, setRefetchEdit }) => {
 
     fetchNewsCategoryLists();
   }, []);
-
-   console.log('123' , editBlog)   
+  
 
   useEffect(() => {
     if (blogId) {

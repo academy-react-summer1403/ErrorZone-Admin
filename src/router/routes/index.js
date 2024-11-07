@@ -62,7 +62,7 @@ const Routes = [
     element: isLogin ? <SecondPage /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
   },
   {
-    path: "/Blog",
+    path: "/Blog/",
    element: <Blogs />
   },
 

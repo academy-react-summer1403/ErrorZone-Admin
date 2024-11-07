@@ -9,12 +9,9 @@ import EditBlog from "./EditBlog";
 import { activeNews, getNewsDet, getNewsRep } from "../../../core/services/detailNews";
 
 const NewsView = () => {
-  // **id
-  const { id } = useParams();
-  // console.log('111111' , id);
-  // console.log("id",id);
 
-  // // ** useState
+  const { id } = useParams();
+
   const [active, setActive] = useState("1");
   const [newsDet, setNewsDet] = useState([]);
   const [newsCom, setNewsCom] = useState([]);
@@ -22,9 +19,7 @@ const NewsView = () => {
   const [editModal, setEditModal] = useState(false);
   const [refetchEdit, setRefetchEdit] = useState(false);
 
-  // console.log("newsDet", newsDet);
 
-  // **API
   const toggleTab = (tab) => {
     if (active !== tab) {
       setActive(tab);
@@ -34,13 +29,14 @@ const NewsView = () => {
   const NewsById = async () => {
     try {
       const responses = await getNewsDet(id);
-      console.log('response' , responses)
       setNewsDet(responses.detailsNewsDto);
       setNewsCom(responses.commentDtos);
     } catch (error) {
       throw new Error("ERROR: ", error);
     }
   };
+
+
 
   const NewsRepById = async (comId) => {
     try {
@@ -51,9 +47,11 @@ const NewsView = () => {
     }
   };
 
-  const activeOrDeactive = async (res) => {
+  
+
+  const activeOrDeactive = async () => {
     try {
-      const dataa = { Active: res, Id: id };
+      const dataa = { Active: newsDet.active , Id: id };
       const data =new FormData();
       const keys = Object.keys(dataa);
       keys.forEach((key) => {

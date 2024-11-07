@@ -28,8 +28,8 @@ import { Field, Form, Formik } from "formik";
 
 const MySwal = withReactContent(Swal);
 
-const NewsInfoCard = ({ activeOrDe, newsDet,setEditModal, activeOrDeactive }) => {
-   console.log("newsDet", newsDet);
+const NewsInfoCard = ({ newsDet , setEditModal , activeOrDeactive }) => {
+
 
   // ** State
   const [show, setShow] = useState(false);
@@ -45,12 +45,7 @@ const NewsInfoCard = ({ activeOrDe, newsDet,setEditModal, activeOrDeactive }) =>
     },
   });
 
-  const handleReset = () => {
-    reset({
-      lastName: "mohsen",
-      firstName: "mohsen",
-    });
-  };
+
 
   let typeId;
 
@@ -67,7 +62,7 @@ const NewsInfoCard = ({ activeOrDe, newsDet,setEditModal, activeOrDeactive }) =>
     return typeId;
   };
 
-  const handleSuspendedClick = (bolian) => {
+  const handleClick = async (boolean) => {
     return MySwal.fire({
       title: "آیا مطمعن هستید؟",
       text: "البته امکان بازگشت نیز وجود دارد ",
@@ -83,7 +78,7 @@ const NewsInfoCard = ({ activeOrDe, newsDet,setEditModal, activeOrDeactive }) =>
       buttonsStyling: false,
     }).then(function (result) {
       if (result.value) {
-        activeOrDeactive(bolian);
+        activeOrDeactive(boolean);
         MySwal.fire({
           icon: "success",
           title: "موفقیت ",
@@ -129,12 +124,12 @@ const NewsInfoCard = ({ activeOrDe, newsDet,setEditModal, activeOrDeactive }) =>
               />
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info">
-                  <h4> {newsDet.title} </h4>
+                  <h4> {newsDet?.title} </h4>
                   <Badge
                     pill
-                    color={newsDet.active ? "light-primary" : "light-danger"}
+                    color={newsDet?.active ? "light-primary" : "light-danger"}
                   >
-                    {newsDet.active ? "فعال" : "غیرفعال"}
+                    {newsDet?.active ? "فعال" : "غیرفعال"}
                   </Badge>
                 </div>
               </div>
@@ -207,9 +202,9 @@ const NewsInfoCard = ({ activeOrDe, newsDet,setEditModal, activeOrDeactive }) =>
               className="ms-1"
               color="danger"
               outline
-              onClick={()=>handleSuspendedClick(newsDet.active ?false:true)}
+              onClick={()=>handleClick(newsDet?.active ? false : true)}
             >
-              {newsDet.active ? "غیر فعال کردن" : "فعال کردن"}
+              {newsDet?.active ? "غیر فعال کردن" : "فعال کردن"}
 
             </Button>
           </div>

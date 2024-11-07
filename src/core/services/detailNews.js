@@ -48,7 +48,6 @@ export const getNewsDet = async (id) => {
   export const activeNews= async (data) => {
     try {
       const result = await instance.put("/News/ActiveDeactiveNews", data);
-      //console.log(result);
       return result;
     } catch (error) {
       console.log(error);

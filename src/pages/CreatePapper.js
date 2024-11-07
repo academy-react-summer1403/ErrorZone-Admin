@@ -51,11 +51,11 @@ const CreatePapers = () => {
   };
 
   const validationSchema = Yup.object({
-    Title: Yup.string().required("این فیلد الزامی است."),
-    GoogleTitle: Yup.string().required("این فیلد الزامی است."),
-    GoogleDescribe: Yup.string().required("این فیلد الزامی است."),
-    MiniDescribe: Yup.string().required("این فیلد الزامی است."),
-    Describe: Yup.string().required("این فیلد الزامی است."),
+    Title: Yup.string().required("عنوان خبر را وارد کنید"),
+    GoogleTitle: Yup.string().required("عنوان گوگل را وارد کنید"),
+    GoogleDescribe: Yup.string().required("توضیحات گوگل را وارد کنید"),
+    MiniDescribe: Yup.string().required(" توضیحات کوتاه را وارد کنید"),
+    Describe: Yup.string().required("توضیحات را وارد کنید"),
     Keyword: Yup.string().required("این فیلد الزامی است."),
     NewsCatregoryId: Yup.string().required("این فیلد الزامی است."),
   });

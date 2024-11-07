@@ -13,6 +13,7 @@ import {
   DropdownToggle,
   Table,
   UncontrolledDropdown,
+  UncontrolledTooltip
 } from "reactstrap";
 
 import Spinner from './../../spinner/Fallback-spinner';
@@ -35,17 +36,20 @@ import {
   Col,
   Label,
   Row,
+  Tooltip
 } from "reactstrap";
 
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
 
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { Field, Form, Formik } from "formik";
 
 import { getPapers } from "../../../../core/services/Paper";
 import { CustomPagination } from "../../pagination";
+import { activeNews, getNewsDet } from "../../../../core/services/detailNews";
+import TooltipPosition from "./TooltipPositions";
 
 const PaperTable = () => {
   // ** States
@@ -55,11 +59,13 @@ const PaperTable = () => {
   const [totalCont, setTotalCont] = useState(null);
   const [pageCon, setPageCon] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState(null);
-
+  const [detail, setDetail] = useState([])
+  const [tooltipOpenn, setTooltipOpenn] = useState({});
   // ** Function to fetch papers
   const allPaper = async () => {
     try {
       const getPaper = await getPapers(searchee, pageCon, selectedStatus);
+
        console.log("getPaper", getPaper);
       setAllnews(getPaper.news);
       setTotalCont(getPaper.totalCount);
@@ -71,8 +77,10 @@ const PaperTable = () => {
   useEffect(() => {
     allPaper();
   }, [searchee, pageCon, selectedStatus]);
+  
+  console.log('allnews1' , allnews)
 
-  // ** Function to toggle sidebar
+
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   // ** User filter options
@@ -80,6 +88,10 @@ const PaperTable = () => {
     { value: true, label: "فعال" },
     { value: false, label: "غیرفعال" },
   ];
+
+  console.log('allnews' , allnews )
+
+  
 
   return (
     <Fragment>
@@ -136,15 +148,18 @@ const PaperTable = () => {
                     <th className="px-0">عنوان خبر</th>
                     <th className="px-0">دسته بندی خبر</th>
                     <th className="px-0">توضیحات کوتاه</th>
-                    <th className="px-0">وضعیت</th>
-                    <th className="px-0">اقدام</th>
+                    <th className="px-0"> 
+                    
+                    <span style={{marginRight: "100px"}} >  وضعیت </span>
+                    </th>
+                    <th className="px-0"></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody >
                   {allnews &&
                     allnews.map((item) => (
-                      <tr className="text-center px-0" key={item.id}>
-                        <td className="px-0">
+                      <tr className="text-center px-0 " key={item.id} >
+                        <td className="px-0" style={{paddingRight: "500px"}}>
                           {item.currentImageAddressTumb == null ||
                           item.currentImageAddressTumb == "undefined" ? (
                             <Avatar img={Avatarrr} />
@@ -152,7 +167,7 @@ const PaperTable = () => {
                             <Avatar img={item.currentImageAddressTumb} />
                           )}
                         </td>
-                        <td className="px-0">
+                        <td className="px-0"  >
                           <span className="align-middle fw-bold">
                             <Link
                               to={"/papers/view/" + item.id}
@@ -169,6 +184,7 @@ const PaperTable = () => {
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             maxWidth: "150px",
+                            
                           }}
                         >
                           {item.title}
@@ -181,6 +197,7 @@ const PaperTable = () => {
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             maxWidth: "150px",
+                            
                           }}
                         >
                           {item.miniDescribe}
@@ -191,54 +208,16 @@ const PaperTable = () => {
                             color={
                               item.isActive ? "light-primary" : "light-danger"
                             }
+                            style={{marginRight: "100px"}}
                           >
                             {item.isActive ? "فعال" : "غیرفعال"}
+                            
                           </Badge>
                         </td>
                         <td>
-                          <UncontrolledDropdown direction="start">
-                            <DropdownToggle
-                              className="icon-btn hide-arrow"
-                              color="transparent"
-                              size="sm"
-                              caret
-                            >
-                              <MoreVertical size={15} />
-                            </DropdownToggle>
-                            <DropdownMenu className="d-flex flex-column p-0">
-                              <DropdownItem
-                                href="/"
-                                onClick={(e) => e.preventDefault()}
-                              >
-                                <FileText className="me-50" size={15} />{" "}
-                                <span className="align-middle">
-                                  <Link
-                                    to={"/papers/view/" + item.id}
-                                    style={{ color: "#555" }}
-                                  >
-                                    جزئیات
-                                  </Link>
-                                </span>
-                              </DropdownItem>
-                              <DropdownItem
-                                href="/"
-                                onClick={(e) => e.preventDefault()}
-                              >
-                                <Edit className="me-50" size={15} />{" "}
-                                <span className="align-middle">ویرایش</span>
-                              </DropdownItem>
-                              <DropdownItem
-                                href="/"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  // handleDeleteUser(item.id);
-                                }}
-                              >
-                                <Trash className="me-50" size={15} />{" "}
-                                <span className="align-middle">حذف</span>
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
+                          <td >
+                             <TooltipPosition id={item.id} />
+                          </td>
                         </td>
                       </tr>
                     ))}
