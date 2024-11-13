@@ -14,6 +14,9 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
+  Label,
+  Input,
+  Button,
 } from "reactstrap";
 import {
   ChevronLeft,
@@ -26,21 +29,28 @@ import {
   CheckSquare,
 } from "react-feather";
 import ReactPaginate from "react-paginate";
-import useMutationPut from "../../customHook/useMutationPut";
+import useMutationPut, {
+  useMutationPutFormData,
+} from "../../customHook/useMutationPut";
 import { Link, useNavigate } from "react-router-dom";
 import useMutationDelete from "../../customHook/useMutationDelete";
 import { deActiveCourseFn } from "../../core/utils/deActiveCourseFn";
 import { onDeleteCourseFn } from "../../core/utils/onDeleteCourse";
 import { deleteCourseFn } from "../../core/utils/deleteCourseFn";
 import { activeCourseFn } from "../../core/utils/activeCourseFn";
+import changeCourseStatus from "../../core/utils/changeCourseStatus";
+import Autocomplete from "../../@core/components/autocomplete";
 
 const Courses = () => {
   const [pageNum, setPageNum] = useState(1);
+  const [searchValue, setSearchValue] = useState("");
+
+  // get parts
   const { data } = useQueryGet(
-    ["corses", pageNum],
-    `/Course/CourseList?PageNumber=${
-      pageNum ? pageNum : 1
-    }&RowsOfPage=20&SortingCol=DESC&SortType=isActive`
+    ["corses", pageNum, searchValue],
+    `/Course/CourseList?PageNumber=${pageNum ? pageNum : 1}&RowsOfPage=20${
+      !!searchValue ? `&Query=${searchValue}` : ""
+    }&SortingCol=DESC&SortType=isActive`
   );
 
   //* mutations part *//
@@ -54,17 +64,38 @@ const Courses = () => {
     isSuccess: deleteOnDeleteDone,
     isError: deleteOnDeleteErr,
   } = useMutationDelete("/Course/DeleteCourse", ["corses"]);
+  const {
+    mutate: changeStatus,
+    isSuccess: changeStatusDone,
+    isError: changeStatusErr,
+  } = useMutationPutFormData("/Course/UpdateCourseStatus", ["corses"]);
 
   const navigate = useNavigate();
   return (
     <Card>
+      <div className="w-25 ms-2">
+        <Label className="me-1" for="search-input">
+          جستوجو
+        </Label>
+        <Input
+          className="dataTable-filter mb-50 "
+          type="text"
+          bsSize="sm"
+          id="search-input"
+          placeholder="جستوجو ..."
+          onChange={(e) => {
+            setTimeout(() => setSearchValue(e.target.value), 700);
+          }}
+        />
+      </div>
       <Table hover responsive>
         <thead>
           <tr>
             <th>دوره</th>
             <th>استاد</th>
-            <th>سطح</th>
-            <th>وضعیت</th>
+            <th>قیمت</th>
+            <th>وضعیت برگزاری دوره</th>
+            <th> وضعیت فعال بودن</th>
             <th>وضعیت حذف</th>
             <th>#</th>
           </tr>
@@ -105,10 +136,123 @@ const Courses = () => {
                     <span className="align-middle fw-bold">{item.title}</span>
                   </td>
                   <td>{item.fullName}</td>
+                  <td>{Math.floor(item.cost)} تومان</td>
                   <td>
-                    <Badge pill color="light-secondary" className="me-1">
-                      {item.levelName}
-                    </Badge>
+                    <UncontrolledButtonDropdown>
+                      {item.statusName == "شروع ثبت نام" ? (
+                        <DropdownToggle
+                          color="none"
+                          className="btn-gradient-info"
+                          // className="fw-semibold"
+                          size="sm"
+                          caret
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          شروع ثبت نام
+                        </DropdownToggle>
+                      ) : (
+                        false
+                      )}
+                      {item.statusName == "درحال برگزاری" ? (
+                        <DropdownToggle
+                          color="none"
+                          className="btn-gradient-secondary"
+                          // className="fw-semibold"
+                          size="sm"
+                          caret
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          درحال برگزاری
+                        </DropdownToggle>
+                      ) : (
+                        false
+                      )}
+                      {item.statusName == "منقضی شده" ? (
+                        <DropdownToggle
+                          color="none"
+                          className="btn-gradient-warning"
+                          // className="fw-semibold"
+                          size="sm"
+                          caret
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          منقضی شده
+                        </DropdownToggle>
+                      ) : (
+                        false
+                      )}
+
+                      <DropdownMenu>
+                        <DropdownItem
+                          href="/"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            changeCourseStatus(
+                              item,
+                              1,
+                              changeStatus,
+                              changeStatusDone,
+                              changeStatusErr,
+                              "شروع ثبت نام "
+                            );
+                          }}
+                          className="text-info"
+                        >
+                          <CheckSquare className="me-50" size={15} />
+                          <span className="align-middle"> شروع ثبت نام </span>
+                        </DropdownItem>
+                        <DropdownItem
+                          href="/"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            changeCourseStatus(
+                              item,
+                              2,
+                              changeStatus,
+                              changeStatusDone,
+                              changeStatusErr,
+                              "منقضی شده"
+                            );
+                          }}
+                          className="text-warning"
+                        >
+                          <XSquare className="me-50" size={15} />{" "}
+                          <span className="align-middle">منقضی شده</span>
+                        </DropdownItem>
+                        <DropdownItem
+                          href="/"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            changeCourseStatus(
+                              item,
+                              3,
+                              changeStatus,
+                              changeStatusDone,
+                              changeStatusErr,
+                              "درحال برگزاری "
+                            );
+                          }}
+                          className="text-secondary"
+                        >
+                          <XSquare className="me-50" size={15} />{" "}
+                          <span className="align-middle"> درحال برگزاری </span>
+                        </DropdownItem>
+                        <DropdownItem divider></DropdownItem>
+                        <DropdownItem
+                          href="/"
+                          tag="a"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }}
+                        >
+                          <Link to="/login">صفحه ی تغییرات کورس</Link>
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </UncontrolledButtonDropdown>
                   </td>
                   <td>
                     <UncontrolledButtonDropdown>
@@ -189,7 +333,8 @@ const Courses = () => {
                     <UncontrolledButtonDropdown>
                       {item.isdelete ? (
                         <DropdownToggle
-                          color="danger"
+                          color="none"
+                          className="btn-gradient-danger"
                           size="sm"
                           caret
                           onClick={(e) => e.stopPropagation()}
@@ -198,7 +343,8 @@ const Courses = () => {
                         </DropdownToggle>
                       ) : (
                         <DropdownToggle
-                          color="success"
+                          color="none"
+                          className="btn-gradient-success"
                           size="sm"
                           caret
                           onClick={(e) => e.stopPropagation()}
@@ -256,26 +402,33 @@ const Courses = () => {
                     </UncontrolledButtonDropdown>
                   </td>
                   <td>
-                    <UncontrolledDropdown>
+                    <UncontrolledDropdown direction="start">
                       <DropdownToggle
                         className="icon-btn hide-arrow"
                         color="transparent"
                         size="sm"
                         caret
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <MoreVertical size={15} />
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem
                           href="/"
-                          onClick={(e) => e.preventDefault()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }}
                         >
                           <Edit className="me-50" size={15} />{" "}
                           <span className="align-middle">Edit</span>
                         </DropdownItem>
                         <DropdownItem
                           href="/"
-                          onClick={(e) => e.preventDefault()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }}
                         >
                           <Trash className="me-50" size={15} />{" "}
                           <span className="align-middle">Delete</span>
