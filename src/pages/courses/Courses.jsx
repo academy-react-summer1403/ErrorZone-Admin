@@ -107,7 +107,7 @@ const Courses = () => {
                 <tr
                   onClick={(e) => {
                     e.preventDefault();
-                    navigate("/");
+                    navigate(`/courseDetail/${item.courseId}`);
                   }}
                   key={index}
                 >
