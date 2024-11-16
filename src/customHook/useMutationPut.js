@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation , useQueryClient } from '@tanstack/react-query'
+import http from '../core/services/interceptor' 
 
 
 const useMutationPut = (url , key) => {
@@ -7,17 +7,20 @@ const useMutationPut = (url , key) => {
 
     const handlePut = async ( values) => {
         console.log(values);
-        const res = await axios.put(url, values);
+        const res = await http.put(url, values);
         return res.data;
     };
 
     
 
-    return useMutation((obj) => handlePut(obj), {
+    return useMutation({
+         mutationFn:(obj) => handlePut(obj), 
+         
         onSuccess: () => {
             queryClient.invalidateQueries(key);
         },
-    });
+    }
+);
 
     
 };

@@ -1,6 +1,7 @@
-import axios from 'axios'
+
 import React, { useEffect } from 'react'
 import { useQuery , useMutation, useQueryClient } from 'react-query'
+import instance from '../core/services/interceptor'
 
 
 
@@ -9,7 +10,7 @@ const useMutationDelete = (key) => {
     const queryClient = useQueryClient()
 
     const handleDel =async (url ) =>{
-        const res =await axios.delete(url);
+        const res =await instance.delete(url);
         return res.data
 
     }

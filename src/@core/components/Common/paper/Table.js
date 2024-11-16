@@ -4,7 +4,7 @@ import Avatarrr from "../../../assets/images/new/55.jpg";
 // import avatarImg from "src/@core/assets/images/avatar-blank.png";
 // import avatarImg from "../../../@core/assets/images/avatar-blank.png";
 
-import { Edit, FileText, MoreVertical, Trash } from "react-feather";
+import { Edit, FileText, MoreVertical, Trash , CheckCircle , Trash2 } from "react-feather";
 import {
   Badge,
   Button,
@@ -46,10 +46,13 @@ import "@styles/react/libs/tables/react-dataTable-component.scss";
 import { Link} from "react-router-dom";
 import { Field, Form, Formik } from "formik";
 
-import { getPapers } from "../../../../core/services/Paper";
+import { DeleteNews, adminNewsFilterListAPI, getPapers } from "../../../../core/services/Paper";
 import { CustomPagination } from "../../pagination";
 import { activeNews, getNewsDet } from "../../../../core/services/detailNews";
 import TooltipPosition from "./TooltipPositions";
+import BreadCrumbs from "../../breadcrumbs";
+import StatsHorizontal from "../../StatsHorizontal";
+import useQueryGet from "../../../../customHook/useQueryGet";
 
 const PaperTable = () => {
   // ** States
@@ -61,24 +64,41 @@ const PaperTable = () => {
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [detail, setDetail] = useState([])
   const [tooltipOpenn, setTooltipOpenn] = useState({});
+  const [activeNews, setActiveNews] = useState();
+ const [deleteNews, setDeleteNews] = useState([])
+ const [newsActive, setNewsActive] = useState(true)
   // ** Function to fetch papers
-  const allPaper = async () => {
-    try {
-      const getPaper = await getPapers(searchee, pageCon, selectedStatus);
 
-       console.log("getPaper", getPaper);
-      setAllnews(getPaper.news);
-      setTotalCont(getPaper.totalCount);
-    } catch (error) {
-      throw new Error("ERROR: ", error);
-    }
+  const { data:getPaper} = useQueryGet(
+    ["getPaper"] , `/News/AdminNewsFilterList?PageNumber=${pageCon}&RowsOfPage=10&SortingCol=InsertDate&SortType=DESC${searchee ? `&Query=${searchee}` : ""}&${newsActive ? "IsActive=true" : "IsActive=false"}`
+  )
+  const allPaper =  () => {
+
+    //try {
+      //  const getPaper = await getPapers(searchee, pageCon, selectedStatus , newsActive );
+         
+      setTotalCont(getPaper?.totalCount);
+      setActiveNews(getPaper)
+
+   // } catch (error) {
+      // throw new Error("ERROR: ", error);
+   // }
   };
+
+const DeleteNewsList = async () => {
+  const res = await DeleteNews()
+  console.log('123456789' , res)
+  setDeleteNews(res)
+  
+
+}
 
   useEffect(() => {
     allPaper();
-  }, [searchee, pageCon, selectedStatus]);
+    DeleteNewsList()
+  }, [searchee, pageCon, selectedStatus , newsActive]);
   
-  console.log('allnews1' , allnews)
+  console.log('allnews1' , getPaper?.news)
 
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -89,17 +109,56 @@ const PaperTable = () => {
     { value: false, label: "غیرفعال" },
   ];
 
-  console.log('allnews' , allnews )
+  console.log('allnews' , getPaper?.news )
 
   
-
   return (
     <Fragment>
-      {allnews ? (
+              <BreadCrumbs
+        title="لیست اخبار"
+        data={[
+          { title: "مدیریت اخبار", link: "/papers" },
+          { title: "لیست اخبار" },
+        ]}
+      />
+             <Row>
+        <Col lg="3" sm="6">
+      <StatsHorizontal 
+               color="success"
+               statTitle="اخبار فعال"
+               icon={<CheckCircle />}
+               renderStats={
+                 <h3 className="fw-bolder mb-75">
+                   {activeNews?.totalCount || 0}
+                 </h3>
+               }
+               onClick={() => setNewsActive(true)}
+               className="cursor-pointer"
+               backgroundColor={newsActive === true && "rgb(0 0 0 / 23%)"}     
+      />
+      </Col>
+      <Col lg="3" sm="6">
+      <StatsHorizontal 
+               color="danger"
+               statTitle="اخبار غیر فعال"
+               icon={<Trash2 size={20} />}
+               renderStats={
+                 <h3 className="fw-bolder mb-75">
+                   {deleteNews?.totalCount || 0}
+                 </h3>
+               }
+               onClick={() => setNewsActive(false)}
+               className="cursor-pointer"
+               backgroundColor={newsActive === false && "rgb(0 0 0 / 23%)"}     
+      />
+      </Col>    
+        </Row> 
+  
+      {getPaper?.news ? (
         <>
           <div className="d-flex mb-2 justify-content-between">
             <div className="w-25">
-              <Select
+              {/* <Select
                 className="react-select rounded-3 "
                 classNamePrefix="select"
                 defaultValue={isActiveOptions[0]}
@@ -110,7 +169,10 @@ const PaperTable = () => {
                 onChange={(option) =>
                   setSelectedStatus(option ? option.value : null)
                 }
-              />
+              /> */}
+       
+
+   
             </div>
             <div
               style={{
@@ -156,8 +218,8 @@ const PaperTable = () => {
                   </tr>
                 </thead>
                 <tbody >
-                  {allnews &&
-                    allnews.map((item) => (
+                  {getPaper?.news &&
+                    getPaper?.news?.map((item) => (
                       <tr className="text-center px-0 " key={item.id} >
                         <td className="px-0" style={{paddingRight: "500px"}}>
                           {item.currentImageAddressTumb == null ||

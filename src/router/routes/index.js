@@ -16,6 +16,15 @@ import { getItem } from "../../core/services/common/storage.services";
 import Blogs from "../../pages/Blog";
 import PapperViews from "../../pages/PapperViews";
 import CreatePapers from "../../pages/CreatePapper";
+import CreateNewsPage from "../../pages/CreateNews";
+import CategoriesPage from "../../pages/NewsCategories";
+import CreateCategory from "../../pages/CreateCategory";
+import EditCategoryPage from "../../pages/EditCategory";
+import Comments from "../../pages/Comments";
+import Users from "../../pages/User";
+import UserDetail from "../../@core/components/Users/userDetail/userDetail";
+import EditUserPage from "../../pages/EditUser";
+import CreateUserPage from "../../pages/CreateUser";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -62,6 +71,26 @@ const Routes = [
     element: isLogin ? <SecondPage /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
   },
   {
+    path: "/users",
+    element : <Users />
+  },
+
+  {
+    path: "/users/:id",
+    element: <UserDetail />
+  },
+
+  {
+    path: "/user/edit/:id",
+    element: <EditUserPage />
+  },
+
+  {
+    path: "create-user",
+    element: <CreateUserPage />
+  },
+
+  {
     path: "/papers",
    element: <Blogs />
   },
@@ -73,15 +102,37 @@ const Routes = [
 
   {
     path: "/createPapers",
-   element: <CreatePapers />
+   element: <CreateNewsPage />
   },   
-
+  
+  {
+    path: "/newsCategory",
+   element: <CategoriesPage />
+  }, 
+  
+  {
+    path: "/create-category",
+   element: <CreateCategory />
+  }, 
+  
+  {
+    path: "/create-category/edit/:id",
+   element: <EditCategoryPage />
+  },  
+  
+  {
+    path: "comments",
+   element: <Comments />
+  },    
+  
   {
     path: "/login",
     element: !isLogin ? <Login /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
     meta: {
       layout: "blank",
     },
+
+    
   },
   {
     path: "/register",

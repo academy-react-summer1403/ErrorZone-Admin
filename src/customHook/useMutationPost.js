@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import http from '../core/services/interceptor';
 // import { useMutation, useQueryClient } from 'react-query';
-
+import toast from "react-hot-toast";
 
 
 export const useMutationPost = (url, key) => {
@@ -18,13 +18,13 @@ export const useMutationPost = (url, key) => {
     return useMutation({
         mutationFn: handleAdd,
 
-        onSuccess: (data) => {
+        onSuccess: (data  , onSuccess ) => {
             queryClient.invalidateQueries(key)
 
 
             // extra option
 
-
+       if (onSuccess) return toast.success('عملیات با موفقیت انجام شد')
 
             // queryClient.setQueryData('list' , (oldData)=>{
             //     let newData = [...oldData]
@@ -36,7 +36,7 @@ export const useMutationPost = (url, key) => {
             // })
         },
 
-
+        
         // onMutate :async (data)=>{
         //     await queryClient.cancelQueries('list2')
         //     const lastData = queryClient.getQueriesData('list2')
