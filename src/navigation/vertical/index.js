@@ -1,4 +1,6 @@
+
 import { Mail, Home, Airplay, Circle, Book , Users} from "react-feather";
+
 
 export default [
   {
@@ -69,6 +71,7 @@ export default [
     ],
   },
 
+
     {
       id: "commentslist",
       title: "مدیریت کامنت ها",
@@ -76,5 +79,13 @@ export default [
       navLink: "/comments",
     },
 
+
+
+  {
+    id: "courses",
+    title: "لیست دوره ها",
+    icon: <Book size={20} />,
+    navLink: "/courses",
+  },
 
 ];

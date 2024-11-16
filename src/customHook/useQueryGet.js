@@ -7,11 +7,13 @@ import React, { useEffect } from 'react'
 const getList = async (url) => {
     const result = await http.get(url)
     return result
+
     // console.log(result);
 }
 
 const useQueryGet = (key, url) => {
-    return useQuery({queryKey:key, queryFn:() => getList(url)})
+    return useQuery({ queryKey: key, queryFn: () => getList(url) })
+
 }
 
 export default useQueryGet

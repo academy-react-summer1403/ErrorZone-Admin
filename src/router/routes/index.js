@@ -13,6 +13,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 // ** Utils
 import { isObjEmpty } from "@utils";
 import { getItem } from "../../core/services/common/storage.services";
+
 import Blogs from "../../pages/Blog";
 import PapperViews from "../../pages/PapperViews";
 import CreatePapers from "../../pages/CreatePapper";
@@ -24,7 +25,9 @@ import Comments from "../../pages/Comments";
 import Users from "../../pages/User";
 import UserDetail from "../../@core/components/Users/userDetail/userDetail";
 import EditUserPage from "../../pages/EditUser";
-import CreateUserPage from "../../pages/CreateUser";
+
+import { useSelector } from "react-redux";
+
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -47,9 +50,14 @@ const Register = lazy(() => import("../../pages/Register"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const Error = lazy(() => import("../../pages/Error"));
 const Sample = lazy(() => import("../../pages/Sample"));
+const Courses = lazy(() => import("../../pages/courses/Courses"));
+const CourseDetail = lazy(() => import("../../pages/courses/CourseDetail"));
 
 // ** login situation
-var isLogin = Boolean(getItem("Token"));
+
+// console.log(useSelector((state) => state.islogin.isLogin));
+
+const isLogin = Boolean(getItem("Token"));
 
 // ** Merge Routes
 const Routes = [
@@ -60,15 +68,23 @@ const Routes = [
   },
   {
     path: "/home",
-    element: isLogin ? <Home /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element:<Home />,
   },
   {
     path: "/sample",
-    element: isLogin ? <Sample /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} /> ,
+    element: <Sample />,
   },
   {
     path: "/second-page",
-    element: isLogin ? <SecondPage /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element: <SecondPage />,
+  },
+  {
+    path: "/courses",
+    element: <Courses />,
+  },
+  {
+    path: "/courseDetail/:courseId",
+    element: <CourseDetail />,
   },
   {
     path: "/users",
@@ -127,7 +143,7 @@ const Routes = [
   
   {
     path: "/login",
-    element: !isLogin ? <Login /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element: <Login />,
     meta: {
       layout: "blank",
     },
@@ -136,14 +152,14 @@ const Routes = [
   },
   {
     path: "/register",
-    element: !isLogin ? <Register /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element: <Register />,
     meta: {
       layout: "blank",
     },
   },
   {
     path: "/forgot-password",
-    element: !isLogin ? <ForgotPassword /> : <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element: <ForgotPassword /> ,
     meta: {
       layout: "blank",
     },

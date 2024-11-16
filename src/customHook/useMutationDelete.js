@@ -1,35 +1,35 @@
 
-import React, { useEffect } from 'react'
-import { useQuery , useMutation, useQueryClient } from 'react-query'
-import instance from '../core/services/interceptor'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import http from '../core/services/interceptor';
 
 
 
 
-const useMutationDelete = (key) => {
+const useMutationDelete = (url, key) => {
     const queryClient = useQueryClient()
 
-    const handleDel =async (url ) =>{
-        const res =await instance.delete(url);
-        return res.data
-
+    const handleDel = async (value) => {
+        const res = await http.delete(url, { data: value });
+        console.log(res);
+        return res;
     }
 
-    return useMutation(handleDel, {
+    return useMutation({
+        mutationFn: handleDel,
+
         onSuccess: () => {
             queryClient.invalidateQueries(key);
 
 
             // extra option
-            
-            
+
             // queryClient.setQueryData('list2' , (oldData)=>{
             //     let newData = [...oldData]
             //     newData.push(data)
 
             //     console.log(oldData);
             //     return newData
-                
+
             // })
         },
     });
@@ -43,7 +43,7 @@ const useMutationDelete = (key) => {
 
     //         //     console.log(oldData);
     //         //     return newData
-                
+
     //         // })
     //     },
 
@@ -58,7 +58,7 @@ const useMutationDelete = (key) => {
     //     //         newarr.push(data)
     //     //         return newarr
     //     //     }
-            
+
     //     //     )
     //     //     return lastData
 
@@ -73,7 +73,7 @@ const useMutationDelete = (key) => {
 
     //     //     //     console.log(oldData);
     //     //     //     return newData
-                
+
     //     //     // })
 
 
