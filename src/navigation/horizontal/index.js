@@ -1,4 +1,6 @@
-import { Mail, Home, Book } from "react-feather";
+
+import { Mail, Home, Airplay, Circle, Book  } from "react-feather";
+
 
 export default [
   {
@@ -14,9 +16,32 @@ export default [
     navLink: "/second-page",
   },
   {
-    id: "courses",
+
+    id: "smaplePage",
+    title: "مدیریت اخبار و مقالات",
+    icon: <Airplay size={20} />,
+    // navLink: "/sample",
+    children: [
+      {
+        id: "invoiceList",
+        title: "لیست اخبار ومقالات",
+        icon: <Circle size={12} />,
+        navLink: "/papers",
+      },
+      {
+        id: "invoiceList",
+        title: "افزودن اخبار و مقالات",
+        icon: <Circle size={12} />,
+        navLink: "/createPapers",
+      },
+    ],
+
+
+  },
+    {id: "courses",
     title: "لیست دوره ها",
     icon: <Book size={20} />,
     navLink: "/courses",
-  },
+    },
+
 ];

@@ -2,6 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import http from '../core/services/interceptor';
 // import { useMutation, useQueryClient } from 'react-query';
 
+import toast from "react-hot-toast";
+
 
 
 export const useMutationPost = (url, key) => {
@@ -19,11 +21,11 @@ export const useMutationPost = (url, key) => {
         mutationFn: handleAdd,
 
         onSuccess: (data) => {
+
             queryClient.invalidateQueries(key)
 
 
             // extra option
-
 
 
             // queryClient.setQueryData('list' , (oldData)=>{

@@ -13,7 +13,21 @@ import PublicRoute from "@components/routes/PublicRoute";
 // ** Utils
 import { isObjEmpty } from "@utils";
 import { getItem } from "../../core/services/common/storage.services";
+
+import Blogs from "../../pages/Blog";
+import PapperViews from "../../pages/PapperViews";
+import CreatePapers from "../../pages/CreatePapper";
+import CreateNewsPage from "../../pages/CreateNews";
+import CategoriesPage from "../../pages/NewsCategories";
+import CreateCategory from "../../pages/CreateCategory";
+import EditCategoryPage from "../../pages/EditCategory";
+import Comments from "../../pages/Comments";
+import Users from "../../pages/User";
+import UserDetail from "../../@core/components/Users/userDetail/userDetail";
+import EditUserPage from "../../pages/EditUser";
+
 import { useSelector } from "react-redux";
+
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -73,11 +87,68 @@ const Routes = [
     element: <CourseDetail />,
   },
   {
+    path: "/users",
+    element : <Users />
+  },
+
+  {
+    path: "/users/:id",
+    element: <UserDetail />
+  },
+
+  {
+    path: "/user/edit/:id",
+    element: <EditUserPage />
+  },
+
+  {
+    path: "create-user",
+    element: <CreateUserPage />
+  },
+
+  {
+    path: "/papers",
+   element: <Blogs />
+  },
+
+  {
+    path: "/papers/view/:id",
+   element: <PapperViews />
+  }, 
+
+  {
+    path: "/createPapers",
+   element: <CreateNewsPage />
+  },   
+  
+  {
+    path: "/newsCategory",
+   element: <CategoriesPage />
+  }, 
+  
+  {
+    path: "/create-category",
+   element: <CreateCategory />
+  }, 
+  
+  {
+    path: "/create-category/edit/:id",
+   element: <EditCategoryPage />
+  },  
+  
+  {
+    path: "comments",
+   element: <Comments />
+  },    
+  
+  {
     path: "/login",
     element: <Login />,
     meta: {
       layout: "blank",
     },
+
+    
   },
   {
     path: "/register",

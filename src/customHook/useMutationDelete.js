@@ -1,3 +1,4 @@
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import http from '../core/services/interceptor';
 
@@ -15,12 +16,12 @@ const useMutationDelete = (url, key) => {
 
     return useMutation({
         mutationFn: handleDel,
+
         onSuccess: () => {
             queryClient.invalidateQueries(key);
 
 
             // extra option
-
 
             // queryClient.setQueryData('list2' , (oldData)=>{
             //     let newData = [...oldData]
