@@ -1,15 +1,16 @@
-import axios from 'axios'
+import { useQuery } from '@tanstack/react-query'
+// import axios from 'axios'
+import http from "../core/services/interceptor"
 import React, { useEffect } from 'react'
-import { useQuery } from 'react-query'
+// import { useQuery } from 'react-query'
 
 const getList = async (url) => {
-    const result = await axios.get(url)
-    return result.data
-    // console.log(result);
+    const result = await http.get(url)
+    return result
 }
 
 const useQueryGet = (key, url) => {
-    return useQuery(key, () => getList(url))
+    return useQuery({ queryKey: key, queryFn: () => getList(url) })
 }
 
 export default useQueryGet

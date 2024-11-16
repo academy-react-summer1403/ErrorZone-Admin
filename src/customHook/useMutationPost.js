@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import http from '../core/services/interceptor';
 // import { useMutation, useQueryClient } from 'react-query';
 
