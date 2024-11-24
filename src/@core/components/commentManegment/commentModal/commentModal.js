@@ -29,25 +29,19 @@ import {
 } from "reactstrap";
 import ReplyComment from "../commentReply/commentReply";
 import useQueryGet from "../../../../customHook/useQueryGet";
-
+import { addReply } from "../../../../core/services/Paper";
+import toast from "react-hot-toast";
 
 
 const CommentModal = ({
   comModal,
   setComModal,
+  repCom,
   handleAcceptComment,
   handleDeclineComment,
-  handleDelete,
+  handleDeleteComment,
   describe,
-  courseId,
-  commentId,
-  acceptComments,
-  rejectComments,
-  addReplyComments,
 }) => {
-
-    const { data:repCom } = useQueryGet( ["repCom"] , `/Course/GetCourseReplyCommnets/${courseId}/${commentId}`)
-//const repCom = []
   // ** States
   const [centeredModal, setCenteredModal] = useState(false);
   const [tooltipOpenn, setTooltipOpenn] = useState({});
@@ -60,7 +54,24 @@ const CommentModal = ({
     setTooltipOpenn({ ...tooltipOpenn, [id]: !tooltipOpenn[id] });
   };
 
+  const addReplyCommentt = async (e) => {
+    try {
+      const dataa = { ...e, CourseId: coursid, CommentId: comntid };
+      const data = new FormData();
+      const keys = Object.keys(dataa);
+      keys.forEach((key) => {
+        const item = dataa[key];
+        data.append(key, item);
+      });
+      const res = await addReply(data);
+      res.success? toast.success(res.message): toast.error(res.message)
+      
+      // console.log("object", res);
 
+    } catch (error) {
+      console.error("ERROR: ", error);
+    }
+  };
   return (
     <div className="demo-inline-spacing">
       <div className="vertically-centered-modal">
@@ -99,7 +110,7 @@ const CommentModal = ({
                           style={{ minWidth: "155px" }}
                         >
                           <span className="mx-1 border">
-                            <Avatar img={avatar1} />
+                            <Avatar img={avatarImg} />
                           </span>
 
                           <span className=" ">{item.author}</span>
@@ -161,17 +172,25 @@ const CommentModal = ({
                             {item.accept === false ? (
                               <DropdownMenu>
                                 <DropdownItem
-                                  onClick={(e) => {
-                                    e.preventDefault(e)
-                                    acceptComments(item.id)}
-                                  }
+                                  onClick={() => handleAcceptComment(item.id)}
                                 >
                                   <FileText className="me-50" size={15} />{" "}
                                   <span className="align-middle">تایید</span>
                                 </DropdownItem>
- 
+                                {/* <DropdownItem
+                                  href="/"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleDeclineComment(item.commentId);
+                                  }}
+                                >
+                                  <Edit className="me-50" size={15} />{" "}
+                                  <span className="align-middle">
+                                    عدم تایید{" "}
+                                  </span>
+                                </DropdownItem> */}
                                 <DropdownItem
-                                  onClick={() => handleDelete(item.id)}
+                                  onClick={() => handleDeleteComment(item.id)}
                                 >
                                   <Trash className="me-50" size={15} />{" "}
                                   <span className="align-middle">حذف</span>
@@ -179,8 +198,18 @@ const CommentModal = ({
                               </DropdownMenu>
                             ) : (
                               <DropdownMenu>
+                                {/* <DropdownItem
+                                  href="/"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleAcceptComment(item.commentId);
+                                  }}
+                                >
+                                  <FileText className="me-50" size={15} />{" "}
+                                  <span className="align-middle">تایید</span>
+                                </DropdownItem> */}
                                 <DropdownItem
-                                  onClick={() => rejectComments(item.id)}
+                                  onClick={() => handleDeclineComment(item.id)}
                                 >
                                   <Edit className="me-50" size={15} />{" "}
                                   <span className="align-middle">
@@ -188,7 +217,7 @@ const CommentModal = ({
                                   </span>
                                 </DropdownItem>
                                 <DropdownItem
-                                  onClick={() => handleDelete(item.id)}
+                                  onClick={() => handleDeleteComment(item.id)}
                                 >
                                   <Trash className="me-50" size={15} />{" "}
                                   <span className="align-middle">حذف</span>
@@ -198,7 +227,6 @@ const CommentModal = ({
                                     setRepComm(!repComm);
                                     setCoursid(item.courseId);
                                     setComntid(item.id);
-                                    addReplyComments()
                                   }}
                                 >
                                   <Trash className="me-50" size={15} />{" "}
@@ -224,8 +252,7 @@ const CommentModal = ({
         <ReplyComment
           repShow={repComm}
           setRepShow={setRepComm}
-          courseId={courseId}
-          commentId={commentId}
+          addReplyComment={addReplyCommentt}
         />
       </div>
     </div>

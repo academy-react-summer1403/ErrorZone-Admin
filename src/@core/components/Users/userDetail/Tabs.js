@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 
 // ** Icons Imports
-import { User, Lock, Link } from "react-feather";
+import { User, Lock, Link, Bell } from "react-feather";
 import UserComments from "./Comment";
 import useQueryGet from "../../../../customHook/useQueryGet";
 import UserProjectsList from "./UserProjectsList";
@@ -25,6 +25,7 @@ import UserCourses from "./UserCourses";
 import UserCourseReserve from "./UserCourseReserves";
 import { acceptComment, deleteComments, rejectComment } from "../../../../core/services/Paper";
 import { useQueryClient } from "@tanstack/react-query";
+import UserAddRoles from "./UserAddRoles";
 
 
 //import UserProjectsList from "./UserProjectsList";
@@ -145,10 +146,21 @@ const UserTabs = ({ active, toggleTab , userDetails}) => {
             onClick={() => toggleTab("5")}
             className="px-1"
           >
-            <Link className="font-medium-3 me-50" />
+            <User className="font-medium-3 me-50" />
             <span className="fw-bold">ارتباط با کاربر</span>
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink
+            active={active === "6"}
+            onClick={() => toggleTab("6")}
+            className="px-1"
+          >
+            <Bell className="font-medium-3 me-50" />
+            <span className="fw-bold">  دسترسی </span>
+          </NavLink>
+        </NavItem>
+        
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
@@ -175,6 +187,9 @@ const UserTabs = ({ active, toggleTab , userDetails}) => {
         <TabPane tabId="5">
            <Connection userDetails={userDetails}/>
         </TabPane>
+        <TabPane tabId="6">
+           <UserAddRoles user={userDetails} />
+        </TabPane>        
       </TabContent>
     </Fragment>
   );

@@ -1,21 +1,14 @@
 
-import { Mail, Home, Airplay, Circle, Book , Users} from "react-feather";
+import { Mail, Home, Airplay, Circle, Book , Users , Code, Calendar} from "react-feather";
 
 
 export default [
   {
     id: "home",
-    title: "Home",
+    title: "داشبورد",
     icon: <Home size={20} />,
     navLink: "/home",
   },
-  {
-    id: "secondPage",
-    title: "Second Page",
-    icon: <Mail size={20} />,
-    navLink: "/second-page",
-  },
-
   {
     id: "users",
     title: "مدیریت کاربران",
@@ -25,7 +18,7 @@ export default [
         title: "لیست کاربران",
         navLink: "/users",
   
-        icon: <Circle />,
+        icon: <Circle size={20}/>,
       },
       {
         title: "افزودن کاربر",
@@ -80,12 +73,62 @@ export default [
     },
 
 
-
+    {
+      id: "courses",
+      title: "مدیریت دوره ها",
+      icon: <Code size={20} />,
+      children: [
   {
     id: "courses",
     title: "لیست دوره ها",
     icon: <Book size={20} />,
     navLink: "/courses",
+    icon: <Circle />,    
+  },      {
+    title: "دوره های رزرو شده",
+    navLink: "/coursereserved",
+    icon: <Circle />,
   },
+  {
+    title: "دوره های من",
+    navLink: "/mycourses",
+    icon: <Circle />,
+  },
+  {
+    title: "افزودن دوره",
+    navLink: "/createcourse",
+    icon: <Circle />,
+  }, 
+  {
+    title: "پرداختی ها",
+    navLink: "/coursepayment",
+    icon: <Circle />,
+  },       
+   {
+    title: "گروه های دوره",
+    navLink: "/coursegroups",
+    icon: <Circle />,
+  },
+  {
+    title: "افزودن گروه دوره",
+    navLink: "/createcoursegroup",
+    icon: <Circle />,
+  },
+  {
+    title: "کامنت های دوره",
+    navLink: "/coursecomments",
+    icon: <Circle />,
+  },  
+
+      ]
+    },
+
+  {
+    title: "تقویم",
+    navLink: "/calendar",
+    icon: <Calendar />,
+  },    
+
+
 
 ];

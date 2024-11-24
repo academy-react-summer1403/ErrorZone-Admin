@@ -1,9 +1,9 @@
 // ** React Imports
-import { Link } from "react-router-dom";
-
+import { useEffect, useState } from "react";
 // ** Custom Components
+import { Link } from "react-router-dom";
 import Avatar from "@components/avatar";
-
+import toast from "react-hot-toast";
 // ** Third Party Components
 import {
   User,
@@ -14,6 +14,8 @@ import {
   CreditCard,
   HelpCircle,
   Power,
+  Archive,
+  Code,
 } from "react-feather";
 
 // ** Reactstrap Imports
@@ -26,8 +28,42 @@ import {
 
 // ** Default Avatar Image
 import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg";
+import { getProfileInfoAPI } from "../../../../core/services/Paper";
+import { onUserChange } from "../../../../redux/user";
+import { useDispatch } from "react-redux";
+import { removeItem } from "../../../../core/services/common/storage.services";
 
 const UserDropdown = () => {
+  const [profileInfo, setProfileInfo] = useState({
+    fName: "ادمین",
+    lName: "",
+    currentPictureAddress: defaultAvatar,
+  });
+
+  const dispatch = useDispatch()
+
+  const token = localStorage.getItem("Token");
+  const userId = localStorage.getItem("userId");
+
+  const handleLogout = async () => {
+    removeItem("Token");
+  };
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const getProfileInfo = await getProfileInfoAPI();
+
+        setProfileInfo(getProfileInfo);
+        dispatch(onUserChange(getProfileInfo));
+      } catch (error) {
+        toast.error("مشکلی در دریافت اطلاعات شما به وجود آمد !");
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle
@@ -37,53 +73,43 @@ const UserDropdown = () => {
         onClick={(e) => e.preventDefault()}
       >
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold">John Doe</span>
-          <span className="user-status">Admin</span>
+          <span className="user-name fw-bold">
+            {profileInfo?.fName + " " + profileInfo?.lName}
+          </span>
+          <span className="user-status">ادمین</span>
         </div>
         <Avatar
-          img={defaultAvatar}
+          img={
+            profileInfo?.currentPictureAddress == "Not-set"
+              ? defaultAvatar
+              : profileInfo?.currentPictureAddress
+          }
           imgHeight="40"
           imgWidth="40"
           status="online"
         />
       </DropdownToggle>
       <DropdownMenu end>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <User size={14} className="me-75" />
-          <span className="align-middle">Profile</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <Mail size={14} className="me-75" />
-          <span className="align-middle">Inbox</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <CheckSquare size={14} className="me-75" />
-          <span className="align-middle">Tasks</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <MessageSquare size={14} className="me-75" />
-          <span className="align-middle">Chats</span>
+      <DropdownItem tag="a" href={`http://localhost:5173/${token}`}>
+          <Archive size={14} className="me-75" />
+          <span className="align-middle">سایت اصلی</span>
         </DropdownItem>
         <DropdownItem divider />
-        <DropdownItem
-          tag={Link}
-          to="/pages/"
-          onClick={(e) => e.preventDefault()}
-        >
+        <DropdownItem tag={Link} to={`/users/${userId}`}>
+          <User size={14} className="me-75" />
+          <span className="align-middle">حساب کاربری من</span>
+        </DropdownItem>
+        <DropdownItem tag={Link} to={`/user/edit/${userId}`}>
           <Settings size={14} className="me-75" />
-          <span className="align-middle">Settings</span>
+          <span className="align-middle">ویرایش پروفایل</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <CreditCard size={14} className="me-75" />
-          <span className="align-middle">Pricing</span>
+        <DropdownItem tag={Link} to={`/mycourses/${userId}`}>
+          <Code size={14} className="me-75" />
+          <span className="align-middle">دوره های من</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <HelpCircle size={14} className="me-75" />
-          <span className="align-middle">FAQ</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/login">
+        <DropdownItem tag={Link} to="/login" onClick={handleLogout}>
           <Power size={14} className="me-75" />
-          <span className="align-middle">Logout</span>
+          <span className="align-middle">خروح از سایت</span>
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
