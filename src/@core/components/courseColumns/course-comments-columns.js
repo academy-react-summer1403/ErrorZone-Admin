@@ -20,7 +20,7 @@ import blankThumbnail from "./../../assets/images/portrait/small/blank-Thumbnail
 import { acceptCourseCommentAPI, deleteCourseCommentAPI, rejectCourseCommentAPI } from "../../../core/services/Paper";
 import CourseReplyCommentModal from "./CourseReplyCommentModal";
 
-export const COURSE_COMMENTS_COLUMNS = [
+export const COURSE_COMMENTS_COLUMNS = (ChangeHandler) => [
   {
     name: "عنوان نظر",
     reorder: true,
@@ -108,8 +108,8 @@ export const COURSE_COMMENTS_COLUMNS = [
 
           if (acceptCourseComment.success) {
             toast.success("نظر با موفقیت تایید شد !");
-
-            navigate(`/courseDetail/${row.courseId}`);
+            ChangeHandler()
+            // navigate(`/courseDetail/${row.courseId}`);
           } else {
             toast.error("مشکلی در تایید نظر به وجود آمد !");
           }
@@ -125,7 +125,8 @@ export const COURSE_COMMENTS_COLUMNS = [
           if (rejectCourseComment.success) {
             toast.success("نظر با موفقیت لغو شد !");
 
-            navigate(`/courseDetail/${row.courseId}`);
+            // navigate(`/courseDetail/${row.courseId}`);
+            ChangeHandler()
           } else {
             toast.error("مشکلی در لغو نظر از دید کاربران به وجود آمد !");
           }

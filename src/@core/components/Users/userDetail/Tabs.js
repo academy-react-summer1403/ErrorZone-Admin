@@ -26,6 +26,7 @@ import UserCourseReserve from "./UserCourseReserves";
 import { acceptComment, deleteComments, rejectComment } from "../../../../core/services/Paper";
 import { useQueryClient } from "@tanstack/react-query";
 import UserAddRoles from "./UserAddRoles";
+import UserPayments from "./UserPayments";
 
 
 //import UserProjectsList from "./UserProjectsList";
@@ -160,6 +161,16 @@ const UserTabs = ({ active, toggleTab , userDetails}) => {
             <span className="fw-bold">  دسترسی </span>
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink
+            active={active === "7"}
+            onClick={() => toggleTab("7")}
+            className="px-1"
+          >
+            <Bell className="font-medium-3 me-50" />
+            <span className="fw-bold">  پرداختی ها </span>
+          </NavLink>
+        </NavItem>        
         
       </Nav>
       <TabContent activeTab={active}>
@@ -189,7 +200,10 @@ const UserTabs = ({ active, toggleTab , userDetails}) => {
         </TabPane>
         <TabPane tabId="6">
            <UserAddRoles user={userDetails} />
-        </TabPane>        
+        </TabPane> 
+        <TabPane tabId="7">
+          <UserPayments userDetails={userDetails}/>
+        </TabPane>                
       </TabContent>
     </Fragment>
   );

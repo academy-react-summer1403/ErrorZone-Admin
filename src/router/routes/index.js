@@ -42,6 +42,10 @@ import CoursesPages from "../../pages/CoursePage";
 import BlogsList from "../../pages/BlogsList";
 import CalendarComponent from "../../pages/Calendar";
 import CourseCommentsPage from "../../pages/CourseComments";
+import NewsDetails from "../../pages/NewsDetailPage";
+import EditNews from "../../pages/EditNews";
+import GetNewsReplyCommentsModal from "../../@core/components/NewsDetailPage/GetNewsReplyCommentsModal";
+import UserPaymentsDetail from "../../@core/components/Users/userDetail/UserPaymentsDetail";
 //import CreateUserPage from "../../pages/CreateUser";
 
 
@@ -147,7 +151,10 @@ const Routes = [
     path: "/users/:id",
     element: <UserDetail />
   },
-
+  {
+    path: "/users/Payments/:id",
+    element : <UserPaymentsDetail />
+  },
   {
     path: "/user/edit/:id",
     element: <EditUserPage />
@@ -167,9 +174,17 @@ const Routes = [
 
   {
     path: "/papers/view/:id",
-   element: <PapperViews />
+   //element: <PapperViews />
+   element: <NewsDetails />
   }, 
-
+  {
+    path: "/papers/edit/:id",
+    element: <EditNews />,
+  },
+ {
+    path: "/papers/commentsreply/:id",
+    element: <GetNewsReplyCommentsModal />,
+ },
   {
     path: "/createPapers",
    element: <CreateNewsPage />

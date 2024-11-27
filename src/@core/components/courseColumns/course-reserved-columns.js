@@ -13,7 +13,7 @@ import { COURSE_RESERVED_COMMON_COLUMNS } from "./course-reserved-common-columns
 import blankThumbnail from "./../../assets/images/portrait/small/blank-thumbnail.jpg";
 import { getUserWithIdAPI } from "../../../core/services/Paper";
 
-export const COURSE_RESERVED_COLUMNS = (redirectUrl) => [
+export const COURSE_RESERVED_COLUMNS = () => [
   {
     name: "نام رزرو کننده",
     reorder: true,
@@ -61,5 +61,5 @@ export const COURSE_RESERVED_COLUMNS = (redirectUrl) => [
       );
     },
   },
-  ...COURSE_RESERVED_COMMON_COLUMNS(redirectUrl),
+  ...COURSE_RESERVED_COMMON_COLUMNS(),
 ];

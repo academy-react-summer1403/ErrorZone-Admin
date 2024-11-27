@@ -30,7 +30,12 @@ const CourseReserve = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [changeFlage, setChangeFlage] = useState()
 
+
+  // const ChangeHandler = () => {
+  //   setChangeFlage(!changeFlage)
+  // }
   // ** Hooks
   const { id } = useParams();
 
@@ -169,7 +174,7 @@ const CourseReserve = () => {
           noHeader
           pagination
           data={searchValue.length ? filteredData : currentItems}
-          columns={COURSE_RESERVED_COLUMNS(`/courses/${id}`)}
+          columns={COURSE_RESERVED_COLUMNS()}
           className="react-dataTable"
           sortIcon={<ChevronDown size={10} />}
           paginationComponent={CustomPagination}

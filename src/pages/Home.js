@@ -2,6 +2,7 @@ import {
   Col, 
   Row,
 } from "reactstrap";
+import { useContext } from 'react'
 import { onDashboardReportChange } from "../redux/dashboardReport";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
@@ -10,9 +11,14 @@ import ChartJS from "../@core/components/ChartjsDoughnutChart";
 import { dashboardReportAPI } from "../core/services/Paper";
 import CardMedal from "../@core/components/cardMedal/cardMedal";
 import StatsCard from "../@core/components/StatsCard";
+import CardProfile from "../@core/components/CardProfile/CardProfile";
+import { ThemeColors } from '@src/utility/context/ThemeColors'
+import RevenueReport from "../@core/components/RevenuReport/RevenuReport";
 
 const Home = () => {
   const [dashboardReport, setDashboardReport] = useState();
+
+  const { colors } = useContext(ThemeColors)
 
   // ** Hooks
   const dispatch = useDispatch();
@@ -33,9 +39,17 @@ const Home = () => {
   }, []);
 
 
+
+
   return (
     <div>
-    <div id="dashboard-ecommerce">
+    <div>
+
+      <Row>
+        <CardProfile />
+        
+      </Row>
+
       <Row className="match-height">
         <Col xl="4" md="6" xs="12">
           <CardMedal dashboardData={dashboardReport} />
@@ -47,8 +61,15 @@ const Home = () => {
           />
         </Col>
       </Row>
+
+
+
       <Row className="match-height dashboard-chart-box-wrapper">
         <ChartJS />
+      </Row>
+        
+      <Row >
+           <RevenueReport  primary={colors.primary.main} warning={colors.warning.main}/>
       </Row>
     </div>
     </div>

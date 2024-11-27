@@ -21,7 +21,12 @@ const CourseComments = () => {
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const [searchText, setSearchText] = useState("");
   const [selectedRows, setSelectedRows] = useState();
+  const [changeFlage, setChangeFlage] = useState([])
 
+
+const ChangeHandler = () => {
+  setChangeFlage(!changeFlage)
+}
   // ** Hooks
   const { id } = useParams();
   console.log("111" , id)
@@ -100,14 +105,14 @@ const CourseComments = () => {
       }
     };
     fetchCourseComments();
-  }, []);
+  }, [changeFlage]);
 
   return (
     <div className="invoice-list-wrapper course-details-comments-tab">
       <Card className="rounded">
         <DataTableServerSide
           data={searchText?.length ? filteredData : courseComments}
-          columns={COURSE_COMMENTS_COLUMNS}
+          columns={COURSE_COMMENTS_COLUMNS(ChangeHandler)}
           renderTitle="نظرات کاربران"
           currentPage={currentPage}
           rowsPerPage={rowsPerPage}

@@ -929,3 +929,101 @@ export const AddRole = async (roleId, id, status) => {
   }
 }
 }
+
+export const GetNewsWithIdAPI = async (id) => {
+  try {
+    const response = await instance.get(`/News/${id}`);
+
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+
+export const getAdminNewsCommentsAPI = async (newsId) => {
+  try {
+    const response = await instance.get("/News/GetAdminNewsComments", {
+      params: {
+        newsId,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const AddNewsReplyCommentAPI = async (
+  newsId,
+  userIpAddress,
+  title,
+  describe,
+  userId,
+  parentId
+) => {
+  try {
+    const response = await instance.post("/News/CreateNewsReplyComment", {
+      newsId,
+      userIpAddress,
+      title,
+      describe,
+      userId,
+      parentId,
+    });
+
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const UpdateNewsAPI = async (data) => {
+  try {
+    const response = await instance.put("/News/UpdateNews", data);
+
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const GetNewsApi = async (id) => {
+  try {
+    const res = await instance.get(`/News/GetAdminRepliesComments?CommentId=${id}`)
+    return res
+  } catch (error) {
+     return false;
+  }
+}
+
+export const AddNewsFile = async (data) => {
+  try{
+      const result = await instance.post(`/News/CreateNewsFile`, data)
+      return result
+  }
+  catch(error){
+      return false
+   }
+}
+
+export const DeleteNewsFile = async (id) => {
+  try{
+      const result = await instance.delete(`/News/DeleteNewsFile?fileId=${id}`)
+      return result
+  }
+  catch(error){
+     return false
+   }
+}
+
+export const UpdateNewsFile = async (data) => {
+  try{
+      const result = await instance.put(`/News/UpdateNewsFile`, data)
+      return result
+  }
+  catch(error){
+     return false
+   }
+}

@@ -12,7 +12,7 @@ import { Check, CheckCircle, X } from "react-feather";
 import { deleteCourseReserveAPI, getCourseByIdAPI, getCourseGroupAPI, sendReserveToCourseAPI } from "../../../core/services/Paper";
 import { convertDateToPersian } from "../../../utility/hooks/date-helper.utils";
 
-export const COURSE_RESERVED_COMMON_COLUMNS = (redirectUrl) => [
+export const COURSE_RESERVED_COMMON_COLUMNS = () => [
   {
     name: "زمان رزرو",
     reorder: true,
@@ -56,7 +56,7 @@ export const COURSE_RESERVED_COMMON_COLUMNS = (redirectUrl) => [
 
           if (sendReserveToCourse.success) {
             toast.success("رزرو با موفقیت تایید شد !");
-            navigate(redirectUrl);
+           // ChangeHandler()
           } else {
             toast.error(sendReserveToCourse.ErrorMessage);
           }
