@@ -1,3 +1,5 @@
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -6,8 +8,15 @@ import {
   CardText,
   CardLink,
 } from "reactstrap";
+import { auth } from "../lib/firebase";
+import { useUserStore } from "../lib/userStore";
 
 const Home = () => {
+
+
+  
+
+
   return (
     <div>
       <Card>
