@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./chatList.scss";
 import {
   CardText,
@@ -19,8 +19,10 @@ import AddUser from "./AddUser/AddUser";
 import { useChatStore } from "../../../../lib/chatStore";
 
 const ChatList = () => {
-  const [addMode, setAddMode] = useState(false);
   const [chats, setChats] = useState([]);
+  const [input, setInput] = useState("");
+
+  const [addMode, setAddMode] = useState(false);
 
   const { currentUser } = useUserStore();
   const { chatId, changeChat } = useChatStore();
@@ -50,6 +52,8 @@ const ChatList = () => {
     };
   }, [currentUser.id]);
 
+
+
   const handleSelect = async (chat) => {
     const userChats = chats.map((item) => {
       const { user, ...rest } = item;
@@ -74,6 +78,10 @@ const ChatList = () => {
     }
   };
 
+  const filteredChats = chats.filter((c) =>
+    c.user.username.toLowerCase().includes(input.toLowerCase())
+  );
+
   return (
     <div className="chatList">
       <div className="search">
@@ -87,37 +95,44 @@ const ChatList = () => {
               className="round"
               placeholder="Search or start a new chat"
               // onChange={handleFilter}
+              onChange={(e) => setInput(e.target.value)}
             />
           </InputGroup>
         </div>
-        {addMode ? (
-          <MinusCircle
-            size={30}
-            className="add"
-            onClick={() => setAddMode((prev) => !prev)}
-          />
-        ) : (
-          <PlusCircle
-            size={30}
-            className="add"
-            onClick={() => setAddMode((prev) => !prev)}
-          />
-        )}
+
+          {addMode ? (
+            <MinusCircle
+              size={30}
+              className="add"
+              onClick={() => setAddMode((prev) => !prev)}
+            />
+          ) : (
+            <PlusCircle
+              size={30}
+              className="add"
+              onClick={() => setAddMode((prev) => !prev)}
+            />
+          )}
+
       </div>
 
-      {chats.map((chat, index) => (
+      {filteredChats.map((chat, index) => (
         <div className="item" key={index} onClick={() => handleSelect(chat)}>
-          {/* <Avatar
-            color="light-primary"
+          <Avatar
             size="lg"
-            content="Benyamin HosseinZadeh"
-            status="offline"
-            initials
-          /> */}
-          <Avatar size="lg" img={chat.user.avatar || avatar} initials />
+            img={
+              chat.user.blocked.includes(currentUser.id)
+                ? undefined
+                : chat.user.avatar || avatar
+            }
+          />
 
           <div className="texts">
-            <span>{chat.user.username}</span>
+            <span>
+              {chat.user.blocked.includes(currentUser.id)
+                ? "User"
+                : chat.user.username}
+            </span>
             <p>{chat.lastMessage}</p>
           </div>
           {chat?.isSeen ? null : (
@@ -127,7 +142,7 @@ const ChatList = () => {
           )}
         </div>
       ))}
-      {addMode && <AddUser />}
+      {addMode && <AddUser setAddMode={setAddMode}/>}
     </div>
   );
 };
