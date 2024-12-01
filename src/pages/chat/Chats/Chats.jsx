@@ -16,22 +16,86 @@ import {
 } from "reactstrap";
 import EmojiPicker from "emoji-picker-react";
 import classnames from "classnames";
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../../../lib/firebase";
+import { useChatStore } from "../../../lib/chatStore";
+import { useUserStore } from "../../../lib/userStore";
 const Chats = () => {
+  const [chat, setChat] = useState();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
 
-  const endRef = useRef(null);
+  const { chatId, user } = useChatStore();
+  const { currentUser } = useUserStore();
 
-  const handleEmoji = (e) => {
-    // console.log(e);
-    setText((prev) => prev + e.emoji);
-  };
+  const endRef = useRef(null);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-
-    return () => {};
   }, []);
+
+  useEffect(() => {
+    const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
+      setChat(res.data());
+    });
+
+    return () => {
+      unSub();
+    };
+  }, [chatId]);
+
+  const handleEmoji = (e) => {
+    setText((prev) => prev + e.emoji);
+  };
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (text === "") return;
+
+    try {
+
+      await updateDoc(doc(db, "chats", chatId), {
+        messages: arrayUnion({
+          senderId: currentUser.id,
+          text,
+          createdAt: new Date(),
+        }),
+      });
+
+      const userIDs = [currentUser.id, user.id];
+
+      userIDs.forEach(async (id) => {
+        const userChatsRef = doc(db, "userChats", id);
+        const userChatSnapShot = await getDoc(userChatsRef);
+
+        if (userChatSnapShot.exists()) {
+          const userChatsData = userChatSnapShot.data();
+
+          const chatIndex = userChatsData.chats.findIndex(
+            (c) => c.chatId === chatId
+          );
+          userChatsData.chats[chatIndex].lastMessage = text;
+          userChatsData.chats[chatIndex].isSeen = id === currentUser.id ? true : false;
+          userChatsData.chats[chatIndex].updatedAt = Date.now();
+
+          await updateDoc(userChatsRef, {
+            chats: userChatsData.chats,
+          });
+        }
+      });
+
+      setText("");
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="chats">
@@ -55,79 +119,22 @@ const Chats = () => {
           <Info size={18} />
         </div>
       </div>
+
       <div className="center">
-        <div className="message own">
-          <div className="texts">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Explicabo, totam suscipit! Eveniet quae doloribus, alias soluta
-              atque consequuntur iusto quasi sapiente ratione quia provident
-              consectetur, voluptate fuga distinctio animi id!
-            </p>
-            <span>1 min ago</span>
+        {chat?.messages?.map((message, index) => (
+          <div className={message.senderId === currentUser.id ? "message own" : "message"} key={index}>
+            <div className="texts">
+              <p>{message.text}</p>
+              {/* <span>1 min ago</span> */}
+            </div>
           </div>
-        </div>
-        <div className="message">
-          <div className="texts">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Explicabo, totam suscipit! Eveniet quae doloribus, alias soluta
-              atque consequuntur iusto quasi sapiente ratione quia provident
-              consectetur, voluptate fuga distinctio animi id!
-            </p>
-            <span>1 min ago</span>
-          </div>
-          <Avatar
-            color="light-primary"
-            content="Benyamin HosseinZadeh"
-            initials
-          />
-        </div>
-        <div className="message own">
-          <div className="texts">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Explicabo, totam suscipit! Eveniet quae doloribus, alias soluta
-              atque consequuntur iusto quasi sapiente ratione quia provident
-              consectetur, voluptate fuga distinctio animi id!
-            </p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-        <div className="message">
-          <div className="texts">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Explicabo, totam suscipit! Eveniet quae doloribus, alias soluta
-              atque consequuntur iusto quasi sapiente ratione quia provident
-              consectetur, voluptate fuga distinctio animi id!
-            </p>
-            <span>1 min ago</span>
-          </div>
-          <Avatar
-            color="light-primary"
-            content="Benyamin HosseinZadeh"
-            initials
-          />
-        </div>
-        <div className="message own">
-          <div className="texts">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Explicabo, totam suscipit! Eveniet quae doloribus, alias soluta
-              atque consequuntur iusto quasi sapiente ratione quia provident
-              consectetur, voluptate fuga distinctio animi id!
-            </p>
-            <span>1 min ago</span>
-          </div>
-        </div>
+        ))}
+
         <div ref={endRef}></div>
       </div>
+
       <div className="bottom">
-        <Form
-          className="chat-app-form"
-          // onSubmit={(e) => handleSendMsg(e)}
-        >
+        <Form className="chat-app-form" onSubmit={handleSend}>
           <InputGroup className="input-group-merge me-1 form-send-message">
             <InputGroupText>
               <Mic className="cursor-pointer" size={14} />

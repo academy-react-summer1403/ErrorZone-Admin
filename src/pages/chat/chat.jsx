@@ -7,8 +7,10 @@ import "./chat.scss";
 import List from "./List/List";
 import Chats from "./Chats/Chats";
 import Detail from "./Detail/Detail";
+import { useChatStore } from "../../lib/chatStore";
 const Chat = () => {
   const { currentUser, fetchUserInfo } = useUserStore();
+  const { chatId } = useChatStore();
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -26,8 +28,8 @@ const Chat = () => {
     <Card>
       <div className="chat-container">
         <List />
-        <Chats />
-        <Detail />
+        {chatId && <Chats />}
+        {chatId && <Detail />}
       </div>
     </Card>
   );

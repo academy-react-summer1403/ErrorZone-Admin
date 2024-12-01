@@ -12,9 +12,20 @@ import { auth } from "../lib/firebase";
 import { useUserStore } from "../lib/userStore";
 
 const Home = () => {
+  const { currentUser, fetchUserInfo } = useUserStore();
+
+  useEffect(() => {
+
+    const unSub = onAuthStateChanged(auth, (user) =>
+      fetchUserInfo(user?.uid)
+    )
+
+    return () => {
+      unSub();
+    }
+  }, []);
 
 
-  
 
 
   return (
