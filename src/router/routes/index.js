@@ -27,9 +27,34 @@ import UserDetail from "../../@core/components/Users/userDetail/userDetail";
 import EditUserPage from "../../pages/EditUser";
 
 import { useSelector } from "react-redux";
+import CourseDetailsPage from "../../pages/CourseDetail";
+import EditCourse from "../../pages/EditCourse";
+import CourseReservedPage from "../../pages/CourseReserv";
+import CreateCoursePage from "../../pages/CreateCourse";
+import CourseGroupsPage from "../../pages/CourseGroup";
+import EditCourseGroupPage from "../../pages/EditCourseGroup";
+import CourseGroupDetailsPage from "../../pages/CourseGroupDetail";
+import CreateCourseGroupPage from "../../pages/CreateCourseGroup";
+import News from "../../pages/news/News";
+import MyCoursesPages from "../../pages/MyCourses";
+import Payment from "../../pages/Payment";
+import CoursesPages from "../../pages/CoursePage";
+import BlogsList from "../../pages/BlogsList";
+import CalendarComponent from "../../pages/Calendar";
+import CourseCommentsPage from "../../pages/CourseComments";
+import NewsDetails from "../../pages/NewsDetailPage";
+import EditNews from "../../pages/EditNews";
+import GetNewsReplyCommentsModal from "../../@core/components/NewsDetailPage/GetNewsReplyCommentsModal";
+import UserPaymentsDetail from "../../@core/components/Users/userDetail/UserPaymentsDetail";
+import Building from "../../pages/Building";
+import AssistanceWork from "../../pages/AssistanceWork";
+import ClassRoom from "../../pages/ClassRoom";
+import AssistanceCourse from "../../pages/AssistanceCourse";
+//import CreateUserPage from "../../pages/CreateUser";
 import CreateUserPage from "../../pages/CreateUser";
 import Chat from "../../pages/chat/chat";
 // import AppChat from "../../pages/chat";
+
 
 
 const getLayout = {
@@ -54,13 +79,14 @@ const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const Error = lazy(() => import("../../pages/Error"));
 const Sample = lazy(() => import("../../pages/Sample"));
 const Courses = lazy(() => import("../../pages/courses/Courses"));
-const CourseDetail = lazy(() => import("../../pages/courses/CourseDetail"));
-
+//const CourseDetail = lazy(() => import("../../pages/courses/CourseDetail"));
+const CreateUserPage = lazy(() => import("../../pages/CreateUser"));
 // ** login situation
 
 // console.log(useSelector((state) => state.islogin.isLogin));
 
 const isLogin = Boolean(getItem("Token1"));
+
 
 // ** Merge Routes
 const Routes = [
@@ -74,20 +100,60 @@ const Routes = [
     element:<Home />,
   },
   {
-    path: "/sample",
-    element: <Sample />,
-  },
-  {
-    path: "/second-page",
-    element: <SecondPage />,
-  },
-  {
     path: "/courses",
-    element: <Courses />,
+    //element: <CoursesPages />,
+    element: <Courses />
   },
   {
-    path: "/courseDetail/:courseId",
-    element: <CourseDetail />,
+    path: "/courseDetail/:id",
+    element: <CourseDetailsPage />,
+  },
+  {
+    path: "/courses/edit/:id",
+    element: <EditCourse />,
+  },
+  {
+    path: "/coursereserved",
+    element: <CourseReservedPage />,
+  },
+  {
+    path: "/createcourse",
+    element: <CreateCoursePage />,
+  },
+  {
+    path: "/coursegroups",
+    element: <CourseGroupsPage />,
+  },
+
+  {
+    path: "/mycourses",
+    element: <MyCoursesPages />,
+  },
+  {
+    path: "/createcoursegroup",
+    element: <CreateCourseGroupPage />,
+  },
+
+  {
+    path: "/coursepayment",
+    element: <Payment />,
+  },
+  
+   {
+    path: "/classes",
+    element: <ClassRoom />,
+  }, 
+  {
+    path: "/coursecomments",
+    element: <CourseCommentsPage/>,
+  },  
+  {
+    path: "/coursegroups/:id",
+    element: <CourseGroupDetailsPage />,
+  },
+  {
+    path: "/coursegroups/edit/:id",
+    element: <EditCourseGroupPage />,
   },
   {
     path: "/users",
@@ -98,7 +164,10 @@ const Routes = [
     path: "/users/:id",
     element: <UserDetail />
   },
-
+  {
+    path: "/users/Payments/:id",
+    element : <UserPaymentsDetail />
+  },
   {
     path: "/user/edit/:id",
     element: <EditUserPage />
@@ -108,17 +177,30 @@ const Routes = [
     path: "create-user",
     element: <CreateUserPage />
   },
-
+   {
+    path: "/assistancecourse",
+    element: <AssistanceCourse />
+  }, 
   {
     path: "/papers",
-   element: <Blogs />
+    //element: <Blogs />
+    //element: <News />
+    element:<BlogsList />
   },
 
   {
     path: "/papers/view/:id",
-   element: <PapperViews />
+   //element: <PapperViews />
+   element: <NewsDetails />
   }, 
-
+  {
+    path: "/papers/edit/:id",
+    element: <EditNews />,
+  },
+ {
+    path: "/papers/commentsreply/:id",
+    element: <GetNewsReplyCommentsModal />,
+ },
   {
     path: "/createPapers",
    element: <CreateNewsPage />
@@ -142,14 +224,33 @@ const Routes = [
   {
     path: "/comments",
    element: <Comments />
+
+  }, 
+
+   {
+    path: "/building",
+   element: <Building />
+  },  
+   {
+    path: "/AssistanceWork",
+   element: <AssistanceWork />
+  },  
+     
+   {
+    path: "/calendar",
+   element: <CalendarComponent />
+  }, 
+      
+
   },    
   {
     path: "/chat",
    element: <Chat />
   },    
+
   {
     path: "/login",
-    element: <Login />,
+    element:  <Login />,
     meta: {
       layout: "blank",
     },

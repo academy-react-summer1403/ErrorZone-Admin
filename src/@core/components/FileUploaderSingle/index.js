@@ -88,7 +88,7 @@ const FileUploaderSingle = ({ files, setFiles, image }) => {
         <div {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} />
           <div className="d-flex align-items-center justify-content-center flex-column">
-            {image ? <img src={image} className="course-preview-image" /> : <DownloadCloud size={64} />}
+            {image ? <img src={image} className="course-preview-image" style={{width: "200px" , height: "100px" , borderRadius: "10px"}} /> : <DownloadCloud size={64} />}
             <h5>فایل ها را اینجا رها کنید یا برای آپلود کلیک کنید</h5>
             <p className="text-secondary">
               فایل ها را اینجا رها کنید یا کلیک کنید{" "}

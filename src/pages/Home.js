@@ -1,15 +1,26 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardText,
-  CardLink,
+  Col, 
+  Row,
 } from "reactstrap";
+import { useContext } from 'react'
+import { onDashboardReportChange } from "../redux/dashboardReport";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import ChartJS from "../@core/components/ChartjsDoughnutChart";
+import { dashboardReportAPI } from "../core/services/Paper";
+import CardMedal from "../@core/components/cardMedal/cardMedal";
+import StatsCard from "../@core/components/StatsCard";
+import CardProfile from "../@core/components/CardProfile/CardProfile";
+import { ThemeColors } from '@src/utility/context/ThemeColors'
+import RevenueReport from "../@core/components/RevenuReport/RevenuReport";
+import CardBrowserState from "../@core/components/CardBrowsState/CardBrowsState";
+import CompanyTable from "../@core/components/dashboard/CompanyTable";
 import { auth } from "../lib/firebase";
 import { useUserStore } from "../lib/userStore";
+
 
 const Home = () => {
   const { currentUser, fetchUserInfo } = useUserStore();
@@ -26,50 +37,72 @@ const Home = () => {
   }, []);
 
 
+    const [dashboardReport, setDashboardReport] = useState();
+
+  const { colors } = useContext(ThemeColors)
+
+  // ** Hooks
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchDashboardReport = async () => {
+      try {
+        const getDashboardReport = await dashboardReportAPI();
+
+        dispatch(onDashboardReportChange(getDashboardReport));
+        setDashboardReport(getDashboardReport);
+      } catch (error) {
+        toast.error("مشکلی در دریافت اطلاعات داشبورد به وجود آمد !");
+      }
+    };
+
+    fetchDashboardReport();
+  }, []);
+
+  const trackBgColor = '#e9ecef'
+  
+ 
 
 
   return (
     <div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Kick start your project 🚀</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <CardText>All the best for your new project.</CardText>
-          <CardText>
-            Please make sure to read our{" "}
-            <CardLink
-              href="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/"
-              target="_blank"
-            >
-              Template Documentation
-            </CardLink>{" "}
-            to understand where to go from here and how to use our template.
-          </CardText>
-        </CardBody>
-      </Card>
+    <div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Want to integrate JWT? 🔒</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <CardText>
-            We carefully crafted JWT flow so you can implement JWT with ease and
-            with minimum efforts.
-          </CardText>
-          <CardText>
-            Please read our{" "}
-            <CardLink
-              href="https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/docs/development/auth"
-              target="_blank"
-            >
-              JWT Documentation
-            </CardLink>{" "}
-            to get more out of JWT authentication.
-          </CardText>
-        </CardBody>
-      </Card>
+      {/* <Row>
+        <CardProfile />
+        
+      </Row> */}
+
+      <Row className="match-height">
+        <Col xl="4" md="6" xs="12">
+          <CardMedal dashboardData={dashboardReport} />
+        </Col>
+        <Col xl="8" md="6" xs="12">
+          <StatsCard
+            cols={{ xl: "3", sm: "6" }}
+            dashboardData={dashboardReport}
+          />
+        </Col>
+      </Row>
+
+
+
+      <Row className="match-height dashboard-chart-box-wrapper">
+        <ChartJS />
+      </Row>
+        
+      <Row >
+           <RevenueReport  primary={colors.primary.main} warning={colors.warning.main}/>
+      </Row>
+      <Row>
+        <Col> 
+         <CardBrowserState colors={colors} trackBgColor={trackBgColor} />
+         </Col>
+        <Col>       
+         <CompanyTable /> 
+         </Col>  
+      </Row>
+    </div>
     </div>
   );
 };

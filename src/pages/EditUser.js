@@ -118,7 +118,7 @@ const EditUserPage = () => {
           { title: "مدیریت کاربران", href: "/users" },
           {
             title: `${userDetail?.fName || "کاربر"} ${
-              userDetail?.lName || "نابغه"
+              userDetail?.lName || "errorzone"
             }`,
           },
           { title: "ویرایش کاربر" },

@@ -8,10 +8,10 @@ export const CustomPagination = ({
   current,
   setCurrent,
   rowsPerPage,
-  queryCliets
+
 }) => {
   const count = Number(Math.ceil(total / rowsPerPage));
-  //queryCliets.invalidateQueries({ queryKey: ['getComments'] })
+  console.log("count" , count)
   return (
     <ReactPaginate
       previousLabel={""}

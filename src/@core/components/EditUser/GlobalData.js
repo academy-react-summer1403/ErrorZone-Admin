@@ -5,31 +5,18 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import DatePicker from "react-multi-date-picker";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-
-// ** Core Imports
-
-
-// ** Utils
 import { isObjEmpty } from "@utils";
-
-
-
-// ** Third Party Components
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ArrowLeft, ArrowRight } from "react-feather";
 import { Controller, useForm } from "react-hook-form";
-
-// ** Reactstrap Imports
 import { Button, Col, Form, FormFeedback, Input, Label, Row } from "reactstrap";
 import { editUserGlobalDataFromSchema } from "../../../core/Validation/editUser/editUserGlobaldata";
-
 import { selectThemeColors } from "../../../utility/Utils";
 import { convertDateToPersian } from "../../../utility/hooks/date-helper.utils";
 import { dateFormatter } from "../../../core/utility/date-formatter.utils";
 
-
 const GlobalData = ({ stepper, user, setGlobalData }) => {
-  const [birthday, setBirthday] = useState(null);
+  const [birthday, setBirthday] = useState();
 
   // ** Hooks
   const {
@@ -52,13 +39,16 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
         homeAdderess,
         birthDay,
       } = e;
+    
+       console.log('BIRTHDAY' , birthday)
 
-      let formattedBirthday = null;
+       let formattedBirthday = null;
 
-      if (birthDay instanceof Date && !isNaN(birthDay)) {
-        formattedBirthday = dateFormatter.format(birthDay);
-      }
+       if (birthDay instanceof Date && !isNaN(birthDay)) {
+         formattedBirthday = dateFormatter.format(birthDay);
+       }
 
+       console.log("formatbirthday" , formattedBirthday)
       setGlobalData({
         fName,
         lName,
@@ -72,8 +62,10 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
       stepper.next();
     }
   };
-
+console.log("userbirthday" , user?.birthDay)
   const convertDefaultBirthday = convertDateToPersian(user?.birthDay);
+
+  console.log('converdefauly' , convertDefaultBirthday)
 
   useEffect(() => {
     if (user) {
@@ -247,7 +239,7 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
                 control={control}
                 id="birthDay"
                 name="birthDay"
-                render={({ field: { onChange, ref } }) => (
+                render={({ ...field }) => (
                   <DatePicker
                     name="birthDay"
                     id="birthDay"
@@ -258,10 +250,11 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
                     calendarPosition="bottom-right"
                     inputClass="form-control coursesDatePickerInput"
                     onChange={(date) => {
-                      onChange(date);
-                      setBirthday(date);
+                     
+                      console.log('calenderdate' , date);
+                      //setBirthday(date);
                     }}
-                    ref={ref}
+                    
                   />
                 )}
               />

@@ -1,21 +1,14 @@
 
-import { Mail, Home, Airplay, Circle, Book , Users, MessageSquare} from "react-feather";
 
+import { Mail, Home, Airplay, Circle, Book , Users , Code, Calendar, MapPin, BookOpen , MessageSquare} from "react-feather";
 
 export default [
   {
     id: "home",
-    title: "Home",
+    title: "داشبورد",
     icon: <Home size={20} />,
     navLink: "/home",
   },
-  {
-    id: "secondPage",
-    title: "Second Page",
-    icon: <Mail size={20} />,
-    navLink: "/second-page",
-  },
-
   {
     id: "users",
     title: "مدیریت کاربران",
@@ -25,7 +18,7 @@ export default [
         title: "لیست کاربران",
         navLink: "/users",
   
-        icon: <Circle />,
+        icon: <Circle size={20}/>,
       },
       {
         title: "افزودن کاربر",
@@ -33,6 +26,11 @@ export default [
      
         icon: <Circle />,
       },
+      {
+        title: "منتور ها",
+        navLink: "/assistancecourse",
+        icon: <Circle />,
+      },      
     ],
   },
 
@@ -78,20 +76,89 @@ export default [
       icon: <Book size={12} />,
       navLink: "/comments",
     },
+    {
+      id: "buildinglist",
+      title: " ساختمان ها",
+      icon: <MapPin size={12} />,
+      navLink: "/building",
+    },
+    {
+      id: "AssistanceworlList",
+      title: " تسک ها",
+      icon: <Book size={12} />,
+      navLink: "/AssistanceWork",
+    },    
 
-
-
+    {
+      id: "courses",
+      title: "مدیریت دوره ها",
+      icon: <Code size={20} />,
+      children: [
   {
     id: "courses",
     title: "لیست دوره ها",
     icon: <Book size={20} />,
     navLink: "/courses",
+    icon: <Circle />,    
+  },      {
+    title: "دوره های رزرو شده",
+    navLink: "/coursereserved",
+    icon: <Circle />,
   },
   {
+
+    title: "دوره های من",
+    navLink: "/mycourses",
+    icon: <Circle />,
+  },
+  {
+    title: "افزودن دوره",
+    navLink: "/createcourse",
+    icon: <Circle />,
+  }, 
+  {
+    title: "پرداختی ها",
+    navLink: "/coursepayment",
+    icon: <Circle />,
+  },       
+   {
+    title: "گروه های دوره",
+    navLink: "/coursegroups",
+    icon: <Circle />,
+  },
+  {
+    title: "افزودن گروه دوره",
+    navLink: "/createcoursegroup",
+    icon: <Circle />,
+  },
+  {
+    title: "کامنت های دوره",
+    navLink: "/coursecomments",
+    icon: <Circle />,
+  }, 
+   {
+    title: "کلاس ها",
+    navLink: "/classes",
+    icon: <Circle />,
+  },  
+  
+
+      ]
+    },
+
+  {
+    title: "تقویم",
+    navLink: "/calendar",
+    icon: <Calendar />,
+  },    
+
+
+    {
     id: "chat",
     title: "چت",
     icon: <MessageSquare size={20} />,
     navLink: "/chat",
   },
+
 
 ];

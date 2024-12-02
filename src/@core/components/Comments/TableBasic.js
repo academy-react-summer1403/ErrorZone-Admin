@@ -1,14 +1,5 @@
-// ** Custom Components
-import AvatarGroup from '@components/avatar-group'
-import react , {useState} from 'react'
-// ** Images
-// import react from '@src/assets/images/icons/react.svg'
-import vuejs from '@src/assets/images/icons/vuejs.svg'
-import angular from '@src/assets/images/icons/angular.svg'
-import bootstrap from '@src/assets/images/icons/bootstrap.svg'
-import avatar1 from './../../assets/images/portrait/small/jpmen.jpg'
 
-
+import react , {useState , useEffect , Fragment} from 'react'
 // ** Icons Imports
 import { MoreVertical, Edit, Trash, Eye, FileText } from 'react-feather'
 
@@ -27,6 +18,7 @@ import {
   CardTitle,
   CardHeader, 
   Card,
+  Tooltip,
 } from 'reactstrap'
 import useQueryGet from '../../../customHook/useQueryGet'
 import { CustomPagination } from '../pagination'
@@ -36,20 +28,31 @@ import { selectThemeColors } from '../../../utility/Utils'
 import CommentModal from '../commentManegment/commentModal/commentModal'
 import ReplyComment from '../commentManegment/commentReply/commentReply'
 import useMutationPost from '../../../customHook/useMutationPost'
-import { deleteComments } from '../../../core/services/Paper'
+import { accComment, addReply, decComment, delComment, deleteComments, getComment, getRepComnt } from '../../../core/services/Paper'
 import toast from "react-hot-toast";
 import { useQueryClient } from '@tanstack/react-query'
+import Avatar from '../avatar'
+import blanckthumbnail from "./../../../@core/assets/images/portrait/small/blank-thumbnail.jpg"
 
 
 const CommentTable = () => {
   // const [comments, setComments] = useState([])
-  const [rowsPerPage, setRowsPerPage] = useState("10")
+  const [list, setList] = useState([]);
+  const [rowsPerPage, setRowPerPage] = useState("10");
   const [currentPage, setCurrentPage] = useState("1");
-  const [search, setSearch] = useState()
+  const [totalcount, setTotalCount] = useState("");
+  const [repCom, setRepCom] = useState([]);
+  const [tooltipOpen, setTooltipOpen] = useState({});
+  //const [search, setSearch] = useState()
   const [comModal, setComModal] = useState(false);
-  const [courseId, setCourseID] = useState(null);
-  const [commentId, setCommentId] = useState(null);
+ // const [courseId, setCourseID] = useState(null);
+ // const [commentId, setCommentId] = useState(null);
+  const [crsid, setCrsid] = useState(null);
+  const [cmntid, setCmntid] = useState(null);
+  const [refetch, setRefetch] = useState(true);
   const [repShow, setRepShow] = useState(false);
+  const [describe, setDescribe] = useState("");
+  const [searched, setSearched] = useState("");
   const [sortCol, setSortCol] = useState({
     value: null,
     label: "انتخاب کنید...",
@@ -59,13 +62,13 @@ const CommentTable = () => {
     value: null,
     label: "انتخاب کنید...",
   });
-
+  const sort = sortCol.value;
   const accept = accepted.value;
 
-  const handlePerPage = (e) => {
-    const value = parseInt(e.currentTarget.value);
-    setRowsPerPage(value);
-  };
+  // const handlePerPage = (e) => {
+  //   const value = parseInt(e.currentTarget.value);
+  //   setRowsPerPage(value);
+  // };
 
   const isAcceptOptions = [
     { value: null, label: "انتخاب کنید..." },
@@ -75,13 +78,47 @@ const CommentTable = () => {
  
   const queryCliets = useQueryClient()
 
-  const { data:getComments } = useQueryGet(["getComments"] , `/Course/CommentManagment?${currentPage ? `PageNumber=${currentPage}` : ""}&${rowsPerPage ? `RowsOfPage=${rowsPerPage}` : ""}&SortingCol=DESC&SortType=InsertDate&${search ? `Query=${search}` : ""}&${accept ? `Accept=${accept}` : ""}&userId=`)
+ // const { data:getComments } = useQueryGet(["getComments"] , `/Course/CommentManagment?${currentPage ? `PageNumber=${currentPage}` : ""}&${rowsPerPage ? `RowsOfPage=${rowsPerPage}` : ""}&SortingCol=DESC&SortType=InsertDate&${search ? `Query=${search}` : ""}&${accept ? `Accept=${accept}` : ""}&userId=`)
   
-  const { mutate:addReplyComments } = useMutationPost( "/Course/AddReplyCourseComment"  , ["addReplyComments"])
+  //const { mutate:addReplyComments } = useMutationPost( "/Course/AddReplyCourseComment"  , ["getComments"])
 
-  const { mutate:acceptComments } = useMutationPost( `/Course/AcceptCourseComment?CommentCourseId=${commentId}` , ["acceptComments"])
+  //const { mutate:acceptComments } = useMutationPost( `/Course/AcceptCourseComment?CommentCourseId=${commentId}` , ["getComments"])
    
-  const { mutate:rejectComments } = useMutationPost( `/Course/RejectCourseComment?CommentCourseId=${commentId}` , ["rejectComments"]) 
+  //const { mutate:rejectComments } = useMutationPost( `/Course/RejectCourseComment?CommentCourseId=${commentId}` , ["getComments"]) 
+
+   const allComment = async (search, currentPage, rowsPerPage, accept, sort) => {
+     try {
+       const getCommentListt = await getComment(
+         search,
+         currentPage,
+         rowsPerPage,
+         accept,
+         sort
+       );
+       setList(getCommentListt?.comments);
+       setTotalCount(getCommentListt?.totalCount);
+     } catch (error) {
+       console.error("ERROR: ", error);
+     }
+   };
+
+  const addReplyComment = async (e) => {
+    try {
+      const dataa = { ...e, CourseId: crsid, CommentId: cmntid };
+      const data = new FormData();
+      const keys = Object.keys(dataa);
+      keys.forEach((key) => {
+        const item = dataa[key];
+        data.append(key, item);
+      });
+      const res = await addReply(data);
+      res.success? toast.success(res.message): toast.error(res.message)
+
+    } catch (error) {
+      console.error("ERROR: ", error);
+    }
+  };
+
 
   const handleDelete = async (e) => {
     const res = await deleteComments(e)
@@ -90,8 +127,77 @@ const CommentTable = () => {
     }
   }
 
+  const handleAcceptComment = async (e) => {
+    try {
+      const res = await accComment(e);
+      res.success && setRefetch((old) => !old);
+    } catch (error) {
+      console.error("ERROR: ", error);
+    }
+  };
+
+  const handleDeclineComment = async (e) => {
+    try {
+      const res = await decComment(e);
+      res.success && setRefetch((old) => !old);
+    } catch (error) {
+      console.error("ERROR: ", error);
+    }
+  };
+
+  const handleDeleteComment = async (e) => {
+    try {
+      const res = await delComment(e);
+      res.success && setRefetch((old) => !old);
+    } catch (error) {
+      console.error("ERROR: ", error);
+    }
+  };
+
+  const toggleTooltip = (id) => {
+    setTooltipOpen({ ...tooltipOpen, [id]: !tooltipOpen[id] });
+  };
+
+  useEffect(() => {
+    allComment(searched, currentPage, rowsPerPage, accept, sort);
+  }, [searched, currentPage, rowsPerPage, accept, sort, refetch]);
+
+  useEffect(() => {
+    if (crsid && cmntid) {
+      handleReplyComment(crsid, cmntid);
+    }
+  }, [refetch, crsid, cmntid]);
+
+  const handleReplyComment = async (crsid, cmntid) => {
+    try {
+      const res = await getRepComnt(crsid, cmntid);
+      setRepCom(res);
+    } catch (error) {
+      console.error("ERROR: ", error);
+    }
+  };
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+  const statusOptions = [
+    { value: null, label: "انتخاب کنید..." },
+    { value: "replyCount", label: "تعداد ریپلی" },
+  ];
+
+  const AscDescOptions = [
+    { value: null, label: "انتخاب کنید..." },
+    { value: "ASC", label: "صعودی" },
+    { value: "DESC", label: "نزولی" },
+  ];
+
+  const handlePerPage = (e) => {
+    const value = parseInt(e.currentTarget.value);
+    setRowPerPage(value);
+  };
+
+
   return (
-    <> 
+    <Fragment>
       <Card>
         <CardHeader>
           <CardTitle tag="h4">فیلتر</CardTitle>
@@ -113,78 +219,118 @@ const CommentTable = () => {
             <Col md="4">
               <Label for="status-select">وضعیت</Label>
               <Select
-                //theme={selectThemeColors}
-                //isClearable={false}
-                //className="react-select"
-                //classNamePrefix="select"
-                //options={statusOptions}
-                //value={sortCol}
-                //onChange={(data) => setSortCol(data)}
+                theme={selectThemeColors}
+                isClearable={false}
+                className="react-select"
+                classNamePrefix="select"
+                options={statusOptions}
+                value={sortCol}
+                onChange={(data) => setSortCol(data)}
               />
             </Col>
           </Row>
         </CardBody>
       </Card>
-    
-    <CustomHeader 
-    queryCliets={queryCliets}
-    setSearched={setSearch}
-    handlePerPage={handlePerPage}
-    />
-    <Table responsive>
-
-      <thead>
-        <tr>
-          <th>کاربر</th>
-          <th>عنوان کامنت</th>
-          <th>نمایش کامنت</th>
-          <th>دوره</th>
-          <th> وضعیت</th>
-          <th> پاسخ ها </th>          
-          <th>اقدام</th>
-        </tr>
-      </thead>
-      
-      {getComments?.comments?.map((item) => (    
-      <tbody>
-        <tr>
-          <td>
-            <img className='me-75' src={avatar1} height='20' width='20' style={{borderRadius: "60px"}} />
-            <span className='align-middle fw-bold'>{item?.userFullName} </span>
-          </td>
-          <td> {item.commentTitle} </td>
-          <td>
-            {item.describe}
-          </td>
-          <td>
-            {item.courseTitle}
-          </td>
-          <td>
-          {item.accept === true ? (
-              <Badge pill color="light-success" className="me-1">
-                تایید شده
-              </Badge>
-                 ) : (
-              <Badge pill color="light-warning" className="me-1">
-                تایید نشده
-              </Badge>
-              )}
-          </td>  
-          <td>
-            <td style={{cursor: "pointer"}}>
-                {item?.replyCount > 0 ? (
-                  <Eye size={20}
-                  onClick={() => {
-                    setComModal(!comModal);
-                    setCourseID(item?.courseId)
-                    setCommentId(item?.commentId)
-                  }}
-                  />
-                ) 
-                : ("")}
-            </td>
-          </td>               
-            <td className="px-0 text-center">
+      <Card>
+        <div className="react-dataTable">
+          <CustomHeader
+            toggleSidebar={toggleSidebar}
+            setSearched={setSearched}
+            handlePerPage={handlePerPage}
+            rowsPerPage={rowsPerPage}
+            setRowPerPage={setRowPerPage}
+          />
+          <Table hover>
+            <thead>
+              <tr>
+                <th>کاربر</th>
+                <th>عنوان کامنت</th>
+                <th>نمایش کامنت</th>
+                <th> دوره</th>
+                <th> وضعیت</th>
+                <th className="px-0"> پاسخ ها</th>
+                <th> اقدام</th>
+              </tr>
+            </thead>
+            {list &&
+              list.map((item, index) => {
+                const tooltipId = `tooltip-${index}`;
+                return (
+                  <tbody key={index}>
+                    <tr>
+                      <td
+                        className=" px-0 "
+                        style={{
+                          maxWidth: "130px",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        <span className="mx-1 ">
+                          <Avatar img={blanckthumbnail} />
+                        </span>
+                        <span>{item.userFullName}</span>
+                      </td>
+                      <td className="pr-0 pl-1" style={{ maxWidth: "150px" }}>
+                        {item.commentTitle}
+                      </td>
+                      <td
+                        className="pr-0 pl-1"
+                        id={tooltipId}
+                        style={{
+                          maxWidth: "200px",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        <Tooltip
+                          placement="top"
+                          isOpen={tooltipOpen[tooltipId]}
+                          toggle={() => toggleTooltip(tooltipId)}
+                          innerClassName="table-tooltip"
+                          target={tooltipId}
+                        >
+                          {item.describe}
+                        </Tooltip>
+                        {item.describe}
+                      </td>
+                      <td className="px-0">{item.courseTitle}</td>
+                      <td className="px-0 text-center">
+                        {item.accept === true ? (
+                          <Badge pill color="light-success" className="me-1">
+                            تایید شده
+                          </Badge>
+                        ) : (
+                          <Badge pill color="light-warning" className="me-1">
+                            تایید نشده
+                          </Badge>
+                        )}
+                      </td>
+                      <td
+                        className="p-0 text-center"
+                        style={{
+                          maxWidth: "20px",
+                          minWidth: "20px",
+                        }}
+                      >
+                        {item.replyCount > 0 ? (
+                          <Eye
+                            style={{ width: "18px", height: "16px" }}
+                            onClick={() => {
+                              setComModal(!comModal);
+                              setCrsid(item.courseId);
+                              setCmntid(item.commentId);
+                              handleReplyComment(item.courseId, item.commentId);
+                              setDescribe(item.describe);
+                            }}
+                          />
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td className="px-0 text-center">
                         <UncontrolledDropdown direction="start">
                           <DropdownToggle
                             className="icon-btn hide-arrow"
@@ -198,8 +344,7 @@ const CommentTable = () => {
                             <DropdownMenu className="d-flex flex-column p-0  ">
                               <DropdownItem
                                 onClick={(e) => {
-                                  e.preventDefault(e)
-                                  acceptComments(item?.commentId);
+                                  handleAcceptComment(item.commentId);
                                 }}
                               >
                                 <FileText className="me-50" size={15} />{" "}
@@ -207,8 +352,8 @@ const CommentTable = () => {
                               </DropdownItem>
 
                               <DropdownItem
-                                onClick={e => {
-                                  handleDelete(item?.commentId);
+                                onClick={(e) => {
+                                  handleDeleteComment(item.commentId);
                                 }}
                               >
                                 <Trash className="me-50" size={15} />{" "}
@@ -218,17 +363,17 @@ const CommentTable = () => {
                           ) : (
                             <DropdownMenu className="d-flex flex-column p-0 ">
                               <DropdownItem
-                                onClick={e => {
-                                  rejectComments(item?.commentId);
+                                onClick={(e) => {
+                                  handleDeclineComment(item.commentId);
                                 }}
                               >
                                 <Edit className="me-50" size={15} />{" "}
                                 <span className="align-middle">رد کردن</span>
                               </DropdownItem>
                               <DropdownItem
-                                   onClick={e => {
-                                    handleDelete(item?.commentId);
-                                  }}
+                                onClick={(e) => {
+                                  handleDeleteComment(item.commentId);
+                                }}
                               >
                                 <Trash className="me-50" size={15} />{" "}
                                 <span className="align-middle">حذف</span>
@@ -236,7 +381,9 @@ const CommentTable = () => {
                               <DropdownItem
                                 onClick={() => {
                                   setRepShow(!repShow);
-                                  addReplyComments()
+                                  addReplyComment();
+                                  setCrsid(item.courseId);
+                                  setCmntid(item.commentId);
                                 }}
                               >
                                 <Trash className="me-50" size={15} />{" "}
@@ -246,38 +393,34 @@ const CommentTable = () => {
                           )}
                         </UncontrolledDropdown>
                       </td>
-
-
-
-        </tr>
-      </tbody>
-      ) )}  
-    </Table>
-   <CustomPagination 
-   queryCliets={queryCliets}
-   total={getComments?.totalCount}
-   rowsPerPage={rowsPerPage}
-   current={currentPage}
-   setCurrent={setCurrentPage}
-  />
-   <CommentModal 
-    setComModal={setComModal}
-    comModal={comModal}
-    courseId={courseId}
-    commentId={commentId}
-    acceptComments={acceptComments}
-    handleDelete={handleDelete}
-    rejectComments={rejectComments}
-    addReplyComments={addReplyComments}
-   />
-   <ReplyComment
-   repShow={repShow}
-   setRepShow={setRepShow}
-   addReplyComments={addReplyComments}
-   courseId={courseId}
-   commentId={commentId}
-   />
-    </>
+                    </tr>
+                  </tbody>
+                );
+              })}
+          </Table>
+        </div>
+      </Card>
+      <CustomPagination
+        total={totalcount}
+        current={currentPage}
+        setCurrent={setCurrentPage}
+        rowsPerPage={rowsPerPage}
+      />
+      <CommentModal
+        setComModal={setComModal}
+        comModal={comModal}
+        repCom={repCom}
+        handleAcceptComment={handleAcceptComment}
+        handleDeclineComment={handleDeclineComment}
+        handleDeleteComment={handleDeleteComment}
+        describe={describe}
+      />
+      <ReplyComment
+        repShow={repShow}
+        setRepShow={setRepShow}
+        addReplyComment={addReplyComment}
+      />
+    </Fragment>
   )
 }
 

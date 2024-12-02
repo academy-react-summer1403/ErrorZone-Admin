@@ -56,6 +56,8 @@ const Login = () => {
 
   const { mutate, isPending, isError } = useMutationPostOnSuccesOpt('/Sign/Login', (value) => {
     if (value.roles.indexOf("Administrator") != -1) {
+      setItem("Token", value.token);
+      setItem("userId", value.id);
       setItem("Token1", value.token);
       dispatch(setIslogin(true));
       navigate("/home");

@@ -10,31 +10,36 @@ import { COURSE_RESERVED_COMMON_COLUMNS } from "./course-reserved-common-columns
 // ** Image Imports
 import blankThumbnail from "../../../assets/images/portrait/small/blank-thumbnail.jpg";
 import useQueryGet from "../../../../customHook/useQueryGet";
+import { getCourseByIdAPI } from "../../../../core/services/Paper";
 
-export const COURSE_RESERVED_PAGE_COLUMNS = (isUserDetailsPage) => [
+export const COURSE_RESERVED_PAGE_COLUMNS = (isUserDetailsPage , changeFlage, setChangeFlage ) => [
+
+  
   {
     name: "نام دوره",
     reorder: true,
     width: isUserDetailsPage ? "110px" : "200px",
     cell: (row) => {
       // ** States
-      //const [course, setCourse] = useState();
+      const [course, setCourse] = useState();
+  
 
-      const { data:course } = useQueryGet("[course]" , `/Course/${row?.id}`)
+      // const { data:course } = useQueryGet("[course]" , `/Course/${row?.id}`)
       // ** Get Course
-      // useEffect(() => {
-      //   const fetchCourse = async () => {
-      //     try {
-      //       const getCourse = await getCourseByIdAPI(row.courseId);
 
-      //       setCourse(getCourse);
-      //     } catch (error) {
-      //       toast.error("مشکلی در دریافت دوره به وجود آمد !");
-      //     }
-      //   };
+       useEffect(() => {
+         const fetchCourse = async () => {
+           try {
+             const getCourse = await getCourseByIdAPI(row.courseId);
 
-      //   fetchCourse();
-      // }, []);
+             setCourse(getCourse);
+           } catch (error) {
+             toast.error("مشکلی در دریافت دوره به وجود آمد !");
+           }
+         };
+
+         fetchCourse();
+       }, [changeFlage]);
 
       return (
         <Link
@@ -83,5 +88,5 @@ export const COURSE_RESERVED_PAGE_COLUMNS = (isUserDetailsPage) => [
       );
     },
   },
-  ...COURSE_RESERVED_COMMON_COLUMNS("/course-reserved"),
+  ...COURSE_RESERVED_COMMON_COLUMNS(changeFlage , setChangeFlage),
 ];

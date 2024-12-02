@@ -20,6 +20,6 @@ export const renderRoleName = (roles) => {
   } else if (roles?.includes("Support")) {
     return "پشتیبان";
   } else {
-    return "کاربر نابغه";
+    return "کاربر دنجر";
   }
 };

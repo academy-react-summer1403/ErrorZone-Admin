@@ -3,7 +3,8 @@ import { useState, Fragment } from "react";
 
 // ** Reactstrap Imports
 import { Card, CardBody, Button, Badge, Tooltip } from "reactstrap";
-
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css'; 
 // ** Third Party Components
 import Swal from "sweetalert2";
 import { Check, Briefcase, X, Edit } from "react-feather";
@@ -153,6 +154,8 @@ const reservve=ress?.filter((item)=>{return(item.accept== false)})
     });
   };
 
+  const percentage = userDetails?.profileCompletionPercentage || 0; 
+
   return (
     <Fragment>
       <Card>
@@ -229,6 +232,27 @@ const reservve=ress?.filter((item)=>{return(item.accept== false)})
                 <small>دوره های رزرو</small>
               </div>
             </div>
+            <div className='d-flex align-items-center' >
+              <div style={{ width: "55px", height: "55px",  }}>
+                <CircularProgressbar
+                  value={percentage}
+                  text={`${percentage}%`}
+                  styles={buildStyles({
+                    pathColor: `rgba(62, 152, 199, ${percentage / 100})`, 
+                    textColor: '#000',
+                    trailColor: '#d6d6d6', 
+                    backgroundColor: '#85d8ee' 
+                  })}
+                />
+              </div>
+              <div className='ms-75'>
+                <h4 className='mb-0'>
+                  {percentage > 0 ? percentage + '%' : 'این کاربر پروفایل خود را تکمیل نکرده'}
+                </h4>
+                <small>درصد تکمیل پروفایل</small>
+              </div>
+            </div>
+
           </div>
           <h4 className="fw-bolder border-bottom pb-50 mb-1">جزئیات</h4>
           <div className="info-container">
@@ -248,12 +272,12 @@ const reservve=ress?.filter((item)=>{return(item.accept== false)})
                     {userDetails?.active != false ? "فعال" : "غیرفعال"}
                   </Badge>
                 </li>
-                <li className="d-flex mb-75">
+               <li className="d-flex mb-75">
                   <span className="fw-bolder me-25">درصد تکمیل پروفایل:</span>
                   <span className="d-flex gap-2">
                     {userDetails?.profileCompletionPercentage}%
                   </span>
-                </li>
+                </li> 
                 <li className="d-flex mb-75">
                   <span className="fw-bolder me-25">جنسیت:</span>
                   <span className="d-flex gap-2">

@@ -162,7 +162,14 @@ export const USER_COLUMNS = [
       return <span className="text-capitalize">{formattedDate}</span>;
     },
   },
- 
+  // {
+  //   name: "درصد تکمیل پروفایل ",
+  //   width:"130px",
+  //   sortable:true,
+  //   sortField:"processbar",
+  //   cell : (row) =>{ console.log("row" , row) }
+
+  // },
   {
     name: "وضعیت",
     width: "120px",

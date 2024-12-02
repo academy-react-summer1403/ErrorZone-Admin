@@ -81,9 +81,6 @@ const UserComments = ({ comList, accptCmnt, rejCmnt, delCmnt , onvan , queryclie
                         {item.title?item.title:item.commentTitle}
                       </td>
                       <td style={{maxWidth:"220px"}} className=" p-0">{item.describe}</td>
-                      {/* <td>
-            ریپلی
-          </td> */}
                       <td className=" p-0" 
                       onClick={item.accept === true ? () => rejCmnt(item.id? item.id:item.commentId): () => accptCmnt(item.id? item.id:item.commentId)}
                       >
