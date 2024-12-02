@@ -1,0 +1,43 @@
+.chatList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+
+    .add {
+      cursor: pointer;
+    }
+  }
+
+}
+.chatList > .item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+
+  .texts {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: min-content;
+
+    span{
+      font-weight: 500;
+    }
+  }
+}
+    p{
+      margin: 0;
+      font-size: 14px;
+      font-weight: 300;
+      height: min-content;
+    }

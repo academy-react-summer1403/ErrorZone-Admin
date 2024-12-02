@@ -1,5 +1,5 @@
 
-import { Mail, Home, Airplay, Circle, Book , Users} from "react-feather";
+import { Mail, Home, Airplay, Circle, Book , Users, MessageSquare} from "react-feather";
 
 
 export default [
@@ -86,6 +86,12 @@ export default [
     title: "لیست دوره ها",
     icon: <Book size={20} />,
     navLink: "/courses",
+  },
+  {
+    id: "chat",
+    title: "چت",
+    icon: <MessageSquare size={20} />,
+    navLink: "/chat",
   },
 
 ];

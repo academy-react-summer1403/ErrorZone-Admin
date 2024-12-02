@@ -39,9 +39,13 @@ import { setIslogin } from "../redux/isLogin";
 
 import { useDispatch } from "react-redux"
 import useMutationPost, { useMutationPostOnSuccesOpt } from "../customHook/useMutationPost";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../lib/firebase";
+import { useEffect, useState } from "react";
+import { useUserStore } from "../lib/userStore";
 
 const Login = () => {
-  
+
   const { skin } = useSkin();
 
   const source = skin === "dark" ? illustrationsDark : illustrationsLight;
@@ -52,7 +56,7 @@ const Login = () => {
 
   const { mutate, isPending, isError } = useMutationPostOnSuccesOpt('/Sign/Login', (value) => {
     if (value.roles.indexOf("Administrator") != -1) {
-      setItem("Token", value.token);
+      setItem("Token1", value.token);
       dispatch(setIslogin(true));
       navigate("/home");
       toast(value.message, {
@@ -71,9 +75,38 @@ const Login = () => {
     }
   });
 
-  const onSubmit = data => mutate(data);
+  const handleSignIn = async (e) => {
+    try {
+      await signInWithEmailAndPassword(auth, e.phoneOrGmail, e.password);
+      toast.success("logedin");
+    } catch (error) {
+      console.log(error.message);
+      toast.error("error logging in");
+    }
+  };
+
+  const onSubmit = data => {
+    mutate(data);
+    handleSignIn(data)
+  };
 
   const navigate = useNavigate()
+
+  const { currentUser, fetchUserInfo } = useUserStore();
+
+
+  useEffect(() => {
+
+    const unSub = onAuthStateChanged(auth, (user) =>
+      fetchUserInfo(user?.uid)
+    )
+
+    return () => {
+      unSub();
+    }
+  }, []);
+
+  
 
   if (isPending) return <div>loading ...</div>
   if (isError) return <div>error</div>

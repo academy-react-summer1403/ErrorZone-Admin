@@ -27,6 +27,9 @@ import UserDetail from "../../@core/components/Users/userDetail/userDetail";
 import EditUserPage from "../../pages/EditUser";
 
 import { useSelector } from "react-redux";
+import CreateUserPage from "../../pages/CreateUser";
+import Chat from "../../pages/chat/chat";
+// import AppChat from "../../pages/chat";
 
 
 const getLayout = {
@@ -57,7 +60,7 @@ const CourseDetail = lazy(() => import("../../pages/courses/CourseDetail"));
 
 // console.log(useSelector((state) => state.islogin.isLogin));
 
-const isLogin = Boolean(getItem("Token"));
+const isLogin = Boolean(getItem("Token1"));
 
 // ** Merge Routes
 const Routes = [
@@ -137,10 +140,13 @@ const Routes = [
   },  
   
   {
-    path: "comments",
+    path: "/comments",
    element: <Comments />
   },    
-  
+  {
+    path: "/chat",
+   element: <Chat />
+  },    
   {
     path: "/login",
     element: <Login />,

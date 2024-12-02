@@ -3,7 +3,7 @@ import { getItem } from "../core/services/common/storage.services";
 
 export const isLoginSlice = createSlice({
     name: "islogin",
-    initialState: Boolean(getItem("Token")),
+    initialState: Boolean(getItem("Token1")),
     reducers: {
         setIslogin: (state, action) => state.isLogin = action.payload,
     }
