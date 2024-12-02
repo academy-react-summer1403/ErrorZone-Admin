@@ -51,11 +51,8 @@ import AssistanceWork from "../../pages/AssistanceWork";
 import ClassRoom from "../../pages/ClassRoom";
 import AssistanceCourse from "../../pages/AssistanceCourse";
 //import CreateUserPage from "../../pages/CreateUser";
-import CreateUserPage from "../../pages/CreateUser";
 import Chat from "../../pages/chat/chat";
 // import AppChat from "../../pages/chat";
-
-
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -69,7 +66,6 @@ const TemplateTitle = "%s - Vuexy React Admin Template";
 // ** Default Route
 const DefaultRoute = "/home";
 const DefaulNotLogintRoute = "/login";
-
 
 const Home = lazy(() => import("../../pages/Home"));
 const SecondPage = lazy(() => import("../../pages/SecondPage"));
@@ -87,22 +83,23 @@ const CreateUserPage = lazy(() => import("../../pages/CreateUser"));
 
 const isLogin = Boolean(getItem("Token1"));
 
-
 // ** Merge Routes
 const Routes = [
   {
     path: "/",
     index: true,
-    element: <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />,
+    element: (
+      <Navigate replace to={isLogin ? DefaultRoute : DefaulNotLogintRoute} />
+    ),
   },
   {
     path: "/home",
-    element:<Home />,
+    element: <Home />,
   },
   {
     path: "/courses",
     //element: <CoursesPages />,
-    element: <Courses />
+    element: <Courses />,
   },
   {
     path: "/courseDetail/:id",
@@ -138,15 +135,15 @@ const Routes = [
     path: "/coursepayment",
     element: <Payment />,
   },
-  
-   {
+
+  {
     path: "/classes",
     element: <ClassRoom />,
-  }, 
+  },
   {
     path: "/coursecomments",
-    element: <CourseCommentsPage/>,
-  },  
+    element: <CourseCommentsPage />,
+  },
   {
     path: "/coursegroups/:id",
     element: <CourseGroupDetailsPage />,
@@ -157,105 +154,100 @@ const Routes = [
   },
   {
     path: "/users",
-    element : <Users />
+    element: <Users />,
   },
 
   {
     path: "/users/:id",
-    element: <UserDetail />
+    element: <UserDetail />,
   },
   {
     path: "/users/Payments/:id",
-    element : <UserPaymentsDetail />
+    element: <UserPaymentsDetail />,
   },
   {
     path: "/user/edit/:id",
-    element: <EditUserPage />
+    element: <EditUserPage />,
   },
 
   {
     path: "create-user",
-    element: <CreateUserPage />
+    element: <CreateUserPage />,
   },
-   {
+  {
     path: "/assistancecourse",
-    element: <AssistanceCourse />
-  }, 
+    element: <AssistanceCourse />,
+  },
   {
     path: "/papers",
     //element: <Blogs />
     //element: <News />
-    element:<BlogsList />
+    element: <BlogsList />,
   },
 
   {
     path: "/papers/view/:id",
-   //element: <PapperViews />
-   element: <NewsDetails />
-  }, 
+    //element: <PapperViews />
+    element: <NewsDetails />,
+  },
   {
     path: "/papers/edit/:id",
     element: <EditNews />,
   },
- {
+  {
     path: "/papers/commentsreply/:id",
     element: <GetNewsReplyCommentsModal />,
- },
+  },
   {
     path: "/createPapers",
-   element: <CreateNewsPage />
-  },   
-  
+    element: <CreateNewsPage />,
+  },
+
   {
     path: "/newsCategory",
-   element: <CategoriesPage />
-  }, 
-  
+    element: <CategoriesPage />,
+  },
+
   {
     path: "/create-category",
-   element: <CreateCategory />
-  }, 
-  
+    element: <CreateCategory />,
+  },
+
   {
     path: "/create-category/edit/:id",
-   element: <EditCategoryPage />
-  },  
-  
+    element: <EditCategoryPage />,
+  },
+
   {
     path: "/comments",
-   element: <Comments />
+    element: <Comments />,
+  },
 
-  }, 
-
-   {
+  {
     path: "/building",
-   element: <Building />
-  },  
-   {
+    element: <Building />,
+  },
+  {
     path: "/AssistanceWork",
-   element: <AssistanceWork />
-  },  
-     
-   {
-    path: "/calendar",
-   element: <CalendarComponent />
-  }, 
-      
+    element: <AssistanceWork />,
+  },
 
-  },    
+  {
+    path: "/calendar",
+    element: <CalendarComponent />,
+  },
+
   {
     path: "/chat",
-   element: <Chat />
-  },    
+    element: <Chat />,
+  },
 
   {
     path: "/login",
-    element:  <Login />,
+    element: <Login />,
     meta: {
       layout: "blank",
     },
-
-    
   },
   {
     path: "/register",
@@ -266,7 +258,7 @@ const Routes = [
   },
   {
     path: "/forgot-password",
-    element: <ForgotPassword /> ,
+    element: <ForgotPassword />,
     meta: {
       layout: "blank",
     },
@@ -321,7 +313,7 @@ const MergeLayoutRoutes = (layout, defaultLayout) => {
             // eslint-disable-next-line multiline-ternary
             isObjEmpty(route.element.props) && isBlank === false
               ? // eslint-disable-next-line multiline-ternary
-              LayoutWrapper
+                LayoutWrapper
               : Fragment;
 
           route.element = (
