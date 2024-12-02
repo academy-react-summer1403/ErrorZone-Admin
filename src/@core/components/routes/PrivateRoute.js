@@ -11,7 +11,7 @@ import Spinner from "../spinner/Loading-spinner";
 const PrivateRoute = ({ children, route }) => {
   // ** Hooks & Vars
   const ability = useContext(AbilityContext);
-  const user = JSON.parse(localStorage.getItem("Token"));
+  const user = JSON.parse(localStorage.getItem("Token1"));
 
   if (route) {
     let action = null;

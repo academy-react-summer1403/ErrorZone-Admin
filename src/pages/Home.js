@@ -1,3 +1,5 @@
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect } from "react";
 import {
   Col, 
   Row,
@@ -16,9 +18,26 @@ import { ThemeColors } from '@src/utility/context/ThemeColors'
 import RevenueReport from "../@core/components/RevenuReport/RevenuReport";
 import CardBrowserState from "../@core/components/CardBrowsState/CardBrowsState";
 import CompanyTable from "../@core/components/dashboard/CompanyTable";
+import { auth } from "../lib/firebase";
+import { useUserStore } from "../lib/userStore";
+
 
 const Home = () => {
-  const [dashboardReport, setDashboardReport] = useState();
+  const { currentUser, fetchUserInfo } = useUserStore();
+
+  useEffect(() => {
+
+    const unSub = onAuthStateChanged(auth, (user) =>
+      fetchUserInfo(user?.uid)
+    )
+
+    return () => {
+      unSub();
+    }
+  }, []);
+
+
+    const [dashboardReport, setDashboardReport] = useState();
 
   const { colors } = useContext(ThemeColors)
 
@@ -41,6 +60,8 @@ const Home = () => {
   }, []);
 
   const trackBgColor = '#e9ecef'
+  
+ 
 
 
   return (

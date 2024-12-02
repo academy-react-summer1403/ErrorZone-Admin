@@ -51,6 +51,10 @@ import AssistanceWork from "../../pages/AssistanceWork";
 import ClassRoom from "../../pages/ClassRoom";
 import AssistanceCourse from "../../pages/AssistanceCourse";
 //import CreateUserPage from "../../pages/CreateUser";
+import CreateUserPage from "../../pages/CreateUser";
+import Chat from "../../pages/chat/chat";
+// import AppChat from "../../pages/chat";
+
 
 
 const getLayout = {
@@ -81,8 +85,8 @@ const CreateUserPage = lazy(() => import("../../pages/CreateUser"));
 
 // console.log(useSelector((state) => state.islogin.isLogin));
 
+const isLogin = Boolean(getItem("Token1"));
 
-const isLogin = Boolean(getItem("Token"));
 
 // ** Merge Routes
 const Routes = [
@@ -220,6 +224,7 @@ const Routes = [
   {
     path: "/comments",
    element: <Comments />
+
   }, 
 
    {
@@ -236,6 +241,13 @@ const Routes = [
    element: <CalendarComponent />
   }, 
       
+
+  },    
+  {
+    path: "/chat",
+   element: <Chat />
+  },    
+
   {
     path: "/login",
     element:  <Login />,

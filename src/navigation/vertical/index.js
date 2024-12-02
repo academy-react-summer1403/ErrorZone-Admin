@@ -1,6 +1,6 @@
 
-import { Mail, Home, Airplay, Circle, Book , Users , Code, Calendar, MapPin, BookOpen} from "react-feather";
 
+import { Mail, Home, Airplay, Circle, Book , Users , Code, Calendar, MapPin, BookOpen , MessageSquare} from "react-feather";
 
 export default [
   {
@@ -106,6 +106,7 @@ export default [
     icon: <Circle />,
   },
   {
+
     title: "دوره های من",
     navLink: "/mycourses",
     icon: <Circle />,
@@ -151,6 +152,13 @@ export default [
     icon: <Calendar />,
   },    
 
+
+    {
+    id: "chat",
+    title: "چت",
+    icon: <MessageSquare size={20} />,
+    navLink: "/chat",
+  },
 
 
 ];
