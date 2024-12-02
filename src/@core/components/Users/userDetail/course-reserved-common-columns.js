@@ -14,7 +14,7 @@ import { Check, X } from "react-feather";
 import { deleteCourseReserveAPI, getCourseByIdAPI, getCourseGroupAPI, sendReserveToCourseAPI } from "../../../../core/services/Paper";
 import { convertDateToPersian } from "../../../../utility/hooks/date-helper.utils";
 
-export const COURSE_RESERVED_COMMON_COLUMNS = (redirectUrl) => [
+export const COURSE_RESERVED_COMMON_COLUMNS = (  changeFlage , setChangeFlage) => [
   {
     name: "زمان رزرو",
     reorder: true,
@@ -42,6 +42,10 @@ export const COURSE_RESERVED_COMMON_COLUMNS = (redirectUrl) => [
 
       const navigate = useNavigate();
 
+      const ChangeHandler = () => {
+        setChangeFlage(!changeFlage)
+      }
+
       // ** Function for handle change course reserve to student course
       const handleChangeCourseReserveToStudentCourse = async () => {
         try {
@@ -58,12 +62,13 @@ export const COURSE_RESERVED_COMMON_COLUMNS = (redirectUrl) => [
 
           if (sendReserveToCourse.success) {
             toast.success("رزرو با موفقیت تایید شد !");
-            navigate(redirectUrl);
+            // navigate(redirectUrl);
+            ChangeHandler()
           } else {
             toast.error(sendReserveToCourse.ErrorMessage);
           }
         } catch (error) {
-          toast.error("مشکلی در تایید رزرو دوره به وجود آمد !");
+          toast.error("این دانشجو قبلا به دوره رزرو افزوده شده است!");
         }
       };
 
@@ -76,7 +81,8 @@ export const COURSE_RESERVED_COMMON_COLUMNS = (redirectUrl) => [
 
           if (deleteCourseReserve.success) {
             toast.success("رزرو با موفقیت حذف شد !");
-            navigate("/courses");
+            // navigate("/courses");
+            ChangeHandler()
           } else {
             toast.error("مشکلی در حذف دوره به وجود آمد !");
             toast.error(deleteCourseReserveAPI.message);

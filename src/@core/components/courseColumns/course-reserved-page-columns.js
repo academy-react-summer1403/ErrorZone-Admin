@@ -9,7 +9,7 @@ import { COURSE_RESERVED_COMMON_COLUMNS } from "./course-reserved-common-columns
 import blankThumbnail from "./../../assets/images/portrait/small/blank-thumbnail.jpg";
 import { getCourseByIdAPI } from "../../../core/services/Paper";
 
-export const COURSE_RESERVED_PAGE_COLUMNS = (isUserDetailsPage) => [
+export const COURSE_RESERVED_PAGE_COLUMNS = (changeHandler ,isUserDetailsPage) => [
   {
     name: "نام دوره",
     reorder: true,
@@ -80,5 +80,5 @@ export const COURSE_RESERVED_PAGE_COLUMNS = (isUserDetailsPage) => [
       );
     },
   },
-  ...COURSE_RESERVED_COMMON_COLUMNS("/coursereserved"),
+  ...COURSE_RESERVED_COMMON_COLUMNS(changeHandler),
 ];

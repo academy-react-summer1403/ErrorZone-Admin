@@ -14,6 +14,8 @@ import StatsCard from "../@core/components/StatsCard";
 import CardProfile from "../@core/components/CardProfile/CardProfile";
 import { ThemeColors } from '@src/utility/context/ThemeColors'
 import RevenueReport from "../@core/components/RevenuReport/RevenuReport";
+import CardBrowserState from "../@core/components/CardBrowsState/CardBrowsState";
+import CompanyTable from "../@core/components/dashboard/CompanyTable";
 
 const Home = () => {
   const [dashboardReport, setDashboardReport] = useState();
@@ -38,17 +40,17 @@ const Home = () => {
     fetchDashboardReport();
   }, []);
 
-
+  const trackBgColor = '#e9ecef'
 
 
   return (
     <div>
     <div>
 
-      <Row>
+      {/* <Row>
         <CardProfile />
         
-      </Row>
+      </Row> */}
 
       <Row className="match-height">
         <Col xl="4" md="6" xs="12">
@@ -70,6 +72,14 @@ const Home = () => {
         
       <Row >
            <RevenueReport  primary={colors.primary.main} warning={colors.warning.main}/>
+      </Row>
+      <Row>
+        <Col> 
+         <CardBrowserState colors={colors} trackBgColor={trackBgColor} />
+         </Col>
+        <Col>       
+         <CompanyTable /> 
+         </Col>  
       </Row>
     </div>
     </div>

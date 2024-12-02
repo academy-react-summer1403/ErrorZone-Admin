@@ -23,8 +23,10 @@ const CourseData = ({
   courseLikeTotal,
   describe,
   course,
+  refetch
+
 }) => {
-  const {data: Category, refetch: refetchCat, isLoading: isLoadingCat} = useQueryGet(['GetCategory'], "/Home/GetTechnologies")
+  const {data: Category, refetch: refetchCat, isLoading: isLoadingCat} = useQueryGet(['GetDetailCourse'], "/Home/GetTechnologies")
   const [currentStatus, setCurrentStatus] = useState({value: '', label: course?.courseStatusName || 'انتخاب کنید'})
   
   const [currentCat, setCurrentCat] = useState({value: '', label: course?.courseTeches[1] || 'انتخاب کنید'})
@@ -114,7 +116,8 @@ const CourseData = ({
       <Card>
         <h4 style={{marginRight: "10px" , marginTop: "10px"}}>  تکنولوژی:  </h4>
         <CardBody>
-           <div>
+           <div style={{display: "flex" , gap: "20px"}}>
+            <div style={{width: "500px",}}> 
             <Select            
              isClearable={false}
             id='tech'
@@ -130,11 +133,14 @@ const CourseData = ({
               if(response.success == true){
                 if(response.message.match('تکنولوژی برای این کورس قبلا افزوده شده.عملیات با موفقیت انجام شد.')){
                   toast.error(' این تکنولوژی قبلا برای این دوره ثبت شده است ')
+                  refetch()
                 }
                 else{
                   toast.success(response.message)                }
               }
             }}/>
+            </div>
+            <div style={{width: "500px"}}>             
             <Select           
             isClearable={false}
           value={currentStatus}
@@ -151,8 +157,10 @@ const CourseData = ({
             if(response.success == true){
               toast.dismiss()
               toast.success(response.message)
+              refetch()
             }
           }}/>
+          </div>
           </div>
         </CardBody>
       </Card>

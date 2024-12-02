@@ -12,14 +12,19 @@ import CourseInfoCard from "../@core/components/courseDetail/courseinfoCard/Cour
 import { getCourseByIdAPI, getPayment } from "../core/services/Paper";
 import CourseTabs from "../@core/components/courseDetail/courseTabs";
 import useQueryGet from "../customHook/useQueryGet";
+import { useQuery } from '@tanstack/react-query'
 
 const CourseDetailsPage = () => {
   // ** States
-  const [course, setCourse] = useState();
+  //const [course, setCourse] = useState();
   const [active, setActive] = useState("1");
   const { id } = useParams();
- 
+ const [changeFlag, setChangeFlag] = useState([])
   //const navigate = useNavigate();
+
+  const ChangeHandler = () => {
+    setChangeFlag(!changeFlag)
+  }
 
   const toggleTab = (tab) => {
     if (active !== tab) {
@@ -27,20 +32,27 @@ const CourseDetailsPage = () => {
     }
   };
 
-  // ** Get Course
-  useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const getCourse = await getCourseByIdAPI(id);
 
-        setCourse(getCourse);
-      } catch (error) {
-        toast.error("مشکلی در دریافت دوره به وجود آمد !");
-      }
-    };
-   //getPay()
-    fetchCourse();
-  }, []);
+  const {data: course, refetch, isLoading} = useQuery({queryKey: ['GetDetailCourse', id], queryFn: () => getCourseByIdAPI(id)})
+ // const {data: course , refetch} = useQueryGet(["getDetail" ] , `/Course/${id}`)
+
+
+
+
+  // ** Get Course
+  //  useEffect(() => {
+  //    const fetchCourse = async () => {
+  //      try {
+  //        const getCourse = await getCourseByIdAPI(id);
+
+  //        setCourse(getCourse);
+  //      } catch (error) {
+  //        toast.error("مشکلی در دریافت دوره به وجود آمد !");
+  //      }
+  //    };
+  //   //getPay()
+  //    fetchCourse();
+  //  }, [changeFlag]);
 
   //if (!course) navigate("/courses");
 
@@ -71,7 +83,7 @@ const getAllPayments = getpayment?.notDonePays
     <div className="app-user-view">
       <Row>
         <Col xl="4" lg="5.2" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
-          <CourseInfoCard course={course}/>
+          <CourseInfoCard course={course} refetch={refetch} />
         </Col>
         <Col
           xl="8"
@@ -81,7 +93,7 @@ const getAllPayments = getpayment?.notDonePays
           className="course-tabs-wrapper"
         >
           <div class="course-tabs">
-             <CourseTabs active={active} toggleTab={toggleTab} course={course} allPayments={getAllPayments} /> 
+             <CourseTabs active={active} toggleTab={toggleTab} course={course} allPayments={getAllPayments} refetch={refetch} /> 
           </div>
         </Col>
       </Row>

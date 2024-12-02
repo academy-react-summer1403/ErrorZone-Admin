@@ -1,7 +1,7 @@
 // ** React Imports
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-
+import react , {useState} from "react"
 // ** Table Columns
 import { NEWS_COLUMNS } from "./news-columns";
 
@@ -158,7 +158,16 @@ const NewsListTable = ({
   setCurrentPage,
   setSort,
   setSearchText,
+  changeFlage,
+  setChangeFlag,
 }) => {
+
+
+
+  const ChangeHandler = () => {
+    setChangeFlag(!changeFlage)
+  }
+
   // ** Function in get data on page change
   const handlePagination = (page) => {
     setCurrentPage(page.selected + 1);
@@ -229,7 +238,7 @@ const NewsListTable = ({
             pagination
             responsive
             paginationServer
-            columns={NEWS_COLUMNS}
+            columns={NEWS_COLUMNS(ChangeHandler)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
             className="react-dataTable"

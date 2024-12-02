@@ -11,6 +11,7 @@ export const CustomPagination = ({
 
 }) => {
   const count = Number(Math.ceil(total / rowsPerPage));
+  console.log("count" , count)
   return (
     <ReactPaginate
       previousLabel={""}

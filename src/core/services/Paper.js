@@ -1027,3 +1027,32 @@ export const UpdateNewsFile = async (data) => {
      return false
    }
 }
+
+export const UpdateBuildding = async (BulldingData , row) => {
+
+  const method = row ? 'put' : 'post'
+const response = await instance[method]('/Building' , BulldingData);
+return response.data; 
+};
+
+export const UpdateAssWork = async (BulldingData , row) => {
+
+  const method = row ? 'put' : 'post'
+const response = await instance[method]('/AssistanceWork' , BulldingData);
+return response.data; 
+};
+
+export const UpdateClassRome = async (BulldingData , row) => {
+
+  const method = row ? 'put' : 'post'
+  let url = '/ClassRoom'
+const response = await instance[method](url , BulldingData);
+return response.data; 
+};
+
+export const UpdateAssCourse = async (BulldingData , row) => {
+
+  const method = row ? 'put' : 'post'
+const response = await instance[method]('/CourseAssistance' , BulldingData);
+return response.data; 
+};

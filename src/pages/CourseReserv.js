@@ -31,6 +31,11 @@ const CourseReservedPage = () => {
   const [acceptReserves, setAcceptReserves] = useState(false);
   const [isNotAcceptedReserves, setIsNotAcceptedReserves] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
+  const [changeFlag, setChangeFlag] = useState([])
+
+  const changeHandler = () => {
+    setChangeFlag(!changeFlag)
+  }
 
   const dataToRender = () => {
     if (isAllReserves) {
@@ -96,7 +101,7 @@ const CourseReservedPage = () => {
     };
 
     fetchCourses();
-  }, []);
+  }, [changeFlag]);
 
   return (
     <div className="invoice-list-wrapper">
@@ -169,7 +174,7 @@ const CourseReservedPage = () => {
       <Card className="rounded">
         <TableServerSide
           data={searchText.length ? filteredData : dataToRender()}
-          columns={COURSE_RESERVED_PAGE_COLUMNS()}
+          columns={COURSE_RESERVED_PAGE_COLUMNS(changeHandler)}
           renderTitle={renderTitle()}
           currentPage={currentPage}
           rowsPerPage={rowsPerPage}

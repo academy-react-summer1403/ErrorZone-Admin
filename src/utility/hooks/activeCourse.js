@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { activeAndInactiveCourseAPI } from "../../core/services/Paper";
+import useMutationPost from "../../customHook/useMutationPost";
 
 // ** Core Imports
 
@@ -16,8 +17,14 @@ export const handleActiveInactiveCourse = async (
   redirectUrl,
   setIsDeleted,
   handleRefrech,
+  ChangeHandler,
+  refetch,
   
 ) => {
+
+
+
+
   MySwal.fire({
     title: isActive
       ? "آیا از غیر فعال دوره مطمئن هستید؟"
@@ -44,10 +51,13 @@ export const handleActiveInactiveCourse = async (
         courseId
       );
 
-      if (deleteCourse) {
+      //const {mutate:deleteCourse } = useMutationPost()
+
+      if (deleteCourse.success) {
 
         toast.success(`دوره با موفقیت ${isActive ? "غیر فعال" : "فعال"} شد !`);
        // navigate(redirectUrl);
+       refetch
       } else
         toast.error(
           `مشکلی در ${

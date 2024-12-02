@@ -12,7 +12,7 @@ import { Check, CheckCircle, X } from "react-feather";
 import { deleteCourseReserveAPI, getCourseByIdAPI, getCourseGroupAPI, sendReserveToCourseAPI } from "../../../core/services/Paper";
 import { convertDateToPersian } from "../../../utility/hooks/date-helper.utils";
 
-export const COURSE_RESERVED_COMMON_COLUMNS = () => [
+export const COURSE_RESERVED_COMMON_COLUMNS = (changeHandler) => [
   {
     name: "زمان رزرو",
     reorder: true,
@@ -56,12 +56,12 @@ export const COURSE_RESERVED_COMMON_COLUMNS = () => [
 
           if (sendReserveToCourse.success) {
             toast.success("رزرو با موفقیت تایید شد !");
-           // ChangeHandler()
+            changeHandler()
           } else {
             toast.error(sendReserveToCourse.ErrorMessage);
           }
         } catch (error) {
-          toast.error("مشکلی در تایید رزرو دوره به وجود آمد !");
+          toast.error("دوره موجود نمی باشد یا کاربر شما دسترسی ندارد");
         }
       };
 
@@ -74,7 +74,8 @@ export const COURSE_RESERVED_COMMON_COLUMNS = () => [
 
           if (deleteCourseReserve.success) {
             toast.success("رزرو با موفقیت حذف شد !");
-            navigate("/courses");
+            // navigate("/courses");
+            changeHandler()
           } else {
             toast.error("مشکلی در حذف دوره به وجود آمد !");
             toast.error(deleteCourseReserveAPI.message);

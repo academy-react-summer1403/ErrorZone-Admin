@@ -47,6 +47,7 @@ const UserDropdown = () => {
 
   const handleLogout = async () => {
     removeItem("Token");
+    removeItem("token");    
   };
 
   useEffect(() => {

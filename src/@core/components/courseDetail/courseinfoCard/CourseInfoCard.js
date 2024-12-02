@@ -38,11 +38,14 @@ const statusColors = {
   "منقضی شده": "light-warning",
 };
 
-const CourseInfoCard = ({ course  }) => {
+const CourseInfoCard = ({ course , refetch }) => {
   // ** States
   const [courseGroup, setCourseGroup] = useState();
   const [isDeleted, setIsDeleted] = useState(false);
 
+  // const ChangeHandler = () => {
+  //   setChangeFlag(!changeFlag)
+  // }
   // ** Hooks
   const navigate = useNavigate();
 
@@ -189,8 +192,8 @@ const CourseInfoCard = ({ course  }) => {
               </ul>
             ) : null}
           </div>
-          <div className="d-flex flex-column justify-content-center">
-            <div className="d-flex justify-content-center pt-2">
+          <div className="" style={{paddingRight: "30px", paddingTop: "50px"}}>
+            <div className="">
               <Button
                 color="primary"
                 tag={Link}
@@ -209,15 +212,17 @@ const CourseInfoCard = ({ course  }) => {
                 {isDeleted ? "بازگردانی دوره" : "حذف دوره"}
               </Button>
             </div>
-            <div className="course-details-active-inactive-button" style={{marginRight: "130px", marginTop: "20px"}}>
+            <div className="" style={{marginRight: "200px", position: "relative" , bottom: "38px"}}>
               <Button
-                className="ms-1"
+                className=""
                 color="success"
                 outline
                 onClick={() =>
                   handleActiveInactiveCourse(
                     course?.isActive,
                     course?.courseId,
+                    refetch()
+                   // ChangeHandler={ChangeHandler}                 
                   )
                 }
               >

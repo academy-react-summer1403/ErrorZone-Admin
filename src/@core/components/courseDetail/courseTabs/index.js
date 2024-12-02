@@ -16,7 +16,7 @@ import Payments from "./CoursePayment";
 import GroupListCourse from "./CourseGroup";
 
 
-const CourseTabs = ({ active, toggleTab, course , allPayments }) => {
+const CourseTabs = ({ active, toggleTab, course , allPayments  , refetch}) => {
   return (
     <Fragment>
       <Nav pills className="mb-2">
@@ -60,6 +60,7 @@ const CourseTabs = ({ active, toggleTab, course , allPayments }) => {
             courseLikeTotal={course?.courseLikeTotal || 0}
             describe={course?.describe}
             course={course}
+            refetch={refetch}
           />
         </TabPane>
         <TabPane tabId="2">

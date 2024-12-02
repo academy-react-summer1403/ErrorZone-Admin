@@ -1,5 +1,5 @@
 
-import { Mail, Home, Airplay, Circle, Book , Users , Code, Calendar} from "react-feather";
+import { Mail, Home, Airplay, Circle, Book , Users , Code, Calendar, MapPin, BookOpen} from "react-feather";
 
 
 export default [
@@ -26,6 +26,11 @@ export default [
      
         icon: <Circle />,
       },
+      {
+        title: "منتور ها",
+        navLink: "/assistancecourse",
+        icon: <Circle />,
+      },      
     ],
   },
 
@@ -71,7 +76,18 @@ export default [
       icon: <Book size={12} />,
       navLink: "/comments",
     },
-
+    {
+      id: "buildinglist",
+      title: " ساختمان ها",
+      icon: <MapPin size={12} />,
+      navLink: "/building",
+    },
+    {
+      id: "AssistanceworlList",
+      title: " تسک ها",
+      icon: <Book size={12} />,
+      navLink: "/AssistanceWork",
+    },    
 
     {
       id: "courses",
@@ -118,7 +134,13 @@ export default [
     title: "کامنت های دوره",
     navLink: "/coursecomments",
     icon: <Circle />,
+  }, 
+   {
+    title: "کلاس ها",
+    navLink: "/classes",
+    icon: <Circle />,
   },  
+  
 
       ]
     },

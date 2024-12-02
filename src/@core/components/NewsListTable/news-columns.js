@@ -1,5 +1,5 @@
 // ** React Imports
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // ** Reactstrap Imports
 import {
@@ -24,7 +24,7 @@ import { activeInactiveNewsAPI } from "../../../core/services/Paper";
 import { onFormData } from "../../../utility/hooks/form-data-helper.utils";
 
 // ** Table columns
-export const NEWS_COLUMNS = [
+export const NEWS_COLUMNS = (ChangeHandler) => [
   {
     name: "نام خبر",
     sortable: true,
@@ -118,9 +118,6 @@ export const NEWS_COLUMNS = [
       const [activeInactiveNewsTooltip, setActiveInactiveNewsTooltip] =
         useState(false);
 
-      // ** Hooks
-      const navigate = useNavigate();
-
       const handleActiveInactiveNews = async () => {
         try {
           const data = {
@@ -136,8 +133,7 @@ export const NEWS_COLUMNS = [
             toast.success(
               `خبر با موفقیت ${row.isActive ? "غیر فعال" : "فعال"} شد !`
             );
-
-            navigate("/news");
+            ChangeHandler()
           } else {
             toast.error(
               `مشکلی در ${

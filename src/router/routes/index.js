@@ -46,6 +46,10 @@ import NewsDetails from "../../pages/NewsDetailPage";
 import EditNews from "../../pages/EditNews";
 import GetNewsReplyCommentsModal from "../../@core/components/NewsDetailPage/GetNewsReplyCommentsModal";
 import UserPaymentsDetail from "../../@core/components/Users/userDetail/UserPaymentsDetail";
+import Building from "../../pages/Building";
+import AssistanceWork from "../../pages/AssistanceWork";
+import ClassRoom from "../../pages/ClassRoom";
+import AssistanceCourse from "../../pages/AssistanceCourse";
 //import CreateUserPage from "../../pages/CreateUser";
 
 
@@ -76,6 +80,7 @@ const CreateUserPage = lazy(() => import("../../pages/CreateUser"));
 // ** login situation
 
 // console.log(useSelector((state) => state.islogin.isLogin));
+
 
 const isLogin = Boolean(getItem("Token"));
 
@@ -130,6 +135,10 @@ const Routes = [
     element: <Payment />,
   },
   
+   {
+    path: "/classes",
+    element: <ClassRoom />,
+  }, 
   {
     path: "/coursecomments",
     element: <CourseCommentsPage/>,
@@ -164,7 +173,10 @@ const Routes = [
     path: "create-user",
     element: <CreateUserPage />
   },
-
+   {
+    path: "/assistancecourse",
+    element: <AssistanceCourse />
+  }, 
   {
     path: "/papers",
     //element: <Blogs />
@@ -206,9 +218,18 @@ const Routes = [
   },  
   
   {
-    path: "comments",
+    path: "/comments",
    element: <Comments />
   }, 
+
+   {
+    path: "/building",
+   element: <Building />
+  },  
+   {
+    path: "/AssistanceWork",
+   element: <AssistanceWork />
+  },  
      
    {
     path: "/calendar",
@@ -217,7 +238,7 @@ const Routes = [
       
   {
     path: "/login",
-    element: <Login />,
+    element:  <Login />,
     meta: {
       layout: "blank",
     },

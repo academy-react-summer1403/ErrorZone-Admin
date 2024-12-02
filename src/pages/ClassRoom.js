@@ -1,25 +1,28 @@
-// ** React Imports
-import { useState } from "react";
+import react , {useState , useEffect , Fragment} from 'react'
 import ReactPaginate from "react-paginate";
 
-// ** Reactstrap Imports
-import { Card, CardHeader, Col, Input, Label, Row } from "reactstrap";
-
-// ** Core Imports
-
-// ** Third Party Components
 import DataTable from "react-data-table-component";
+
 import { ChevronDown } from "react-feather";
 
-// ** Columns
-
-
-// ** Styles
 import "@styles/react/libs/tables/react-dataTable-component.scss";
-import { COURSE_RESERVED_PAGE_COLUMNS } from "./course-reserved-page-columns";
 
+// ** Reactstrap Imports
+import { Button, Card, CardHeader, Col, Input, Label, Row } from "reactstrap";
+import { Columns } from '../@core/components/assistanceWork/asscolumns';
 
-const UserCourseReserve = ({ courseReserve }) => {
+import useQueryGet from '../customHook/useQueryGet'
+//import { CustomPagination } from '../@core/components/pagination';
+//import { convertDateToPersian } from '../utility/hooks/date-helper.utils';
+//import BreadCrumbs from '../@core/components/breadcrumbs';
+//import StatsHorizontal from '../@core/components/StatsHorizontal';
+//import useMutationPut from '../customHook/useMutationPut';
+//import CustomAssHeader from '../@core/components/assistanceWork/assistanceWork';
+import CreateAss from '../@core/components/assistanceWork/createAss';
+import { ClassRoomColumns } from '../@core/components/classRoom/ClassRoomColumn';
+import CreateClassRooem from '../@core/components/classRoom/CreateClassRoom';
+
+const ClassRoom = () => {
   // ** States
   const [currentPage, setCurrentPage] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -27,9 +30,15 @@ const UserCourseReserve = ({ courseReserve }) => {
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [changeFlage, setChangeFlage] = useState([])
+  const [editModal, setEditModal] = useState(false);
+
+  const toggleEditModal = () => setEditModal(!editModal);
+
+
+  const {data : list } = useQueryGet(["classroom"] , ("/ClassRoom"))
 
   const endOffset = itemOffset + rowsPerPage;
-  const currentItems = courseReserve?.slice(itemOffset, endOffset);
+  const currentItems = list?.slice(itemOffset, endOffset);
 
   // ** Function to handle filter
   const handleFilter = (e) => {
@@ -38,12 +47,12 @@ const UserCourseReserve = ({ courseReserve }) => {
     setSearchValue(value);
 
     if (value.length) {
-      updatedData = courseReserve.filter((reserve) => {
-        const startsWith = reserve.courseName
+      updatedData = list?.filter((reserve) => {
+        const startsWith = reserve.classRoomName
           .toLowerCase()
           .startsWith(value.toLowerCase());
 
-        const includes = reserve.courseName
+        const includes = reserve.classRoomName
           .toLowerCase()
           .includes(value.toLowerCase());
 
@@ -61,7 +70,7 @@ const UserCourseReserve = ({ courseReserve }) => {
   // ** Function to handle Pagination
   const handlePagination = (event) => {
     setCurrentPage(event.selected + 1);
-    const newOffset = (event.selected * rowsPerPage) % courseReserve?.length;
+    const newOffset = (event.selected * rowsPerPage) % list?.length;
 
     setItemOffset(newOffset);
   };
@@ -93,7 +102,7 @@ const UserCourseReserve = ({ courseReserve }) => {
         pageCount={
           searchValue.length
             ? Math.ceil(filteredData.length / rowsPerPage)
-            : Math.ceil(courseReserve.length / rowsPerPage) || 1
+            : Math.ceil(list.length / rowsPerPage) || 1
         }
         onPageChange={(page) => handlePagination(page)}
         containerClassName="pagination react-paginate separated-pagination pagination-sm justify-content-end pe-1 mt-1"
@@ -103,18 +112,18 @@ const UserCourseReserve = ({ courseReserve }) => {
 
   return (
     <Card>
-      <CardHeader tag="h4">دوره های رزرو شده</CardHeader>
+      <CardHeader tag="h4">  کلاس  ها </CardHeader>
       <div className="react-dataTable user-view-account-projects">
-        {courseReserve?.length === 0 ? (
+        {list?.length === 0 ? (
           <span className="no-user-course-reserve-found-text">
-            دوره رزرو شده ای برای این کاربر پیدا نشد
+                    متاسفانه کلاسی پیدا نشد
           </span>
         ) : (
           <>
             <Row className="justify-content-end align-items-center mx-0 course-reserve-filters">
               <Col md="6" sm="12">
                 <div className="d-flex align-items-center">
-                  <Label for="sort-select">تعداد نمایش در صفحه</Label>
+                  <Label for="sort-select">تعداد نمایش در صفحه</Label>                  
                   <Input
                     className="dataTable-select course-reserve-rows-per-page-input"
                     type="select"
@@ -129,13 +138,15 @@ const UserCourseReserve = ({ courseReserve }) => {
                     <option value={50}>50</option>
                     <option value={75}>75</option>
                     <option value={100}>100</option>
-                  </Input>
+                  </Input>                
                 </div>
-              </Col>
+
+              </Col>         
               <Col
                 md="6"
                 sm="12"
-                className="d-flex align-items-center justify-content-end course-reserve-filters-search"
+                className="d-flex align-items-center justify-content-end course-reserve-filters-search "
+
               >
                 <Label className="me-1" for="search-input">
                   جستجو
@@ -148,13 +159,23 @@ const UserCourseReserve = ({ courseReserve }) => {
                   value={searchValue}
                   onChange={handleFilter}
                 />
-              </Col>
+              <Button  color='primary'  onClick={(e) => {
+               e.preventDefault();
+               toggleEditModal();
+                 }}>
+                  افزودن کلاس 
+                <CreateClassRooem  isOpen={editModal}  toggle={toggleEditModal}/>
+             </Button>                
+              </Col>   
+      
+
+
             </Row>
             <DataTable
               noHeader
               pagination
               data={searchValue.length ? filteredData : currentItems}
-              columns={COURSE_RESERVED_PAGE_COLUMNS(true , changeFlage , setChangeFlage)}
+              columns={ClassRoomColumns(toggleEditModal)}
               className="react-dataTable"
               sortIcon={<ChevronDown size={10} />}
               paginationComponent={CustomPagination}
@@ -165,6 +186,9 @@ const UserCourseReserve = ({ courseReserve }) => {
       </div>
     </Card>
   );
-};
 
-export default UserCourseReserve;
+
+}
+
+export default ClassRoom
+

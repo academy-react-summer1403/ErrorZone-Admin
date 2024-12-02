@@ -30,6 +30,8 @@ const BlogsList = () => {
   const [deletedNews, setDeletedNews] = useState();
   const [activeNews, setActiveNews] = useState();
   const [active, setActive] = useState(true);
+  const [changeFlage, setChangeFlag] = useState([])
+
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -54,7 +56,7 @@ const BlogsList = () => {
     };
 
     fetchCourses();
-  }, []);
+  }, [changeFlage]);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -75,7 +77,7 @@ const BlogsList = () => {
     };
 
     fetchCourses();
-  }, [searchText, sort, sortColumn, active, currentPage, rowsPerPage]);
+  }, [searchText, sort, sortColumn, active, currentPage, rowsPerPage , changeFlage]);
 
   return (
     <div className="invoice-list-wrapper">
@@ -122,6 +124,8 @@ const BlogsList = () => {
       </div>
       <Card className="rounded">
         <NewsListTable
+          changeFlage={changeFlage}
+          setChangeFlag={setChangeFlag}
           news={allNews}
           currentPage={currentPage}
           rowsPerPage={rowsPerPage}
