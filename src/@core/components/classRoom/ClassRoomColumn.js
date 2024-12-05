@@ -9,7 +9,7 @@ import CreateClassRooem from './CreateClassRoom';
 //import CreateAss from './createAss';
 
 
-export const ClassRoomColumns = (toggleEditModal) =>  [
+export const ClassRoomColumns = () =>  [
     {
         name: "نام کلاس",
         reorder: true,
@@ -78,19 +78,16 @@ export const ClassRoomColumns = (toggleEditModal) =>  [
         cell: (row) => 
         
         {
-
+          const [selectedItem, setSelectedItem] = useState(null); 
+          const [show, setShow] = useState(false); 
           return (
             <> 
-            <div style={{cursor: "pointer"}} onClick={(e) => {
-                e.preventDefault()
-                toggleEditModal();
-                
-                  }}>
+            <div style={{cursor: "pointer"}}  onClick={() => {setShow(true), setSelectedItem(row)}}>
             <Edit/>
        
           </div>
 
-       <CreateClassRooem row={console.log("row2222222" ,row?.classRoomName)} />  
+       <CreateClassRooem show={show} setShow={setShow}  row={selectedItem}  />  
        </>
 
           );

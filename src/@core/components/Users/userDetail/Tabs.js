@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 
 // ** Icons Imports
-import { User, Lock, Link, Bell } from "react-feather";
+import { User, Lock, Link, Bell, CreditCard } from "react-feather";
 import UserComments from "./Comment";
 import useQueryGet from "../../../../customHook/useQueryGet";
 import UserProjectsList from "./UserProjectsList";
@@ -27,6 +27,7 @@ import { acceptComment, deleteComments, rejectComment } from "../../../../core/s
 import { useQueryClient } from "@tanstack/react-query";
 import UserAddRoles from "./UserAddRoles";
 import UserPayments from "./UserPayments";
+import UserJobs from "./UserJobs";
 
 
 //import UserProjectsList from "./UserProjectsList";
@@ -171,7 +172,16 @@ const UserTabs = ({ active, toggleTab , userDetails}) => {
             <span className="fw-bold">  پرداختی ها </span>
           </NavLink>
         </NavItem>        
-        
+        <NavItem>
+          <NavLink
+            active={active === "8"}
+            onClick={() => toggleTab("8")}
+            className="px-1"
+          >
+            <User className="font-medium-3 me-50" />
+            <span className="fw-bold">  سوابق شغلی  </span>
+          </NavLink>
+        </NavItem>         
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
@@ -203,7 +213,10 @@ const UserTabs = ({ active, toggleTab , userDetails}) => {
         </TabPane> 
         <TabPane tabId="7">
           <UserPayments userDetails={userDetails}/>
-        </TabPane>                
+        </TabPane>
+        <TabPane tabId="8">
+          <UserJobs  userDetails={userDetails}/>
+        </TabPane>                        
       </TabContent>
     </Fragment>
   );

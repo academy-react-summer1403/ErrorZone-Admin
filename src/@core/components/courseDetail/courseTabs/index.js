@@ -14,6 +14,7 @@ import CourseReserve from "./CourseReserve";
 import CourseComments from "./CourseComments";
 import Payments from "./CoursePayment";
 import GroupListCourse from "./CourseGroup";
+import CourseMentor from "./CourseMentor";
 
 
 const CourseTabs = ({ active, toggleTab, course , allPayments  , refetch}) => {
@@ -49,7 +50,13 @@ const CourseTabs = ({ active, toggleTab, course , allPayments  , refetch}) => {
             <CreditCard className="font-medium-3 me-50" />
             <span className="fw-bold"> گروه ها</span>
           </NavLink>
-        </NavItem>                
+        </NavItem> 
+        <NavItem>
+          <NavLink active={active === "6"} onClick={() => toggleTab("6")}>
+            <CreditCard className="font-medium-3 me-50" />
+            <span className="fw-bold"> منتور ها </span>
+          </NavLink>
+        </NavItem>                        
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
@@ -75,6 +82,9 @@ const CourseTabs = ({ active, toggleTab, course , allPayments  , refetch}) => {
         <TabPane tabId="5">
           <GroupListCourse Course={course} />
         </TabPane>
+        <TabPane tabId="6">
+          <CourseMentor course={course} />
+        </TabPane>        
       </TabContent>
     </Fragment>
   );

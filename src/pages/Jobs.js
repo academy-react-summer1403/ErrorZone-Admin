@@ -3,38 +3,40 @@ import ReactPaginate from "react-paginate";
 
 import DataTable from "react-data-table-component";
 
-import { CheckCircle, ChevronDown } from "react-feather";
+import { CheckCircle, ChevronDown, X } from "react-feather";
 
 import "@styles/react/libs/tables/react-dataTable-component.scss";
 
 // ** Reactstrap Imports
 import { Button, Card, CardHeader, Col, Input, Label, Row } from "reactstrap";
-import { Columns } from "../@core/components/assistanceWork/asscolumns";
-
 import useQueryGet from "../customHook/useQueryGet";
-//import { CustomPagination } from '../@core/components/pagination';
-//import { convertDateToPersian } from '../utility/hooks/date-helper.utils';
-//import BreadCrumbs from '../@core/components/breadcrumbs';
-//import StatsHorizontal from '../@core/components/StatsHorizontal';
-//import useMutationPut from '../customHook/useMutationPut';
-//import CustomAssHeader from '../@core/components/assistanceWork/assistanceWork';
-import CreateAss from "../@core/components/assistanceWork/createAss";
+import CreateTech from "../@core/components/technologhy/CreateTech";
+import { JobsColumns } from "../@core/components/jobsPage/JobsColumns";
+import CreateJobs from "../@core/components/jobsPage/CreateJobs";
 import BreadCrumbs from "../@core/components/breadcrumbs";
 import StatsHorizontal from "../@core/components/StatsHorizontal";
 
-const AssistanceWork = () => {
+const Jobs = () => {
   // ** States
   const [currentPage, setCurrentPage] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [changeFlage, setChangeFlage] = useState([]);
   const [editModal, setEditModal] = useState(false);
-
+  const [show, setShow] = useState(false);
   const toggleEditModal = () => setEditModal(!editModal);
 
-  const { data: list } = useQueryGet(["getAss"], "/AssistanceWork");
+  const { data: list, refetch } = useQueryGet(
+    ["jobs"],
+    "/SharePanel/GetJobHistoriesAdmin"
+  );
+
+  console.log("list1245r1111", list);
+
+  const filterdeactive = list?.filter((item) => item?.inWork === false)
+
+  const filteractive = list?.filter((item) => item?.inWork === true)  
 
   const endOffset = itemOffset + rowsPerPage;
   const currentItems = list?.slice(itemOffset, endOffset);
@@ -47,11 +49,11 @@ const AssistanceWork = () => {
 
     if (value.length) {
       updatedData = list?.filter((reserve) => {
-        const startsWith = reserve.worktitle
+        const startsWith = reserve.techName
           .toLowerCase()
           .startsWith(value.toLowerCase());
 
-        const includes = reserve.worktitle
+        const includes = reserve.techName
           .toLowerCase()
           .includes(value.toLowerCase());
 
@@ -113,10 +115,10 @@ const AssistanceWork = () => {
     <>
       <div>
         <BreadCrumbs
-          title="  تسک ها"
+          title="مدیریت کاربران"
           data={[
-            { title: " تسک ها", link: "/news" },
-     
+            { title: " لیست ها", link: "/news" },
+            { title: "لیست مشاغل " },
           ]}
         />
         <div className="app-user-list w-100">
@@ -124,7 +126,7 @@ const AssistanceWork = () => {
             <Col lg="3" sm="6">
               <StatsHorizontal
                 color="success"
-                statTitle="همه ی تسک ها"
+                statTitle="همه ی مشاغل "
                 icon={<CheckCircle />}
                 renderStats={
                   <h3 className="fw-bolder mb-75"> {list?.length || 0} </h3>
@@ -133,15 +135,41 @@ const AssistanceWork = () => {
                 backgroundColor={"rgb(0 0 0 / 23%)"}
               />
             </Col>
+            <Col lg="3" sm="6">
+              <StatsHorizontal
+                color="success"
+                statTitle="مشاغل فعال"
+                icon={<CheckCircle />}
+                renderStats={
+                  <h3 className="fw-bolder mb-75"> {filteractive?.length || 0} </h3>
+                }
+                className="cursor-pointer"
+                backgroundColor={"rgb(0 0 0 / 5%)"}
+              />
+            </Col>
+            <Col lg="3" sm="6">
+              <StatsHorizontal
+                color="success"
+                statTitle="مشاغل غیرفعال"
+                icon={<X />}
+                renderStats={
+                  <h3 className="fw-bolder mb-75"> {filterdeactive?.length || 0} </h3>
+                }
+                className="cursor-pointer"
+                backgroundColor={"rgb(0 0 0 / 5%)"}
+              />
+            </Col>                        
           </Row>
         </div>
+
+        
       </div>
       <Card>
-        <CardHeader tag="h4"> تسک ها </CardHeader>
+        <CardHeader tag="h4"> شغل ها </CardHeader>
         <div className="react-dataTable user-view-account-projects">
           {list?.length === 0 ? (
             <span className="no-user-course-reserve-found-text">
-              متاسفانه تسکی پیدا نشد
+              متاسفانه شغلی پیدا نشد
             </span>
           ) : (
             <>
@@ -188,11 +216,15 @@ const AssistanceWork = () => {
                     style={{ marginRight: "10px", marginBottom: "5px" }}
                     onClick={(e) => {
                       e.preventDefault();
-                      toggleEditModal();
+                      setShow(!show);
                     }}
                   >
-                    افزودن تسک
-                    <CreateAss isOpen={editModal} toggle={toggleEditModal} />
+                    افزودن شغل
+                    <CreateJobs
+                      show={show}
+                      setShow={setShow}
+                      refetch={refetch}
+                    />
                   </Button>
                 </Col>
               </Row>
@@ -200,7 +232,7 @@ const AssistanceWork = () => {
                 noHeader
                 pagination
                 data={searchValue.length ? filteredData : currentItems}
-                columns={Columns(toggleEditModal)}
+                columns={JobsColumns(refetch)}
                 className="react-dataTable"
                 sortIcon={<ChevronDown size={10} />}
                 paginationComponent={CustomPagination}
@@ -212,142 +244,6 @@ const AssistanceWork = () => {
       </Card>
     </>
   );
-
-  //     const [rowsPerPage, setRowPerPage] = useState("10");
-  //     const [currentPage, setCurrentPage] = useState("1");
-  //     const [editModal, setEditModal] = useState(false);
-
-  //    const toggleEditModal = () => setEditModal(!editModal);
-
-  //     const {data : list } = useQueryGet(["getAss"] , ("/AssistanceWork"))
-
-  //     console.log("list" , list)
-
-  //     const handlePerPage = (e) => {
-  //         const value = parseInt(e.currentTarget.value);
-  //         setRowPerPage(value);
-  //       };
-
-  // <Fragment>
-  //     <div>
-  //     <BreadCrumbs
-  //     title="لیست تسک ها"
-  //     data={[
-  //       { title: " تسک ها", link: "/news" },
-  //       { title: "لیست تسک ها" },
-  //     ]}
-  //   />
-  //         <div className="app-user-list w-100">
-  //     <Row>
-  //     <Col lg="3" sm="6">
-  //         <StatsHorizontal
-  //           color="success"
-  //           statTitle="همه ی تسک ها"
-  //           icon={<CheckCircle />}
-  //           renderStats={
-  //             <h3 className="fw-bolder mb-75">
-  //              {list?.length || 0}
-  //             </h3>
-  //           }
-  //         //   onClick={() => setActive(true)}
-  //           className="cursor-pointer"
-  //           backgroundColor={"rgb(0 0 0 / 23%)"}
-  //         />
-  //       </Col>
-  //     </Row>
-  //   </div>
-  //     </div>
-
-  //   <Card>
-  //     <div className="react-dataTable">
-  //       <CustomAssHeader
-  //          handlePerPage={handlePerPage}
-  //          rowsPerPage={rowsPerPage}
-  //          setRowPerPage={setRowPerPage}
-  //          isOpen={editModal}
-  //          toggle={toggleEditModal}
-  //       />
-  //       <Table hover>
-  //         <thead>
-  //           <tr>
-  //             <th>نام دوره</th>
-  //             <th>  توضیحات تسک </th>
-  //             <th> ناشر تسک </th>
-  //             <th>  تاریخ انتشار </th>
-  //             <th> تاریخ انجام تسک </th>
-  //             <th > اقدام</th>
-  //           </tr>
-  //         </thead>
-  //      <tbody >
-  //         {list &&
-  //           list?.map((item, index) => {
-  //             const tooltipId = `tooltip-${index}`;
-  //             return (
-
-  //                 <tr>
-  //                   <td
-  //                     className="  "
-  //                     style={{
-  //                       paddingRight: "40px"
-  //                     }}
-  //                   >
-  //                     <td>  {item?.worktitle} </td>
-  //                   </td>
-  //                   <td className="pr-0 pl-1" style={{ maxWidth: "150px" }}>
-  //                   {item?.workDescribe}
-  //                   </td>
-  //                   <td
-  //                     className="pr-0 pl-1"
-  //                     id={tooltipId}
-  //                     style={{
-  //                       maxWidth: "200px",
-  //                       whiteSpace: "nowrap",
-  //                       overflow: "hidden",
-  //                       textOverflow: "ellipsis",
-  //                     }}
-  //                   >
-  //                     {item?.assistanceName}
-  //                   </td>
-  //                   <td >   {convertDateToPersian(item?.inserDate)} </td>
-  //                   <td>
-  //                     {convertDateToPersian(item?.workDate)}
-  //                   </td>
-  //                   <td >
-  //                     <tr
-  //                     style={{paddingLeft: "50px"}}
-  //                         onClick={(e) => {
-  //                          e.preventDefault();
-  //                          toggleEditModal();
-  //                          console.log("1223" , item);
-  //                          <CreateAss
-  //                             item={item}
-  //                             isOpen={editModal}
-  //                             toggle={toggleEditModal}
-  //                           />
-
-  //                              }}
-
-  //                           >
-  //                             <Edit2 className="me-50" size={15} />{" "}
-  //                               ویرایش
-
-  //                           </tr>
-  //                   </td>
-  //                 </tr>
-
-  //             );
-  //           })}
-  //                 </tbody>
-  //       </Table>
-  //     </div>
-  //   </Card>
-  //    <CustomPagination
-  //      total={list?.length}
-  //      current={currentPage}
-  //      setCurrent={setCurrentPage}
-  //      rowsPerPage={rowsPerPage}
-  //   />
-  // </Fragment>
 };
 
-export default AssistanceWork;
+export default Jobs;
