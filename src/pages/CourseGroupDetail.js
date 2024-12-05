@@ -10,6 +10,7 @@ import { Col, Row } from "reactstrap";
 
 import CourseGroupInfoCard from "../@core/components/courseGroupdetails/CourseGroupInfoCard";
 import { getCourseGroupDetailsAPI } from "../core/services/Paper";
+import CourseGroupDetailsTab from "./CourseGroupDetailsTab";
 
 
 //import CourseGroupDetailsTab from "../@core/components/CourseGroupDetails/Tabs";
@@ -42,6 +43,9 @@ const CourseGroupDetailsPage = () => {
     fetchCourseGroup();
   }, []);
 
+
+  console.log(courseGroup,"xconPCHioca");
+
   return (
     <div className="app-user-view">
       <Row>
@@ -49,11 +53,8 @@ const CourseGroupDetailsPage = () => {
           <CourseGroupInfoCard group={courseGroup} />
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          {/* <CourseGroupDetailsTab
-            active={active}
-            toggleTab={toggleTab}
-            group={courseGroup}
-          /> */}
+          <CourseGroupDetailsTab shedualsData={courseGroup?.courseSchedules} toggleTab={toggleTab} active={active} />
+
         </Col>
       </Row>
     </div>

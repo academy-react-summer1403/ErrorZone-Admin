@@ -170,7 +170,7 @@ const CourseUserPage = () => {
           noHeader
           pagination
           data={searchValue.length ? filteredData : currentItems}
-          columns={COURSE_USERS_COLUMNS(`/courses/${id}`)}
+          columns={COURSE_USERS_COLUMNS(`/users/${id}`)}
           className="react-dataTable"
           sortIcon={<ChevronDown size={10} />}
           paginationComponent={CustomPagination}

@@ -125,7 +125,7 @@ export const USER_COLUMNS = [
             className="user_name text-truncate text-body"
           >
             <span className="fw-bolder">
-              {row.fname && row.lname
+              {row.fname || row.lname
                 ? row.fname + " " + row.lname
                 : "کاربر دنجر"}
             </span>

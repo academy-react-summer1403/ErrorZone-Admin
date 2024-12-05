@@ -14,9 +14,29 @@ import { editUserGlobalDataFromSchema } from "../../../core/Validation/editUser/
 import { selectThemeColors } from "../../../utility/Utils";
 import { convertDateToPersian } from "../../../utility/hooks/date-helper.utils";
 import { dateFormatter } from "../../../core/utility/date-formatter.utils";
+import Flatpickr from "react-flatpickr";
 
 const GlobalData = ({ stepper, user, setGlobalData }) => {
   const [birthday, setBirthday] = useState();
+  const [Picker, setPicker] = useState();
+  const handleDate = (e) => {
+    // setPicker(e);
+    const arr = [];
+    const date = new Date(e);
+
+    const year = date.getFullYear();
+
+    let month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : `0${month}`;
+
+    let day = date.getDate().toString();
+    day = day.length > 1 ? day : `0${day}`;
+
+    arr.push(`${year}-${month}-${day}T00:00:00`);
+
+    setPicker(new Date(arr[0]).getTime());
+
+  }
 
   // ** Hooks
   const {
@@ -39,16 +59,16 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
         homeAdderess,
         birthDay,
       } = e;
-    
-       console.log('BIRTHDAY' , birthday)
 
-       let formattedBirthday = null;
+      console.log('BIRTHDAY', birthday)
 
-       if (birthDay instanceof Date && !isNaN(birthDay)) {
-         formattedBirthday = dateFormatter.format(birthDay);
-       }
+      let formattedBirthday = null;
 
-       console.log("formatbirthday" , formattedBirthday)
+      if (birthDay instanceof Date && !isNaN(birthDay)) {
+        formattedBirthday = dateFormatter.format(birthDay);
+      }
+
+      console.log("formatbirthday", formattedBirthday)
       setGlobalData({
         fName,
         lName,
@@ -56,16 +76,16 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
         gender,
         userAbout,
         homeAdderess,
-        birthDay: formattedBirthday || user?.birthDay,
+        birthDay: new Date(Picker),
       });
 
       stepper.next();
     }
   };
-console.log("userbirthday" , user?.birthDay)
+  console.log("userbirthday", user?.birthDay)
   const convertDefaultBirthday = convertDateToPersian(user?.birthDay);
 
-  console.log('converdefauly' , convertDefaultBirthday)
+  console.log('converdefauly', convertDefaultBirthday)
 
   useEffect(() => {
     if (user) {
@@ -235,7 +255,7 @@ console.log("userbirthday" , user?.birthDay)
               تاریخ تولد کاربر
             </Label>
             <div className="coursesDatePickerWrapper">
-              <Controller
+              {/* <Controller
                 control={control}
                 id="birthDay"
                 name="birthDay"
@@ -257,7 +277,19 @@ console.log("userbirthday" , user?.birthDay)
                     
                   />
                 )}
+              /> */}
+              <Label className="form-label" for="date">
+                فیلتر بر اساس تاریخ
+              </Label>
+              <Flatpickr
+                className="form-control"
+                id="date"
+                // name
+                value={Picker}
+                options={{ dateFormat: "m/d/Y" }}
+                onChange={(date) => handleDate(date)}
               />
+
             </div>
             {errors.date && <FormFeedback>{errors.date.message}</FormFeedback>}
           </Col>

@@ -28,6 +28,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import UserAddRoles from "./UserAddRoles";
 import UserPayments from "./UserPayments";
 import UserJobs from "./UserJobs";
+import StudentScheduals from "./StudentScheduals";
+
 
 
 //import UserProjectsList from "./UserProjectsList";
@@ -39,19 +41,19 @@ import UserJobs from "./UserJobs";
 
 // import { getCoursesListtt } from "../../../../core/services/api/course";
 
-const UserTabs = ({ active, toggleTab , userDetails}) => {
+const UserTabs = ({ active, toggleTab, userDetails }) => {
   const [userCmnt, setUserCmnt] = useState([]);
   const [refetchUserCom, setRefetchUserCom] = useState(1);
   const id = userDetails?.id
 
   const queryclient = useQueryClient()
 
-  const { data:getComment} = useQueryGet (["getComment"] , `/Course/CommentManagment?userId=${id}`)
+  const { data: getComment } = useQueryGet(["getComment"], `/Course/CommentManagment?userId=${id}`)
 
-  const { data:courseList } = useQueryGet(["courseList"] , "courseList")
+  const { data: courseList } = useQueryGet(["courseList"], "courseList")
 
-  const { data:reserveCourse } = useQueryGet(["reserveCourse"] , "/CourseReserve")
-  
+  const { data: reserveCourse } = useQueryGet(["reserveCourse"], "/CourseReserve")
+
   // const getCmnts = async () => {
   //   try {
   //     const responses = await getComments(userDetails.id);
@@ -61,43 +63,43 @@ const UserTabs = ({ active, toggleTab , userDetails}) => {
   //   }
   // };
 
-   const accptCmnt = async (id) => {
-     try {
-       const responses = await acceptComment(id);
-       // console.log("object",responses);
-       responses.success ? setRefetchUserCom(refetchUserCom + 1) : "";
-       responses.success ? toast.success(responses.message) : "";
-      
-     }catch (error) {
-       throw new Error("ERROR: ", error);
-     }
-   };
+  const accptCmnt = async (id) => {
+    try {
+      const responses = await acceptComment(id);
+      // console.log("object",responses);
+      responses.success ? setRefetchUserCom(refetchUserCom + 1) : "";
+      responses.success ? toast.success(responses.message) : "";
 
-   const rejCmnt = async (id) => {
-     try {
-       const responses = await rejectComment(id);
-       responses.success ? setRefetchUserCom(refetchUserCom + 1) : "";
-       responses.success ? toast.success(responses.message) : "";
+    } catch (error) {
+      throw new Error("ERROR: ", error);
+    }
+  };
 
-     } catch (error) {
-       throw new Error("ERROR: ", error);
-     }
-   };
+  const rejCmnt = async (id) => {
+    try {
+      const responses = await rejectComment(id);
+      responses.success ? setRefetchUserCom(refetchUserCom + 1) : "";
+      responses.success ? toast.success(responses.message) : "";
 
-   const delCmnts = async (id) => {
-     try {
-       const responses = await deleteComments(id);
-       responses.success ? setRefetchUserCom(refetchUserCom + 1) : "";
-       responses.success ? toast.success(responses.message) : "";
-    
-     } catch (error) {
-       throw new Error("ERROR: ", error);
-     }
-   };
+    } catch (error) {
+      throw new Error("ERROR: ", error);
+    }
+  };
+
+  const delCmnts = async (id) => {
+    try {
+      const responses = await deleteComments(id);
+      responses.success ? setRefetchUserCom(refetchUserCom + 1) : "";
+      responses.success ? toast.success(responses.message) : "";
+
+    } catch (error) {
+      throw new Error("ERROR: ", error);
+    }
+  };
 
 
-
-// **useEffect
+console.log(userDetails);
+  // **useEffect
 
   return (
     <Fragment>
@@ -149,7 +151,7 @@ const UserTabs = ({ active, toggleTab , userDetails}) => {
             className="px-1"
           >
             <User className="font-medium-3 me-50" />
-            <span className="fw-bold">ارتباط با کاربر</span>
+            <span className="fw-bold"> برنامه های کاربر </span>
           </NavLink>
         </NavItem>
         <NavItem>
@@ -185,38 +187,42 @@ const UserTabs = ({ active, toggleTab , userDetails}) => {
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
-           {/* <UserProjectsList /> */}
-           <UserCourses userCourses={userDetails?.courses} />
+          {/* <UserProjectsList /> */}
+          <UserCourses userCourses={userDetails?.courses} />
         </TabPane>
         <TabPane tabId="2">
           {/* <UserReserveCourses /> */}
-          <UserCourseReserve courseReserve={userDetails?.coursesReseves}/>
+          <UserCourseReserve courseReserve={userDetails?.coursesReseves} />
         </TabPane>
         <TabPane tabId="3">
-            <UserComments
+          <UserComments
             queryclient={queryclient}
             comList={getComment?.comments}
             onvan="نام دوره"
             accptCmnt={accptCmnt}
             rejCmnt={rejCmnt}
             delCmnt={delCmnts}
-          />  
+          />
         </TabPane>
         <TabPane tabId="4">
-           <MoreInfo userDetails={userDetails} />
+          <MoreInfo userDetails={userDetails} />
+          <Connection userDetails={userDetails} />
+
         </TabPane>
         <TabPane tabId="5">
-           <Connection userDetails={userDetails}/>
+          <StudentScheduals studentId={userDetails?.id} />
         </TabPane>
         <TabPane tabId="6">
-           <UserAddRoles user={userDetails} />
-        </TabPane> 
+          <UserAddRoles user={userDetails} />
+        </TabPane>
         <TabPane tabId="7">
+
           <UserPayments userDetails={userDetails}/>
         </TabPane>
         <TabPane tabId="8">
           <UserJobs  userDetails={userDetails}/>
         </TabPane>                        
+
       </TabContent>
     </Fragment>
   );
