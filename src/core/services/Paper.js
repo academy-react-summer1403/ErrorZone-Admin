@@ -1037,8 +1037,8 @@ return response.data;
 
 export const UpdateAssWork = async (BulldingData , row) => {
 
-  const method = row ? 'put' : 'post'
-const response = await instance[method]('/AssistanceWork' , BulldingData);
+  const method = row ? instance.put : instance.post;
+const response = await method('/AssistanceWork' , BulldingData);
 return response.data; 
 };
 
@@ -1056,3 +1056,250 @@ export const UpdateAssCourse = async (BulldingData , row) => {
 const response = await instance[method]('/CourseAssistance' , BulldingData);
 return response.data; 
 };
+
+export const AddTerm = async (data) => {
+  try{
+      const result = await instance.post(`/Term`, data)
+      return result
+  }
+  catch(error){
+      if(error.response.data.ErrorMessage){
+         toast.error(error.response.data.ErrorMessage)
+      }
+      else{
+         toast.error(' مشکلی پیش آمده است ')
+     }
+   }
+}
+
+export const UpdateTerms = async (data) => {
+  try{
+      const result = await instance.put(`/Term`, data)
+      return result
+  }
+  catch(error){
+      if(error.response.data.ErrorMessage){
+         toast.error(error.response.data.ErrorMessage)
+      }
+      else{
+         toast.error(' مشکلی پیش آمده است ')
+     }
+   }
+}
+
+export const AddTermDate = async (data) => {
+  try{
+      const result = await instance.post(`/Term/AddTermCloseDate`, data)
+      return result
+  }
+  catch(error){
+      if(error.response.data.ErrorMessage){
+         toast.error(error.response.data.ErrorMessage)
+      }
+      else{
+         toast.error(' مشکلی پیش آمده است ')
+     }
+   }
+}
+
+export const UpdateSocialGroup = async (BulldingData , row) => {
+
+  const method = row ? 'put' : 'post'
+const response = await instance[method]('/CourseSocialGroup' , BulldingData);
+return response.data; 
+};
+
+export const AddCourseLevel = async (data) => {
+  try{
+      const result = await instance.post(`CourseLevel`, data)
+      return result
+  }
+  catch(error){
+      if(error.response.data.ErrorMessage){
+         toast.error(error.response.data.ErrorMessage)
+      }
+      else{
+         toast.error(' مشکلی پیش آمده است ')
+     }
+   }
+}
+
+export const UpdatingCourseLevel = async (data) => {
+  try{
+      const result = await instance.put(`/CourseLevel`, data)
+      return result
+  }
+  catch(error){
+      if(error.response.data.ErrorMessage){
+         toast.error(error.response.data.ErrorMessage)
+      }
+      else{
+         toast.error(' مشکلی پیش آمده است ')
+     }
+   }
+}
+
+export const AddStatus = async (data) => {
+  try{
+   const response = await instance.post(`/Status`, data)
+   return response
+
+  } catch(error){
+     if(error.response.data.ErrorMessage){
+        toast.error(error.response.data.ErrorMessage)
+     }
+     else{
+        toast.error(' مشکلی پیش آمده است ')
+    }
+  }
+}
+
+export const UpdateStatus = async (data) => {
+  try{
+   const response = await instance.put(`/Status`, data)
+   return response
+
+  } catch(error){
+     if(error.response.data.ErrorMessage){
+        toast.error(error.response.data.ErrorMessage)
+     }
+     else{
+        toast.error(' مشکلی پیش آمده است ')
+    }
+  }
+}
+
+export const AddTechnology = async (data) => {
+  try{
+   const response = await instance.post(`/Technology`, data)
+   return response
+
+  } catch(error){
+     if(error.response.data.ErrorMessage){
+        toast.error(error.response.data.ErrorMessage)
+     }
+     else{
+        toast.error(' مشکلی پیش آمده است ')
+    }
+  }
+}
+
+export const UpdateTechnology = async (data) => {
+  try{
+   const response = await instance.put(`/Technology`, data)
+   return response
+
+  } catch(error){
+     if(error.response.data.ErrorMessage){
+        toast.error(error.response.data.ErrorMessage)
+     }
+     else{
+        toast.error(' مشکلی پیش آمده است ')
+    }
+  }
+}
+
+export const AddJobs = async (data) => {
+  try{
+   const response = await instance.post(`/SharePanel/CreateJobHistory`, data)
+   return response
+
+  } catch(error){
+     if(error.response.data.ErrorMessage){
+        toast.error(error.response.data.ErrorMessage)
+     }
+     else{
+        toast.error(' مشکلی پیش آمده است ')
+    }
+  }
+}
+
+export const UpdatingJobs = async (data) => {
+  try{
+   const response = await instance.post(`/SharePanel/UpdateJobHistory`, data)
+   return response
+
+  } catch(error){
+     if(error.response.data.ErrorMessage){
+        toast.error(error.response.data.ErrorMessage)
+     }
+     else{
+        toast.error(' مشکلی پیش آمده است ')
+    }
+  }
+}
+
+export const AddDepartment = async (data) => {
+  try{
+      const result = await instance.post(`/Department`, data)
+      return result
+  }
+  catch(error){
+      if(error.response.data.ErrorMessage){
+         toast.error(error.response.data.ErrorMessage)
+      }
+      else{
+         toast.error(' مشکلی پیش آمده است ')
+     }
+   }
+}
+
+export const UpdatingDepartment = async (data) => {
+  try{
+      const result = await instance.put(`/Department`, data)
+      return result
+  }
+  catch(error){
+      if(error.response.data.ErrorMessage){
+         toast.error(error.response.data.ErrorMessage)
+      }
+      else{
+         toast.error(' مشکلی پیش آمده است ')
+     }
+   }
+}
+
+export const AddSocialGroup = async (data) => {
+  try{
+      const result = await instance.post(`/CourseSocialGroup`, data)
+      return result
+  }
+  catch(error){
+      if(error.response.data.ErrorMessage){
+         toast.error(error.response.data.ErrorMessage)
+      }
+      else{
+         toast.error(' مشکلی پیش آمده است ')
+     }
+   }
+}
+
+export const UpdatingCoursePayments = async (data) => {
+  try{
+   const response = await instance.put(`/CoursePayment`, data)
+   return response
+
+  } catch(error){
+   if(error.response.data.ErrorMessage){
+      toast.error(error.response.data.ErrorMessage)
+   }
+   else{
+      toast.error(' مشکلی پیش آمده است ')
+  }
+}
+}
+
+export const AddCoursePayments = async (data) => {
+  try{
+   const response = await instance.post(`/CoursePayment/AddPeymentImage`, data)
+   return response
+
+  } catch(error){
+   if(error.response.data.ErrorMessage){
+      toast.error(error.response.data.ErrorMessage)
+   }
+   else{
+      toast.error(' مشکلی پیش آمده است ')
+  }
+}
+}

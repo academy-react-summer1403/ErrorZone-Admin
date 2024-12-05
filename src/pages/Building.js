@@ -33,12 +33,14 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import CustomBuildinHeader from '../@core/components/building/buildingHeader';
 import CreateBuilding from '../@core/components/building/CreateBuilding';
+import UpdatingBuilding from '../@core/components/building/UpdatingBuilding';
 const Building = () => {
 const [rowsPerPage, setRowPerPage] = useState("10");
 const [currentPage, setCurrentPage] = useState("1");
 const [editModal, setEditModal] = useState(false);
 
 const toggleEditModal = () => setEditModal(!editModal);
+
 
 const MySwal = withReactContent(Swal);
 
@@ -102,7 +104,7 @@ const handleSuspendClick = (boolean, id) => {
     <Fragment>
         <div>
         <BreadCrumbs
-        title="لیست ساختمان ها"
+        title=" مدیریت بخش ها"
         data={[
           { title: " لیست ها", link: "/news" },
           { title: "لیست ساختمان ها" },
@@ -258,19 +260,18 @@ const handleSuspendClick = (boolean, id) => {
                                  onClick={(e) => {
                                     console.log('e' , e)
                                     e.preventDefault();
-                                    toggleEditModal();
                                     console.log("1223" , item);
-                                  <CreateBuilding  
-                                    item={item}        
-                                    isOpen={editModal}
-                                    toggle={toggleEditModal}
-                                  />                                        
+                                      
                                  }}
+                                 
 
                               >
                                 <Edit2 className="me-50" size={15} />{" "}
                                   ویرایش
- 
+                                   <UpdatingBuilding  
+                                    item={item}        
+
+                                  />  
                               </DropdownItem>
                             </DropdownMenu>
                           

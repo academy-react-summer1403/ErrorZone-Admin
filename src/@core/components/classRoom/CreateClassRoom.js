@@ -6,9 +6,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import { UpdateClassRome } from '../../../core/services/Paper';
 import useQueryGet from '../../../customHook/useQueryGet';
+import toast from 'react-hot-toast';
 
 
-const CreateClassRooem = ({ isOpen, toggle , row } ) => {
+const CreateClassRooem = ({  row , show ,setShow  } ) => {
     const query = useQueryClient();
     const [buldingState, setBuldingState] = useState(row?.buildingId)
 
@@ -37,8 +38,12 @@ const CreateClassRooem = ({ isOpen, toggle , row } ) => {
     mutationKey: ['updateClass'],
     mutationFn: (BulldingData) => UpdateClassRome(BulldingData, row),
     onSuccess: () => {
-      toggle()
+      setShow(!show)
+      toast.success("عملیات با موفقیت انجام شد")
       query.invalidateQueries('classroom');
+    },
+    onError:() => {
+      toast.error("ساختمان موجود نمیباشد")
     }
   });
 
@@ -48,12 +53,12 @@ const CreateClassRooem = ({ isOpen, toggle , row } ) => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      toggle={toggle}
+      isOpen={show}
+      toggle={() => setShow(!show)}
       className="bg-transparent"
       
     >
-      <ModalHeader className="bg-transparent" toggle={toggle}>  </ModalHeader>
+      <ModalHeader className="bg-transparent" toggle={() => setShow(!show)}>  </ModalHeader>
         <ModalBody className="px-sm-5 mx-50 pb-5">
           <div className="text-center mb-2">
             <h1 className="mb-1">{row ? 'بروزرسانی کلاس  ' : 'افزودن کلاس'} </h1>
@@ -108,7 +113,7 @@ const CreateClassRooem = ({ isOpen, toggle , row } ) => {
                 </Input>
 
                 <Button type="submit" color="primary">ارسال</Button>
-                <Button type="reset" color="secondary" outline onClick={() => setShow(false)}>انصراف</Button>
+                <Button type="reset" color="secondary" outline onClick={() => setShow(!show)}>انصراف</Button>
               </Form>
             )}
           </Formik>

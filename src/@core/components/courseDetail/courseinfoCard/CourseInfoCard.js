@@ -23,6 +23,8 @@ import { persianNumberFormatter } from "../../../../core/utility/persian-number-
 import { getCourseGroupAPI } from "../../../../core/services/Paper";
 import { handleDeleteCourse } from "../../../../utility/hooks/deleteCourse";
 import { handleActiveInactiveCourse } from "../../../../utility/hooks/activeCourse";
+import useQueryGet from "../../../../customHook/useQueryGet";
+import CourseSocialGroupModal from "../../coursesocialgroup/CourseSocialGroupModal";
 //import { handleDeleteCourse } from "../../../utility/delete-course-alert.utils";
 //import { handleActiveInactiveCourse } from "../../../utility/active-inactive-course.utils";
 
@@ -42,14 +44,19 @@ const CourseInfoCard = ({ course , refetch }) => {
   // ** States
   const [courseGroup, setCourseGroup] = useState();
   const [isDeleted, setIsDeleted] = useState(false);
+  const [comModal, setComModal] = useState(false);
 
-  // const ChangeHandler = () => {
-  //   setChangeFlag(!changeFlag)
-  // }
-  // ** Hooks
   const navigate = useNavigate();
 
-  // ** Render course img
+  const {data :socialgroup , refetch: refetchGroup  } = useQueryGet(["GetDetailCourse"] , ("/CourseSocialGroup")) 
+
+  console.log("socialgroup" , socialgroup)
+ //console.log("course?.id" ,course)
+
+  const filtered = socialgroup?.filter((item) => item.courseId === course?.courseId )
+
+  console.log("filtered" , filtered)
+
   const renderCourseImg = () => {
     if (course?.imageAddress !== "undefined" && course?.imageAddress !== null) {
       return (
@@ -189,6 +196,16 @@ const CourseInfoCard = ({ course , refetch }) => {
                     </div>
                   </li>
                 )}
+                <li style={{display: "flex", flexFlow: "wrap" , gap: "3px"}}>
+                  <span onClick={() => {  setComModal(!comModal);}} className="fw-bolder me-25" style={{cursor: "pointer"}}>گروه اجتماعی  دوره :</span>
+                  {filtered?.map((item , index) => {
+                    return (
+                    
+                       <  Badge color="light-primary">  {item.groupLink} </Badge>
+                      
+                     )
+                  })}
+                </li>
               </ul>
             ) : null}
           </div>
@@ -232,6 +249,12 @@ const CourseInfoCard = ({ course , refetch }) => {
           </div>
         </CardBody>
       </Card>
+      <CourseSocialGroupModal 
+         setComModal={setComModal}
+         comModal={comModal}
+         id={course?.courseId}
+         refetch={refetchGroup}
+      />
     </Fragment>
   );
 };

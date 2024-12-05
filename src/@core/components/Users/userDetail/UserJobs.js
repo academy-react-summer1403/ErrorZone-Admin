@@ -3,43 +3,37 @@ import ReactPaginate from "react-paginate";
 
 import DataTable from "react-data-table-component";
 
-import { CheckCircle, ChevronDown } from "react-feather";
+import { CheckCircle, ChevronDown, Trash } from "react-feather";
 
 import "@styles/react/libs/tables/react-dataTable-component.scss";
 
 // ** Reactstrap Imports
 import { Button, Card, CardHeader, Col, Input, Label, Row } from "reactstrap";
-import { Columns } from "../@core/components/assistanceWork/asscolumns";
+import useQueryGet from "../../../../customHook/useQueryGet";
+import { JobsColumns } from "../../jobsPage/JobsColumns";
+import CreateJobs from "../../jobsPage/CreateJobs";
 
-import useQueryGet from "../customHook/useQueryGet";
-//import { CustomPagination } from '../@core/components/pagination';
-//import { convertDateToPersian } from '../utility/hooks/date-helper.utils';
-//import BreadCrumbs from '../@core/components/breadcrumbs';
-//import StatsHorizontal from '../@core/components/StatsHorizontal';
-//import useMutationPut from '../customHook/useMutationPut';
-//import CustomAssHeader from '../@core/components/assistanceWork/assistanceWork';
-import CreateAss from "../@core/components/assistanceWork/createAss";
-import { ClassRoomColumns } from "../@core/components/classRoom/ClassRoomColumn";
-import CreateClassRooem from "../@core/components/classRoom/CreateClassRoom";
-import BreadCrumbs from "../@core/components/breadcrumbs";
-import StatsHorizontal from "../@core/components/StatsHorizontal";
-
-const ClassRoom = () => {
+const UserJobs = ({userDetails}) => {
   // ** States
   const [currentPage, setCurrentPage] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [changeFlage, setChangeFlage] = useState([]);
   const [editModal, setEditModal] = useState(false);
-
+  const [show, setShow] = useState(false);
   const toggleEditModal = () => setEditModal(!editModal);
 
-  const { data: list  } = useQueryGet(["classroom"], "/ClassRoom");
+  const { data: list, refetch } = useQueryGet(["jobs"], "/SharePanel/GetJobHistoriesAdmin");
+
+  const myJob = list?.filter((item) => item?.id === userDetails?.id)
+
+  const deActiveCourses = list?.filter((course) => course.statusName === "منقضی شده")
+   const activeCourses = list?.filter((course) => course.statusName === "شروع ثبت نام")
+   const countinueCourse = list?.filter((course) => course.statusName ===  "درحال برگزاری"  )
 
   const endOffset = itemOffset + rowsPerPage;
-  const currentItems = list?.slice(itemOffset, endOffset);
+  const currentItems = myJob?.slice(itemOffset, endOffset);
 
   // ** Function to handle filter
   const handleFilter = (e) => {
@@ -48,12 +42,12 @@ const ClassRoom = () => {
     setSearchValue(value);
 
     if (value.length) {
-      updatedData = list?.filter((reserve) => {
-        const startsWith = reserve.classRoomName
+      updatedData = myJob?.filter((reserve) => {
+        const startsWith = reserve.statusName
           .toLowerCase()
           .startsWith(value.toLowerCase());
 
-        const includes = reserve.classRoomName
+        const includes = reserve.statusName
           .toLowerCase()
           .includes(value.toLowerCase());
 
@@ -71,7 +65,7 @@ const ClassRoom = () => {
   // ** Function to handle Pagination
   const handlePagination = (event) => {
     setCurrentPage(event.selected + 1);
-    const newOffset = (event.selected * rowsPerPage) % list?.length;
+    const newOffset = (event.selected * rowsPerPage) % myJob?.length;
 
     setItemOffset(newOffset);
   };
@@ -103,7 +97,7 @@ const ClassRoom = () => {
         pageCount={
           searchValue.length
             ? Math.ceil(filteredData.length / rowsPerPage)
-            : Math.ceil(list.length / rowsPerPage) || 1
+            : Math.ceil(myJob.length / rowsPerPage) || 1
         }
         onPageChange={(page) => handlePagination(page)}
         containerClassName="pagination react-paginate separated-pagination pagination-sm justify-content-end pe-1 mt-1"
@@ -113,37 +107,12 @@ const ClassRoom = () => {
 
   return (
     <>
-      <div>
-        <BreadCrumbs
-          title=" مدیریت دوره ها"
-          data={[
-            { title: " لیست ها", link: "/news" },
-            { title: "لیست کلاس ها" },
-          ]}
-        />
-        <div className="app-user-list w-100">
-          <Row>
-            <Col lg="3" sm="6">
-              <StatsHorizontal
-                color="success"
-                statTitle="همه ی کلاس ها"
-                icon={<CheckCircle />}
-                renderStats={
-                  <h3 className="fw-bolder mb-75"> {list?.length || 0} </h3>
-                }
-                className="cursor-pointer"
-                backgroundColor={"rgb(0 0 0 / 23%)"}
-              />
-            </Col>
-          </Row>
-        </div>
-      </div>
       <Card>
-        <CardHeader tag="h4"> کلاس ها </CardHeader>
+        <CardHeader tag="h4">   سوابق </CardHeader>
         <div className="react-dataTable user-view-account-projects">
-          {list?.length === 0 ? (
+          {myJob?.length === 0 ? (
             <span className="no-user-course-reserve-found-text">
-              متاسفانه کلاسی پیدا نشد
+              متاسفانه سوابقی پیدا نشد
             </span>
           ) : (
             <>
@@ -186,16 +155,19 @@ const ClassRoom = () => {
                   />
                   <Button
                     color="primary"
+                    size="sm"
+                    style={{ marginRight: "10px", marginBottom: "5px" }}
                     onClick={(e) => {
                       e.preventDefault();
-                      toggleEditModal();
+                      setShow(!show);
                     }}
                   >
-                    افزودن کلاس
-                    <CreateClassRooem
-                      isOpen={editModal}
-                      toggle={toggleEditModal}
-                    />
+                    افزودن شغل
+                     <CreateJobs
+                      show={show}
+                      setShow={setShow}
+                      refetch={refetch}
+                    /> 
                   </Button>
                 </Col>
               </Row>
@@ -203,7 +175,7 @@ const ClassRoom = () => {
                 noHeader
                 pagination
                 data={searchValue.length ? filteredData : currentItems}
-                columns={ClassRoomColumns()}
+                columns={JobsColumns(refetch)}
                 className="react-dataTable"
                 sortIcon={<ChevronDown size={10} />}
                 paginationComponent={CustomPagination}
@@ -217,4 +189,5 @@ const ClassRoom = () => {
   );
 };
 
-export default ClassRoom;
+export default UserJobs;
+
