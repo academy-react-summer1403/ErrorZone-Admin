@@ -7,6 +7,7 @@ import { convertDateToPersian } from '../../../utility/hooks/date-helper.utils';
 import { Edit } from 'react-feather';
 import { Tooltip } from 'reactstrap';
 import CreateAss from './createAss';
+import UpdateAss from './UpdateAss';
 
 
 export const Columns = (toggleEditModal) =>  [
@@ -90,17 +91,18 @@ export const Columns = (toggleEditModal) =>  [
         reorder: true,
         minWidth: "200px",
         cell: (row) => {
-          return (
+          const [selectedItem, setSelectedItem] = useState(null);
+          const [show, setShow] = useState(false); 
 
-            <div onClick={(e) => {
-  
-                toggleEditModal();
-                
-                  }}>
-            <Edit/>
-            <CreateAss row={ console.log("row1111111" , row)  } />
-          </div>
-      
+          return (
+            <> 
+
+            <div  style={{cursor: "pointer"}} onClick={() => {setShow(true), setSelectedItem(row)}}>                  
+            <Edit size={18}/> 
+            </div>
+            {show && <UpdateAss  show={show} setShow={setShow}   row={selectedItem}/>    }    
+           </>
+           
           );
         },
       },

@@ -1,6 +1,6 @@
 
 
-import { Mail, Home, Airplay, Circle, Book , Users , Code, Calendar, MapPin, BookOpen , MessageSquare} from "react-feather";
+import { Mail, Home, Airplay, Circle, Book , Users , Code, Calendar, MapPin, BookOpen , MessageSquare, MessageCircle, Globe, MoreHorizontal, AlignJustify, Map} from "react-feather";
 
 export default [
   {
@@ -30,7 +30,12 @@ export default [
         title: "منتور ها",
         navLink: "/assistancecourse",
         icon: <Circle />,
-      },      
+      }, 
+      {
+        title: "شغل ها",
+        navLink: "/jobs",
+        icon: <Circle />,
+      },            
     ],
   },
 
@@ -78,16 +83,43 @@ export default [
     },
     {
       id: "buildinglist",
-      title: " ساختمان ها",
-      icon: <MapPin size={12} />,
-      navLink: "/building",
-    },
+      title: "مدیریت بخش ها",
+      icon: <Map size={20} />,
+      children: [
+       {
+        id: "buildinglist",
+        title: " ساختمان ها",
+        icon: <Circle size={12} />,
+        navLink: "/building",
+       },
+       {
+        id: "buildinglist",
+        title: " بخش  ها",
+        icon: <Circle size={12} />,
+        navLink: "/departmemnt",
+       },               
+      ]
+    }, 
+
     {
       id: "AssistanceworlList",
       title: " تسک ها",
       icon: <Book size={12} />,
       navLink: "/AssistanceWork",
-    },    
+    },  
+    
+    {
+      id: "collection",
+      title: " دسته بندی ها",
+      icon: <AlignJustify size={20} />,
+      children: [  
+        {
+          title: " تکنولوژی ها",
+          navLink: "/technologhy",
+          icon: <Circle />,
+        },
+      ]    
+    },
 
     {
       id: "courses",
@@ -141,7 +173,21 @@ export default [
     navLink: "/classes",
     icon: <Circle />,
   },  
-  
+   {
+    title: "ترم ها",
+    navLink: "/terms",
+    icon: <Circle />,
+  },
+   {
+    title: "سطح بندی دوره",
+    navLink: "/courselevel",
+    icon: <Circle />,
+  },
+   {
+    title: " وضعیت دوره",
+    navLink: "/coursestatus",
+    icon: <Circle />,
+  },        
 
       ]
     },
@@ -169,9 +215,13 @@ export default [
     title: "تقویم",
     navLink: "/calendar",
     icon: <Calendar />,
-  },    
-
-
+  },  
+  {
+    title: "گروه اجتماعی ",
+    navLink: "/socialgrouop",
+    icon: <Globe />,
+  },      
+   
     {
     id: "chat",
     title: "چت",

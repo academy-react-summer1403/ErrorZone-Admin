@@ -52,8 +52,18 @@ import ClassRoom from "../../pages/ClassRoom";
 import AssistanceCourse from "../../pages/AssistanceCourse";
 //import CreateUserPage from "../../pages/CreateUser";
 import Chat from "../../pages/chat/chat";
+
+import Terms from "../../pages/Terms";
+import SocialGroup from "../../pages/SocialGroup";
+import CourseLevelPage from "../../pages/CourseLevelPage";
+import CourseStatus from "../../pages/CourseStatus";
+import Technologhy from "../../pages/Technologhy";
+import Jobs from "../../pages/Jobs";
+import Department from "../../pages/Department";
+
 import AdminScheduals from "../../pages/Schedual/AdminSheduals/AdminScheduals";
 import TeacherSheduals from "../../pages/Schedual/TeacherSheduals/TeacherSheduals";
+
 // import AppChat from "../../pages/chat";
 
 const getLayout = {
@@ -120,6 +130,10 @@ const Routes = [
     element: <CreateCoursePage />,
   },
   {
+    path: "/terms",
+    element: <Terms />,
+  },  
+  {
     path: "/coursegroups",
     element: <CourseGroupsPage />,
   },
@@ -154,6 +168,14 @@ const Routes = [
     path: "/coursegroups/edit/:id",
     element: <EditCourseGroupPage />,
   },
+   {
+    path: "/courselevel",
+    element: <CourseLevelPage />,
+  }, 
+   {
+    path: "/coursestatus",
+    element: <CourseStatus />,
+  },   
   {
     path: "/users",
     element: <Users />,
@@ -176,6 +198,10 @@ const Routes = [
     path: "create-user",
     element: <CreateUserPage />,
   },
+  {
+    path: "/jobs",
+    element: <Jobs />,
+  },  
   {
     path: "/assistancecourse",
     element: <AssistanceCourse />,
@@ -230,6 +256,10 @@ const Routes = [
     element: <Building />,
   },
   {
+    path: "/departmemnt",
+    element: <Department />,
+  },
+  {
     path: "/AssistanceWork",
     element: <AssistanceWork />,
   },
@@ -251,7 +281,14 @@ const Routes = [
     path: "/chat",
     element: <Chat />,
   },
-
+  {
+    path: "/socialgrouop",
+    element: <SocialGroup />,
+  },  
+   {
+    path: "/technologhy",
+    element: <Technologhy />,
+  },   
   {
     path: "/login",
     element: <Login />,

@@ -10,27 +10,30 @@ import useQueryGet from '../../../customHook/useQueryGet';
 import useMutationPut from '../../../customHook/useMutationPut';
 import useMutationPost from '../../../customHook/useMutationPost';
 import { UpdateAssWork } from '../../../core/services/Paper';
+import toast from 'react-hot-toast';
 
-const CreateAss = ({ isOpen, toggle , row }) => {
+const UpdateAss = ({ isOpen, toggle , row , setShow , show }) => {
 
 
 console.log(row,"awofnvaifnapifn")
    const query = useQueryClient();
     const [courseAss, setCourseAss] = useState()
 
+    console.log("row" , row)
+
     const { data : courseAssData } = useQueryGet(['getCourseAss'], '/CourseAssistance');
 
   const defaultValue = row ? {
-    id: row?.id || null,
-    worktitle: row?.worktitle || '',
-    workDescribe: row?.workDescribe || '',
-    workDate: row?.workDate || '',
-    assistanceId: courseAss || '',
+    id: row?.id,
+    worktitle: row?.worktitle ,
+    workDescribe: row?.workDescribe ,
+    workDate: row?.workDate ,
+    assistanceId: row?.id ,
   } : {
     worktitle: '',
     workDescribe: '',
     workDate: '',
-    assistanceId: courseAss
+    assistanceId: row?.id,
   };
 
   const validationSchema = Yup.object().shape({
@@ -44,6 +47,7 @@ const updateAssWork = useMutation({
     mutationKey: ['updateAssWork'],
     mutationFn: (BulldingData) => UpdateAssWork(BulldingData, row),
     onSuccess: () => {
+        toast.success("تسک شما اضافه شد")        
         toggle()
       query.invalidateQueries('getAss');
     }
@@ -56,12 +60,11 @@ const updateAssWork = useMutation({
 
   return (
     <Modal
-      isOpen={isOpen}
-      toggle={toggle}
+    isOpen={show} toggle={() => setShow(!show)}
       className="bg-transparent"
       
     >
-      <ModalHeader className="bg-transparent" toggle={toggle}>  </ModalHeader>
+      <ModalHeader className="bg-transparent" toggle={() => setShow(!show)}>  </ModalHeader>
       <ModalBody className="px-sm-5 mx-50 pb-5">
           <div className="text-center mb-2">
             <h1 className="mb-1">{row ? 'بروزرسانی تعیین تسک ' : 'افزودن   تسک'} </h1>
@@ -138,4 +141,4 @@ const updateAssWork = useMutation({
   );
 };
 
-export default CreateAss;
+export default UpdateAss;
