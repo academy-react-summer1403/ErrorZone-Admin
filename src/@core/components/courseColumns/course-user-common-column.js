@@ -56,7 +56,7 @@ export const COURSE_USERS_COMMON_COLUMNS = (redirectUrl) => [
 
           if (sendReserveToCourse.success) {
             toast.success("رزرو با موفقیت تایید شد !");
-            navigate(redirectUrl);
+            // navigate(redirectUrl);
           } else {
             toast.error(sendReserveToCourse.ErrorMessage);
           }

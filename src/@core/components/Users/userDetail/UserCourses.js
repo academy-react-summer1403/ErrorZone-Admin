@@ -36,7 +36,7 @@ const UserCourses = ({ userCourses }) => {
     setSearchValue(value);
 
     if (value.length) {
-      updatedData = userCourses.filter((reserve) => {
+      updatedData = userCourses?.filter((reserve) => {
         const startsWith = reserve.title
           .toLowerCase()
           .startsWith(value.toLowerCase());
@@ -91,7 +91,7 @@ const UserCourses = ({ userCourses }) => {
         pageCount={
           searchValue.length
             ? Math.ceil(filteredData.length / rowsPerPage)
-            : Math.ceil(userCourses.length / rowsPerPage) || 1
+            : Math.ceil(userCourses?.length / rowsPerPage) || 1
         }
         onPageChange={(page) => handlePagination(page)}
         containerClassName="pagination react-paginate separated-pagination pagination-sm justify-content-end pe-1 mt-1"

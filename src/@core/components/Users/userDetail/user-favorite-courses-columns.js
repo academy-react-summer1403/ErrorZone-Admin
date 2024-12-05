@@ -16,7 +16,7 @@ export const USER_FAVORITE_COURSES_COLUMNS = [
     cell: (row) => {
       return (
         <Link
-          to={`/courses/${row.courseId}`}
+          to={`/courseDetail/${row.courseId}`}
           className="d-flex align-items-center"
         >
           <img

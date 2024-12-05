@@ -33,8 +33,8 @@ const UserDetail = () => {
   //const [userDetails, setUserDetails] = useState([]);
   const [reftch, setReftch] = useState(true);
   const [show, setShow] = useState(false);
-const [modalShow, setModalShow] = useState(false);
-const [coursGroup, setCoursGroup] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [coursGroup, setCoursGroup] = useState([]);
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -46,77 +46,77 @@ const [coursGroup, setCoursGroup] = useState([]);
   };
 
 
-   const { data:userDetails } = useQueryGet(["userDetails"] , `/User/UserDetails/${id}`)
+  const { data: userDetails } = useQueryGet(["userDetails"], `/User/UserDetails/${id}`)
 
-//   const getProfile = async (id) => {
-//     try {
-//       const users = await getUserDetails(id);
+  //   const getProfile = async (id) => {
+  //     try {
+  //       const users = await getUserDetails(id);
 
-//       setUserDetails(users);
-//       dispatch(handleUsersDetails(users));
-//     } catch (error) {
-//       throw new Error("ERROR: ", error);
-//     }
-//   };
+  //       setUserDetails(users);
+  //       dispatch(handleUsersDetails(users));
+  //     } catch (error) {
+  //       throw new Error("ERROR: ", error);
+  //     }
+  //   };
 
-//   const submitUserUpdate = async (values) => {
-//     const userInfo = {
-//       id: userDetails.id,
-//       fName: values.firstName,
-//       lName: values.lastName,
-//       userName: values.username,
-//       gmail: values.email,
-//       active: values.status,
-//       nationalCode: values.nationalCode,
-//       phoneNumber: values.contact,
-//       isDelete: userDetails.isDelete ?? false,
-//       isTecher: userDetails.isTecher ?? false,
-//       isStudent: userDetails.isStudent ?? false,
-//       recoveryEmail: userDetails.recoveryEmail ?? "",
-//       twoStepAuth: userDetails.twoStepAuth ?? false,
-//       userAbout: userDetails.userAbout ?? "",
-//       currentPictureAddress: userDetails.currentPictureAddress ?? "",
-//       linkdinProfile: userDetails.linkdinProfile ?? "",
-//       telegramLink: userDetails.telegramLink ?? "",
-//       receiveMessageEvent: userDetails.receiveMessageEvent ?? "",
-//       homeAdderess: userDetails.homeAdderess ?? "",
-//       gender: userDetails.gender ?? false,
-//       latitude: userDetails.latitude ?? "",
-//       longitude: userDetails.longitude ?? "",
-//       insertDate: userDetails.insertDate ?? undefined,
-//       birthDay: userDetails.birthDay ?? undefined,
-//       roles: userDetails.roles ?? [],
-//       courses: userDetails.courses ?? [],
-//       coursesReseves: userDetails.coursesReseves ?? [],
-//       userProfileId: userDetails.userProfileId ?? undefined,
-//     };
-//     try {
-//       const res= await updateUser(userInfo);
-//       console.log("respon",res);
-//       setReftch((old) => !old);
-//       setShow(false);
-//     } catch (error) {
-//       throw new Error("ERROR: ", error);
-//     }
-//   };
+  //   const submitUserUpdate = async (values) => {
+  //     const userInfo = {
+  //       id: userDetails.id,
+  //       fName: values.firstName,
+  //       lName: values.lastName,
+  //       userName: values.username,
+  //       gmail: values.email,
+  //       active: values.status,
+  //       nationalCode: values.nationalCode,
+  //       phoneNumber: values.contact,
+  //       isDelete: userDetails.isDelete ?? false,
+  //       isTecher: userDetails.isTecher ?? false,
+  //       isStudent: userDetails.isStudent ?? false,
+  //       recoveryEmail: userDetails.recoveryEmail ?? "",
+  //       twoStepAuth: userDetails.twoStepAuth ?? false,
+  //       userAbout: userDetails.userAbout ?? "",
+  //       currentPictureAddress: userDetails.currentPictureAddress ?? "",
+  //       linkdinProfile: userDetails.linkdinProfile ?? "",
+  //       telegramLink: userDetails.telegramLink ?? "",
+  //       receiveMessageEvent: userDetails.receiveMessageEvent ?? "",
+  //       homeAdderess: userDetails.homeAdderess ?? "",
+  //       gender: userDetails.gender ?? false,
+  //       latitude: userDetails.latitude ?? "",
+  //       longitude: userDetails.longitude ?? "",
+  //       insertDate: userDetails.insertDate ?? undefined,
+  //       birthDay: userDetails.birthDay ?? undefined,
+  //       roles: userDetails.roles ?? [],
+  //       courses: userDetails.courses ?? [],
+  //       coursesReseves: userDetails.coursesReseves ?? [],
+  //       userProfileId: userDetails.userProfileId ?? undefined,
+  //     };
+  //     try {
+  //       const res= await updateUser(userInfo);
+  //       console.log("respon",res);
+  //       setReftch((old) => !old);
+  //       setShow(false);
+  //     } catch (error) {
+  //       throw new Error("ERROR: ", error);
+  //     }
+  //   };
 
 
-//   useEffect(() => {
-//     getProfile(id);
-//   }, [id, reftch]);
+  //   useEffect(() => {
+  //     getProfile(id);
+  //   }, [id, reftch]);
 
   return (
     <div className="app-user-view">
       <Row>
         <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
-           <UserInfoCard
+          <UserInfoCard
             userDetails={userDetails}
             setReftch={setReftch}
-           // submitUserUpdate={submitUserUpdate}
+            // submitUserUpdate={submitUserUpdate}
             show={show}
             setShow={setShow}
             reftch={reftch}
-          /> 
+          />
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
           <UserTabs

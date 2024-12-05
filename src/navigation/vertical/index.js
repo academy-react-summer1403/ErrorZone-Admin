@@ -145,6 +145,25 @@ export default [
 
       ]
     },
+    {
+      id: "schedual",
+      title: "زمان بندی",
+      icon: <Calendar size={20} />,
+      children: [
+        {
+          id: "adminSheduals",
+          title: "زمان بندی ادمین ها",
+          icon: <Circle size={12} />,
+          navLink: "/admin-schedual",
+        },      
+        {
+          id: "adminSheduals",
+          title: "زمان بندی اساتید",
+          icon: <Circle size={12} />,
+          navLink: "/teacher-schedual",
+        },          
+      ],
+    },
 
   {
     title: "تقویم",

@@ -536,7 +536,7 @@ const Courses = () => {
                     </td>
                     <td>
                       <Link to={`/courseDetail/${item.courseId}`}>
-                        <Button color="dark">ویرایش</Button>
+                        <Button color="dark">جزئیات دوره</Button>
                       </Link>
                     </td>
                   </tr>

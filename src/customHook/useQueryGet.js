@@ -8,8 +8,6 @@ import { Value } from 'sass'
 const getList = async (url) => {
     const result = await http.get(url)
     return result
-
-    // console.log(result);
 }
 
 const useQueryGet = (key, url) => {

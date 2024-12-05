@@ -52,6 +52,8 @@ import ClassRoom from "../../pages/ClassRoom";
 import AssistanceCourse from "../../pages/AssistanceCourse";
 //import CreateUserPage from "../../pages/CreateUser";
 import Chat from "../../pages/chat/chat";
+import AdminScheduals from "../../pages/Schedual/AdminSheduals/AdminScheduals";
+import TeacherSheduals from "../../pages/Schedual/TeacherSheduals/TeacherSheduals";
 // import AppChat from "../../pages/chat";
 
 const getLayout = {
@@ -231,6 +233,14 @@ const Routes = [
     path: "/AssistanceWork",
     element: <AssistanceWork />,
   },
+   {
+    path: "/admin-schedual",
+    element: <AdminScheduals />,
+  }, 
+   {
+    path: "/teacher-schedual",
+    element: <TeacherSheduals />,
+  }, 
 
   {
     path: "/calendar",
