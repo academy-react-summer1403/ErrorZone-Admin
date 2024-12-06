@@ -70,7 +70,7 @@
     "postcss-rtl": "^2.0.0",
     "prismjs": "^1.28.0",
     "process": "^0.11.10",
-    "rc-input-number": "^7.3.11",
+    "rc-input-number": "^7.4.2",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-chartjs-2": "^5.0.1",

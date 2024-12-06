@@ -20,7 +20,9 @@ import { convertDateToPersian } from "../utility/hooks/date-helper.utils";
 import useMutationPut from "../customHook/useMutationPut";
 import { useQuery } from "@tanstack/react-query";
 import http from "../core/services/interceptor"
-import GroupeSchedualModal from "./GroupeSchedualModal";
+import GroupeSchedualModal from "./GroupeSchedualModalEdit";
+import GroupeSchedualModalEdit from "./GroupeSchedualModalEdit";
+import GroupeSchedualModalAdd from "./GroupeSchedualModalAdd";
 
 const CorseGroupeScheduals = ({shedualsData}) => {
   const [rowsPerPage, setrowsPerPage] = useState(10);
@@ -156,7 +158,7 @@ const CorseGroupeScheduals = ({shedualsData}) => {
         minWidth: "100px",
         selector: (row) => {
             return(
-                <GroupeSchedualModal />
+                <GroupeSchedualModalEdit data={row} id={row.id} courseGroupId={id} currentCourseId={data?.courseGroupDto.courseId} />
             )
         },
       },
@@ -244,7 +246,7 @@ const CorseGroupeScheduals = ({shedualsData}) => {
     <Fragment>
       <Card>
         <CardHeader className="border-bottom">
-          <CardTitle tag="h4">زمان بندی ادمین ها</CardTitle>
+          <CardTitle tag="h4">زمان بندی گروه دوره</CardTitle>
         </CardHeader>
         <Row className="mx-0 mt-1 mb-50">
           <Col sm="6">
