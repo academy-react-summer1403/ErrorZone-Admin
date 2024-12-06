@@ -57,8 +57,8 @@ const ChangeHandler = () => {
 
           if (deleteCourseComment.success) {
             toast.success("نظر با موفقیت حذف شد !");
-
-            navigate(`/courses/${id}`);
+            ChangeHandler()
+           
           }
         });
       },

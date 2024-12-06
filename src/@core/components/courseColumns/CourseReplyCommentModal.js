@@ -29,6 +29,7 @@ const CourseReplyCommentModal = ({
   describe,
   toggleModal,
   modal,
+  ChangeHandler,
 }) => {
   // ** States
   const [commentText, setCommentText] = useState();
@@ -53,14 +54,14 @@ const CourseReplyCommentModal = ({
 
       if (sendReplyComment.success) {
         toast.success("ریپلای شما با موفقیت ثبت شد !");
-
-        navigate(`/courseDetail/${id}`);
+        ChangeHandler()
+        // navigate(`/courseDetail/${id}`);
       } else {
-        toast.error("مشکلی در ارسال ریپلای شما به وجود آمد !");
+        toast.error("دوره مورد نظر شما موجود نمی باشد");
         toast.error(sendReplyComment.ErrorMessage[0]);
       }
     } catch (error) {
-      toast.error("مشکلی در ارسال ریپلای شما به وجود آمد !");
+      toast.error("دوره مورد نظر شما موجود نمی باشد");
     }
   };
 

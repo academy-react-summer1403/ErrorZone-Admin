@@ -4,18 +4,8 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
-// ** Reactstrap Imports
 import { Badge, Button } from "reactstrap";
-
-// ** Icon Imports
 import { CheckCircle, Trash, XCircle } from "react-feather";
-
-// ** Custom Components
-//import CourseReplyCommentModal from "./CourseReplyCommentModal";
-
-
-// ** Image Imports
 import blankThumbnail from "./../../assets/images/portrait/small/blank-Thumbnail.jpg";
 import { acceptCourseCommentAPI, deleteCourseCommentAPI, rejectCourseCommentAPI } from "../../../core/services/Paper";
 import CourseReplyCommentModal from "./CourseReplyCommentModal";
@@ -109,7 +99,6 @@ export const COURSE_COMMENTS_COLUMNS = (ChangeHandler) => [
           if (acceptCourseComment.success) {
             toast.success("نظر با موفقیت تایید شد !");
             ChangeHandler()
-            // navigate(`/courseDetail/${row.courseId}`);
           } else {
             toast.error("مشکلی در تایید نظر به وجود آمد !");
           }
@@ -125,7 +114,6 @@ export const COURSE_COMMENTS_COLUMNS = (ChangeHandler) => [
           if (rejectCourseComment.success) {
             toast.success("نظر با موفقیت لغو شد !");
 
-            // navigate(`/courseDetail/${row.courseId}`);
             ChangeHandler()
           } else {
             toast.error("مشکلی در لغو نظر از دید کاربران به وجود آمد !");
@@ -157,8 +145,7 @@ export const COURSE_COMMENTS_COLUMNS = (ChangeHandler) => [
 
             if (deleteCourseComment.success) {
               toast.success("نظر با موفقیت حذف شد !");
-
-              navigate(`/courseDetail/${row.courseId}`);
+              ChangeHandler()      
             }
           },
         });
@@ -213,6 +200,7 @@ export const COURSE_COMMENTS_COLUMNS = (ChangeHandler) => [
               toggleModal={toggleModal}
               modal={modal}
               courseReserve={[]}
+              ChangeHandler={ChangeHandler}
             />
           </div>
         </div>
