@@ -22,7 +22,6 @@ import { useQuery } from "@tanstack/react-query";
 import http from "../core/services/interceptor"
 import GroupeSchedualModal from "./GroupeSchedualModalEdit";
 import GroupeSchedualModalEdit from "./GroupeSchedualModalEdit";
-import GroupeSchedualModalAdd from "./GroupeSchedualModalAdd";
 
 const CorseGroupeScheduals = ({shedualsData}) => {
   const [rowsPerPage, setrowsPerPage] = useState(10);
