@@ -18,6 +18,7 @@ import { convertDateToPersian } from "../../../utility/hooks/date-helper.utils";
 import useMutationPut from "../../../customHook/useMutationPut";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import SchedualModalAdd from "../../SchedualModalAdd";
 
 const AdminScheduals = () => {
   const [rowsPerPage, setrowsPerPage] = useState(10);
@@ -226,6 +227,7 @@ const AdminScheduals = () => {
       <Card>
         <CardHeader className="border-bottom">
           <CardTitle tag="h4">زمان بندی ادمین ها</CardTitle>
+          <SchedualModalAdd />
         </CardHeader>
         <Row className="mx-0 mt-1 mb-50">
           <Col sm="6">
