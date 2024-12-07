@@ -56,11 +56,11 @@ const CourseReplyCommentModal = ({
 
         navigate(`/courseDetail/${id}`);
       } else {
-        toast.error("مشکلی در ارسال ریپلای شما به وجود آمد !");
+        toast.error("دوره مورد نظر موجود نیست");
         toast.error(sendReplyComment.ErrorMessage[0]);
       }
     } catch (error) {
-      toast.error("مشکلی در ارسال ریپلای شما به وجود آمد !");
+      toast.error("دوره مورد نظر  موجود نیست");
     }
   };
 

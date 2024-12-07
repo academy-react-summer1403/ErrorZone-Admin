@@ -135,7 +135,7 @@ const CustomHeader = ({
 
             <Button
               tag={Link}
-              to="/create-course-group"
+              to="/createcoursegroup"
               className="add-new-user"
               color="primary"
             >

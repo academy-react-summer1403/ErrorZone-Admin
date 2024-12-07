@@ -87,7 +87,7 @@ export const ClassRoomColumns = () =>  [
        
           </div>
 
-       <CreateClassRooem show={show} setShow={setShow}  row={selectedItem}  />  
+         <CreateClassRooem show={show} setShow={setShow}  row={selectedItem}  />  
        </>
 
           );

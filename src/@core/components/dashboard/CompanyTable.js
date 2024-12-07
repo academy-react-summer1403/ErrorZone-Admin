@@ -19,8 +19,9 @@ import nophoto from '../../../@core/assets/images/portrait/small/blank-thumbnail
 const CompanyTable = () => {
 
  const {data:getTech} = useQueryGet(["getTech"] , ("/Report/DashboardTechnologyReport"))
- const data = getTech
+ const data = getTech?.slice(0,7)
 
+ 
    console.log("data" , data)
 
    const {data:getAllCourse } = useQueryGet(["getAllCourse"] , ("/Home/GetCoursesWithPagination?PageNumber=1&RowsOfPage=200"))

@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import Flatpickr from "react-flatpickr";
 import DataTable from "react-data-table-component";
-import { ChevronDown } from "react-feather";
+import { ChevronDown, Edit, Info, MoreVertical } from "react-feather";
 import ReactPaginate from "react-paginate";
 import {
   Button,
@@ -12,13 +12,19 @@ import {
   Input,
   Label,
   Row,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
 } from "reactstrap";
 import useQueryGet from "../../../customHook/useQueryGet";
 import { convertDateToPersian } from "../../../utility/hooks/date-helper.utils";
 import useMutationPut from "../../../customHook/useMutationPut";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-import SchedualModalAdd from "../../SchedualModalAdd";
+import CreateSchadualModal from "../../../@core/components/schedualsModal/CreateSchadualModal";
+import UpdateScadual from "../../../@core/components/schedualsModal/UpdateScadualsModal";
+import SchadualDetail from "../../../@core/components/schedualsModal/SchadualDetail";
 
 const AdminScheduals = () => {
   const [rowsPerPage, setrowsPerPage] = useState(10);
@@ -45,10 +51,15 @@ const AdminScheduals = () => {
     ["adminsScheduals"],
     "Schedual/GetAdminScheduals?startDate=1900/01/01&endDate=3000/01/01"
   );
+
+  console.log("dataToRender", dataToRender);
+
   const { data: courseGroups } = useQueryGet(
     ["courseGroups"],
     "/CourseGroup?PageNumber=1&RowsOfPage=1000&SortingCol=DESC&SortType=Expire&Query="
   );
+
+  console.log("courseGroups", courseGroups);
 
   const { mutate: changeForming, isSuccess: changeForminSucc } = useMutationPut(
     "/Schedual/SchedualFroming",
@@ -142,6 +153,69 @@ const AdminScheduals = () => {
           </Button>
         ),
     },
+    {
+      name: "ویرایش",
+      reorder: true,
+      minWidth: "200px",
+      cell: (row) => {
+        const [selectedItem, setSelectedItem] = useState(null);
+        const [detailselectedItem, setDetailSelectedItem] = useState(null);
+        const [show, setShow] = useState(false);
+        const [showDetail, setShowDetail] = useState(false);
+
+        return (
+          <>
+            <UncontrolledDropdown>
+              <DropdownToggle
+                color="transparent"
+                className="icon-btn hide-arrow"
+              >
+                <MoreVertical size={14} />
+              </DropdownToggle>
+              <DropdownMenu >
+                <DropdownItem>
+                  <div
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setShow(true), setSelectedItem(row);
+                    }}
+                  >
+                    <Edit size={20} />
+                    <span> ویرایش </span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem>
+                  <div
+                    onClick={() => {
+                      setShowDetail(true), setDetailSelectedItem(row);
+                    }}
+                  >
+                    <Info size={18} style={{ cursor: "pointer" }} />
+                    <span > جزییات </span>
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            {show && (
+              <UpdateScadual
+                show={show}
+                setShow={setShow}
+                row={selectedItem}
+                courseGroups={courseGroups}
+              />
+            )}
+
+            {showDetail && (
+              <SchadualDetail
+                show={showDetail}
+                setShow={setShowDetail}
+                selectedItem={detailselectedItem}
+              />
+            )}
+          </>
+        );
+      },
+    },
   ];
 
   const handleDateFilter = (range) => {
@@ -222,12 +296,14 @@ const AdminScheduals = () => {
   if (changeForminSucc) toast.success("تغییر وضعیت تشکیل با موفقیت انجام شد !");
   if (changeLockToRaiseSucc) toast.success("تغییر مجوز با موفقیت انجام شد !");
 
+  const [show, setShow] = useState(false);
+
   return (
     <Fragment>
       <Card>
         <CardHeader className="border-bottom">
           <CardTitle tag="h4">زمان بندی ادمین ها</CardTitle>
-          <SchedualModalAdd />
+          {/* <SchedualModalAdd /> */}
         </CardHeader>
         <Row className="mx-0 mt-1 mb-50">
           <Col sm="6">
@@ -250,7 +326,12 @@ const AdminScheduals = () => {
               <Label for="sort-select">entries</Label>
             </div>
           </Col>
-          <Col lg="4" md="6" className="mb-1">
+          <Col
+            lg="4"
+            md="6"
+            className="mb-1"
+            style={{ display: "flex", gap: "10px" }}
+          >
             <Label className="form-label" for="date">
               فیلتر بر اساس تاریخ
             </Label>
@@ -261,6 +342,22 @@ const AdminScheduals = () => {
               options={{ mode: "range", dateFormat: "m/d/Y" }}
               onChange={(date) => handleDateFilter(date)}
             />
+            <Button
+              color="primary"
+              size="md"
+              style={{ textWrap: "nowrap" }}
+              onClick={(e) => {
+                e.preventDefault();
+                setShow(!show);
+              }}
+            >
+              افزودن زمانبندی
+              <CreateSchadualModal
+                show={show}
+                setShow={setShow}
+                courseGroups={courseGroups}
+              />
+            </Button>
           </Col>
         </Row>
         <div className="react-dataTable">

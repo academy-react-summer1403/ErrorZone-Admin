@@ -40,6 +40,77 @@ export default [
   },
 
   {
+    id: "courses",
+    title: "مدیریت دوره ها",
+    icon: <Code size={20} />,
+    children: [
+{
+  id: "courses",
+  title: "لیست دوره ها",
+  icon: <Book size={20} />,
+  navLink: "/courses",
+  icon: <Circle />,    
+},      {
+  title: "دوره های رزرو شده",
+  navLink: "/coursereserved",
+  icon: <Circle />,
+},
+{
+
+  title: "دوره های من",
+  navLink: "/mycourses",
+  icon: <Circle />,
+},
+{
+  title: "افزودن دوره",
+  navLink: "/createcourse",
+  icon: <Circle />,
+}, 
+{
+  title: "پرداختی ها",
+  navLink: "/coursepayment",
+  icon: <Circle />,
+},       
+ {
+  title: "گروه های دوره",
+  navLink: "/coursegroups",
+  icon: <Circle />,
+},
+{
+  title: "افزودن گروه دوره",
+  navLink: "/createcoursegroup",
+  icon: <Circle />,
+},
+{
+  title: "کامنت های دوره",
+  navLink: "/coursecomments",
+  icon: <Circle />,
+}, 
+ {
+  title: "کلاس ها",
+  navLink: "/classes",
+  icon: <Circle />,
+},  
+ {
+  title: "ترم ها",
+  navLink: "/terms",
+  icon: <Circle />,
+},
+ {
+  title: "سطح بندی دوره",
+  navLink: "/courselevel",
+  icon: <Circle />,
+},
+ {
+  title: " وضعیت دوره",
+  navLink: "/coursestatus",
+  icon: <Circle />,
+},        
+
+    ]
+  },
+
+  {
     id: "smaplePage",
     title: "مدیریت اخبار و مقالات",
     icon: <Airplay size={20} />,
@@ -74,6 +145,61 @@ export default [
     ],
   },
 
+  {
+    id: "buildinglist",
+    title: "مدیریت بخش ها",
+    icon: <Map size={20} />,
+    children: [
+     {
+      id: "buildinglist",
+      title: " ساختمان ها",
+      icon: <Circle size={12} />,
+      navLink: "/building",
+     },
+     {
+      id: "buildinglist",
+      title: " بخش  ها",
+      icon: <Circle size={12} />,
+      navLink: "/departmemnt",
+     },               
+    ]
+  }, 
+  {
+    id: "schedual",
+    title: "زمان بندی",
+    icon: <Calendar size={20} />,
+    children: [
+      {
+        id: "adminSheduals",
+        title: "زمان بندی ادمین ها",
+        icon: <Circle size={12} />,
+        navLink: "/admin-schedual",
+      },      
+      {
+        id: "adminSheduals",
+        title: "زمان بندی اساتید",
+        icon: <Circle size={12} />,
+        navLink: "/teacher-schedual",
+      },          
+    ],
+  },
+
+  {
+    id: "collection",
+    title: " دسته بندی ها",
+    icon: <AlignJustify size={20} />,
+    children: [  
+      {
+        title: " تکنولوژی ها",
+        navLink: "/technologhy",
+        icon: <Circle />,
+      },
+    ]    
+  },
+
+
+
+  
 
     {
       id: "commentslist",
@@ -81,25 +207,7 @@ export default [
       icon: <Book size={12} />,
       navLink: "/comments",
     },
-    {
-      id: "buildinglist",
-      title: "مدیریت بخش ها",
-      icon: <Map size={20} />,
-      children: [
-       {
-        id: "buildinglist",
-        title: " ساختمان ها",
-        icon: <Circle size={12} />,
-        navLink: "/building",
-       },
-       {
-        id: "buildinglist",
-        title: " بخش  ها",
-        icon: <Circle size={12} />,
-        navLink: "/departmemnt",
-       },               
-      ]
-    }, 
+  
 
     {
       id: "AssistanceworlList",
@@ -107,109 +215,7 @@ export default [
       icon: <Book size={12} />,
       navLink: "/AssistanceWork",
     },  
-    
-    {
-      id: "collection",
-      title: " دسته بندی ها",
-      icon: <AlignJustify size={20} />,
-      children: [  
-        {
-          title: " تکنولوژی ها",
-          navLink: "/technologhy",
-          icon: <Circle />,
-        },
-      ]    
-    },
-
-    {
-      id: "courses",
-      title: "مدیریت دوره ها",
-      icon: <Code size={20} />,
-      children: [
-  {
-    id: "courses",
-    title: "لیست دوره ها",
-    icon: <Book size={20} />,
-    navLink: "/courses",
-    icon: <Circle />,    
-  },      {
-    title: "دوره های رزرو شده",
-    navLink: "/coursereserved",
-    icon: <Circle />,
-  },
-  {
-
-    title: "دوره های من",
-    navLink: "/mycourses",
-    icon: <Circle />,
-  },
-  {
-    title: "افزودن دوره",
-    navLink: "/createcourse",
-    icon: <Circle />,
-  }, 
-  {
-    title: "پرداختی ها",
-    navLink: "/coursepayment",
-    icon: <Circle />,
-  },       
-   {
-    title: "گروه های دوره",
-    navLink: "/coursegroups",
-    icon: <Circle />,
-  },
-  {
-    title: "افزودن گروه دوره",
-    navLink: "/createcoursegroup",
-    icon: <Circle />,
-  },
-  {
-    title: "کامنت های دوره",
-    navLink: "/coursecomments",
-    icon: <Circle />,
-  }, 
-   {
-    title: "کلاس ها",
-    navLink: "/classes",
-    icon: <Circle />,
-  },  
-   {
-    title: "ترم ها",
-    navLink: "/terms",
-    icon: <Circle />,
-  },
-   {
-    title: "سطح بندی دوره",
-    navLink: "/courselevel",
-    icon: <Circle />,
-  },
-   {
-    title: " وضعیت دوره",
-    navLink: "/coursestatus",
-    icon: <Circle />,
-  },        
-
-      ]
-    },
-    {
-      id: "schedual",
-      title: "زمان بندی",
-      icon: <Calendar size={20} />,
-      children: [
-        {
-          id: "adminSheduals",
-          title: "زمان بندی ادمین ها",
-          icon: <Circle size={12} />,
-          navLink: "/admin-schedual",
-        },      
-        {
-          id: "adminSheduals",
-          title: "زمان بندی اساتید",
-          icon: <Circle size={12} />,
-          navLink: "/teacher-schedual",
-        },          
-      ],
-    },
+  
 
   {
     title: "تقویم",

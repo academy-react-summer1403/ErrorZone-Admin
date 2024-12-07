@@ -10,8 +10,9 @@ import Flatpickr from 'react-flatpickr';
 import useMutationPut from '../../../customHook/useMutationPut';
 import useMutationPost from '../../../customHook/useMutationPost';
 import { UpdateBuildding } from '../../../core/services/Paper';
+import toast from 'react-hot-toast';
 
-const CreateBuilding = ({isOpen, toggle , item } ) => {
+const CreateBuilding = ({show, setShow , item } ) => {
 
 
     console.log("item" , item)
@@ -45,6 +46,9 @@ const CreateBuilding = ({isOpen, toggle , item } ) => {
         mutationFn: (BulldingData) => UpdateBuildding(BulldingData, item),
         onSuccess: () => {
           query.invalidateQueries('list');
+          toast.success("عملیات با موفقیت انجام شد")          
+          toggle()
+
         }
       });
     
@@ -55,12 +59,12 @@ const CreateBuilding = ({isOpen, toggle , item } ) => {
   
   return (
     <Modal
-      isOpen={isOpen}
-      toggle={toggle}
+      isOpen={show}
+      toggle={setShow(!show)}
       className="bg-transparent"
       
     >
-      <ModalHeader className="bg-transparent" toggle={toggle}>  </ModalHeader>
+      <ModalHeader className="bg-transparent" toggle={setShow(!show)}>  </ModalHeader>
       <ModalBody className="">
           <div className="">
             <h1 className="mb-1">{item ? 'بروزرسانی  ساختمان' : 'افزودن ساختمان '} </h1>
@@ -129,7 +133,7 @@ const CreateBuilding = ({isOpen, toggle , item } ) => {
                 <Map row={item} />
 
                 <Button type="submit" color="primary">ارسال</Button>
-                <Button type="reset" color="secondary" outline toggle={toggle}>انصراف</Button>
+                <Button type="reset" color="secondary" outline toggle={setShow(!show)}>انصراف</Button>
               </Form>
             )}
           </Formik>

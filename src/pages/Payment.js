@@ -48,11 +48,11 @@ const Payment = () => {
 
     if (value.length) {
       updatedData = list?.filter((reserve) => {
-        const startsWith = reserve.statusName
+        const startsWith = reserve.title
           .toLowerCase()
           .startsWith(value.toLowerCase());
 
-        const includes = reserve.statusName
+        const includes = reserve.title 
           .toLowerCase()
           .includes(value.toLowerCase());
 

@@ -2,22 +2,9 @@
 import { Fragment, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-
-// ** Reactstrap Imports
 import { Badge, Button, Card, CardBody } from "reactstrap";
-
-// ** Third Party Components
 import { Briefcase, Check } from "react-feather";
-
-// ** Custom Components
 import Avatar from "@components/avatar";
-
-// ** Core Imports
-//import { getCourseGroupAPI } from "../../../core/services/api/course/course-group/get-course-group.api";
-
-// ** Utils
-
-// ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import { persianNumberFormatter } from "../../../../core/utility/persian-number-formatter-helper";
 import { getCourseGroupAPI } from "../../../../core/services/Paper";
@@ -25,8 +12,8 @@ import { handleDeleteCourse } from "../../../../utility/hooks/deleteCourse";
 import { handleActiveInactiveCourse } from "../../../../utility/hooks/activeCourse";
 import useQueryGet from "../../../../customHook/useQueryGet";
 import CourseSocialGroupModal from "../../coursesocialgroup/CourseSocialGroupModal";
-//import { handleDeleteCourse } from "../../../utility/delete-course-alert.utils";
-//import { handleActiveInactiveCourse } from "../../../utility/active-inactive-course.utils";
+import CourseDetailScadual from "./CourseDetailScadual";
+
 
 const levelColors = {
   "فوق پیشرفته": "light-success",
@@ -45,18 +32,15 @@ const CourseInfoCard = ({ course , refetch }) => {
   const [courseGroup, setCourseGroup] = useState();
   const [isDeleted, setIsDeleted] = useState(false);
   const [comModal, setComModal] = useState(false);
+  const [show, setShow] = useState(false)
 
   const navigate = useNavigate();
 
   const {data :socialgroup , refetch: refetchGroup  } = useQueryGet(["GetDetailCourse"] , ("/CourseSocialGroup")) 
 
-  console.log("socialgroup" , socialgroup)
- //console.log("course?.id" ,course)
-
   const filtered = socialgroup?.filter((item) => item.courseId === course?.courseId )
 
-  console.log("filtered" , filtered)
-
+  
   const renderCourseImg = () => {
     if (course?.imageAddress !== "undefined" && course?.imageAddress !== null) {
       return (
@@ -209,7 +193,7 @@ const CourseInfoCard = ({ course , refetch }) => {
               </ul>
             ) : null}
           </div>
-          <div className="" style={{paddingRight: "30px", paddingTop: "50px"}}>
+          <div className="" style={{display: "flex" , gap: "5px"}}>
             <div className="">
               <Button
                 color="primary"
@@ -218,22 +202,21 @@ const CourseInfoCard = ({ course , refetch }) => {
               >
                 ویرایش
               </Button>
+              </div>
+               <div>
               <Button
-                className="ms-1"
                 color="danger"
-                outline
+
                 onClick={() =>
                   handleDeleteCourse(isDeleted, course?.courseId, setIsDeleted)
                 }
               >
-                {isDeleted ? "بازگردانی دوره" : "حذف دوره"}
+                {isDeleted ? "بازگردانی " : "حذف "}
               </Button>
             </div>
-            <div className="" style={{marginRight: "200px", position: "relative" , bottom: "38px"}}>
+            <div>
               <Button
-                className=""
                 color="success"
-                outline
                 onClick={() =>
                   handleActiveInactiveCourse(
                     course?.isActive,
@@ -243,9 +226,17 @@ const CourseInfoCard = ({ course , refetch }) => {
                   )
                 }
               >
-                {course?.isActive ? "غیر فعال کردن دوره" : "فعال کردن دوره"}
+                {course?.isActive ? "غیر فعال  " : "فعال  "}
               </Button>
             </div>
+             <div>
+              <Button
+                color="warning"
+                onClick={ () => setShow(!show)}
+              >
+                <span>  افزودن بازه زمانی   </span>
+              </Button>
+             </div>
           </div>
         </CardBody>
       </Card>
@@ -255,6 +246,7 @@ const CourseInfoCard = ({ course , refetch }) => {
          id={course?.courseId}
          refetch={refetchGroup}
       />
+      <CourseDetailScadual show={show} setShow={setShow} course={course}/>
     </Fragment>
   );
 };

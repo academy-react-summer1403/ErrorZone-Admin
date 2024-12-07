@@ -104,7 +104,7 @@ const UserDropdown = () => {
           <Settings size={14} className="me-75" />
           <span className="align-middle">ویرایش پروفایل</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to={`/mycourses/${userId}`}>
+        <DropdownItem tag={Link} to={`/mycourses`}>
           <Code size={14} className="me-75" />
           <span className="align-middle">دوره های من</span>
         </DropdownItem>

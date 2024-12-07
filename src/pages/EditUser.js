@@ -96,20 +96,6 @@ const EditUserPage = () => {
     },
   ];
 
-//   useEffect(() => {
-//     const fetchUserDetails = async () => {
-//       try {
-//         const getUserDetails = await getUserWithIdAPI(id);
-
-//         setUserDetails(getUserDetails);
-//       } catch (error) {
-//         toast.error("مشکلی در دریافت اطلاعات کاربر به وجود آمد !");
-//       }
-//     };
-
-//     fetchUserDetails();
-//   }, []);
-
   return (
     <div className="horizontal-wizard">
       <BreadCrumbs

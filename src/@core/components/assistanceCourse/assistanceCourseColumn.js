@@ -62,19 +62,21 @@ export const AssistanceCourseColumns = (toggleEditModal) =>  [
         cell: (row) => 
         
         {
+          const [selectedItem, setSelectedItem] = useState(null);                           
+          const [show, setShow] = useState(false);  
+
+          const toggle = () => {
+            setShow(!show)
+          }
 
           return (
             <> 
-            <div style={{cursor: "pointer"}} onClick={(e) => {
-                e.preventDefault()
-                toggleEditModal();
-                
-                  }}>
+            <div style={{cursor: "pointer"}}  onClick={() => {setShow(true), setSelectedItem(row)}}>
             <Edit/>
        
           </div>
 
-       {/* <Createassistance row={row} />    */}
+        <Createassistance isOpen={show} toggle={toggle}  row={selectedItem} />    
        </>
 
           );

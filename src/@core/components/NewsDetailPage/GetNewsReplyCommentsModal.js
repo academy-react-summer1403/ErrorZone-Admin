@@ -79,14 +79,14 @@ const GetNewsReplyCommentsModal = () => {
                 <DropdownMenu>
                 <DropdownItem>
 
-            <Button  onClick={handleReplyClick} >
+            <div  onClick={handleReplyClick} >
               پاسخ
-            </Button>
+            </div>
             </DropdownItem>
             <DropdownItem>
-               <Button tag={Link} to={`/papers/commentsreply/${reply?.id} `}>   
+               <Link  to={`/papers/commentsreply/${reply?.id} `}>   
                نمایش پاسخ ها
-               </Button>
+               </Link>
             </DropdownItem>
 
             </DropdownMenu>

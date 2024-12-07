@@ -44,42 +44,6 @@ const CourseSocialGroupModal = ({
     }
 
 
-    // const defaultValue = item ? {
-    //     id: item?.id || null,
-    //     buildingName: item?.buildingName || '',
-    //     floor: item?.floor || 0,
-    //     latitude: item?.latitude ? item?.latitude.toString() : '',
-    //     longitude: item?.longitude ? item?.longitude.toString() : '',
-    //     workDate: item?.workDate || '',  
-    //     active: item?.active !== undefined ? item?.active : true
-    //   } : {
-    //     groupName: '',
-    //     groupLink:'',
-    //   };
-    
-    //   const validationSchema = Yup.object().shape({
-    //     groupName: Yup.string().required('این فیلد الزامی است'),
-    //     groupLink: Yup.number().required('این فیلد الزامی است'),
-    //   });
-    
-    //   const updateBuildding = useMutation({
-    //     mutationKey: ['updateBuildding'],
-    //     mutationFn: (BulldingData) => UpdateBuildding(BulldingData, item),
-    //     onSuccess: () => {
-    //       query.invalidateQueries('list');
-    //     }
-    //   });
-    
-  
-
-    // const  { mutate : updateBuildding } = useMutationPost("/CourseSocialGroup" , ["coursesocialgroup"])
-    
-    // const handleSubmit = (values) => {
-    //      console.log("values" , values)
-    //     updateBuildding(...values , id)
-    //    };
-
-
   return (
     <div className="demo-inline-spacing">
       <div className="vertically-centered-modal">

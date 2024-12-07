@@ -145,7 +145,7 @@ const AssistanceCourse = () => {
                   value={searchValue}
                   onChange={handleFilter}
                 />
-              <Button  color='primary'  onClick={(e) => {
+              <Button style={{marginBottom: "5px" , marginRight: "5px"}} size='sm' color='primary'  onClick={(e) => {
                e.preventDefault();
                toggleEditModal();
                  }}>

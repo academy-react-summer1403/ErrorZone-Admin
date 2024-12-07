@@ -39,6 +39,12 @@ const MyCoursesPages = () => {
   const [isDeletedCourses, setIsDeletedCourses] = useState(false);
   const [isOpenCourses, setIsOpenCourses] = useState(false);
   const [selectedRows, setSelectedRows] = useState();
+  const [flag, setFlag] = useState([])
+
+  const changeFlag = () => {
+    setFlag(!flag)
+  }
+  
 
   // ** Hooks
   const navigate = useNavigate();
@@ -102,7 +108,7 @@ const MyCoursesPages = () => {
     };
 
     fetchCourses();
-  }, []);
+  }, [flag]);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -139,7 +145,7 @@ const MyCoursesPages = () => {
     };
 
     fetchCourses();
-  }, [searchText, sort, sortColumn]);
+  }, [searchText, sort, sortColumn , flag]);
 
   const { mutate: ActiveCourse } = useMutationPut (["ActiveCourse"] , "/Course/ActiveAndDeactiveCourse")
 
@@ -232,7 +238,7 @@ const MyCoursesPages = () => {
       <Card className="rounded">
         <TableServerSide
           data={dataToRender()}
-          columns={MYCOURSE_COLUMNS()}
+          columns={MYCOURSE_COLUMNS(changeFlag)}
           renderTitle={renderTitle()}
           currentPage={currentPage}
           rowsPerPage={rowsPerPage}

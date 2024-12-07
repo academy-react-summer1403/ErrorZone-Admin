@@ -157,13 +157,13 @@ export const NEWS_COLUMNS = (ChangeHandler) => [
               <MoreVertical size={17} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu end>
-              <DropdownItem tag={Link} to={`/news/${row.id}`} className="w-100">
+              <DropdownItem tag={Link} to={`/papers/view/${row.id}`} className="w-100">
                 <Eye size={14} className="me-50" />
                 <span className="align-middle">جزئیات</span>
               </DropdownItem>
               <DropdownItem
                 tag={Link}
-                to={`/news/edit/${row.id}`}
+                to={`/papers/edit/${row.id}`}
                 className="w-100"
               >
                 <Edit size={14} className="me-50" />

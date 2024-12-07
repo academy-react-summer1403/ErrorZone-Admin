@@ -32,9 +32,7 @@ const ClassRoom = () => {
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [changeFlage, setChangeFlage] = useState([]);
-  const [editModal, setEditModal] = useState(false);
-
-  const toggleEditModal = () => setEditModal(!editModal);
+  const [show, setShow] = useState(false)
 
   const { data: list  } = useQueryGet(["classroom"], "/ClassRoom");
 
@@ -186,15 +184,17 @@ const ClassRoom = () => {
                   />
                   <Button
                     color="primary"
+                    size="sm"
+                    style={{ marginRight: "10px", marginBottom: "5px" }}
                     onClick={(e) => {
                       e.preventDefault();
-                      toggleEditModal();
+                      setShow(!show)
                     }}
                   >
                     افزودن کلاس
                     <CreateClassRooem
-                      isOpen={editModal}
-                      toggle={toggleEditModal}
+                      show={show}
+                      setShow={setShow}
                     />
                   </Button>
                 </Col>

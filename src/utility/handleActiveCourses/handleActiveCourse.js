@@ -13,7 +13,8 @@ export const handleActiveInactiveCourse = async (
   isActive,
   courseId,
   navigate,
-  redirectUrl
+  redirectUrl,
+  changeFlag,
 ) => {
   MySwal.fire({
     title: isActive
@@ -43,7 +44,7 @@ export const handleActiveInactiveCourse = async (
 
       if (deleteCourse) {
         toast.success(`دوره با موفقیت ${isActive ? "غیر فعال" : "فعال"} شد !`);
-        navigate(redirectUrl);
+        changeFlag()
       } else
         toast.error(
           `مشکلی در ${

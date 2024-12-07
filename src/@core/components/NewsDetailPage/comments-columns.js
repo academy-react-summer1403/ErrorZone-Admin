@@ -98,14 +98,14 @@ export const NEWS_COMMENTS_COLUMNS = [
                 <DropdownMenu>
                 <DropdownItem>
 
-            <Button  onClick={handleReplyClick} >
+            <div  onClick={handleReplyClick} >
               پاسخ
-            </Button>
+            </div>
             </DropdownItem>
             <DropdownItem>
-               <Button tag={Link} to={`/papers/commentsreply/${row.id} `}>   
+               <Link  to={`/papers/commentsreply/${row.id} `}>   
                نمایش پاسخ ها
-               </Button>
+               </Link>
             </DropdownItem>
 
             </DropdownMenu>

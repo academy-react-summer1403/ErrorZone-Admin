@@ -9,8 +9,8 @@ import {
   Trash2,
 } from "react-feather";
 import Avatar from "@components/avatar";
-import avatarImg from "./../../../assets/images/portrait/small/avatar-s-1.jpg";
-import avatar1 from './../../../assets/images/portrait/small/jpmen.jpg'
+import avatarImg from "../../../../@core/assets/images/portrait/small/blank-thumbnail.jpg";
+
 // ** Reactstrap Imports
 import {
   Button,

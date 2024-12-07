@@ -6,7 +6,7 @@ import { deleteCourseAPI } from "../../core/services/Paper";
 
 const MySwal = withReactContent(Swal);
 
-export const handleDeleteCourse = async (isDeleted, courseId, setIsDeleted) => {
+export const handleDeleteCourse = async (isDeleted, courseId, setIsDeleted , changeFlag) => {
   MySwal.fire({
     title: isDeleted
       ? "آیا از بازگردانی دوره مطمئن هستید؟"
@@ -33,6 +33,7 @@ export const handleDeleteCourse = async (isDeleted, courseId, setIsDeleted) => {
       if (deleteCourse) {
         if (setIsDeleted) setIsDeleted((prev) => !prev);
         toast.success(`دوره با موفقیت ${isDeleted ? "بازگردانی" : "حذف"} شد !`);
+        changeFlag()
       } else toast.error("مشکلی در حذف یا بازگردانی دوره به وجود آمد !");
     },
   });

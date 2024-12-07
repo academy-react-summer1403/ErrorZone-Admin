@@ -38,6 +38,8 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
 
   }
 
+  console.log("user123444551111111111111111111111111111111111111111111" , user)
+
   // ** Hooks
   const {
     control,
@@ -57,18 +59,11 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
         gender,
         userAbout,
         homeAdderess,
-        birthDay,
+
       } = e;
 
-      console.log('BIRTHDAY', birthday)
 
-      let formattedBirthday = null;
-
-      if (birthDay instanceof Date && !isNaN(birthDay)) {
-        formattedBirthday = dateFormatter.format(birthDay);
-      }
-
-      console.log("formatbirthday", formattedBirthday)
+      
       setGlobalData({
         fName,
         lName,
@@ -76,16 +71,16 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
         gender,
         userAbout,
         homeAdderess,
-        birthDay: new Date(Picker),
+        birthDay: "2010-04-11T00:06:01",
       });
 
       stepper.next();
     }
   };
-  console.log("userbirthday", user?.birthDay)
+
   const convertDefaultBirthday = convertDateToPersian(user?.birthDay);
 
-  console.log('converdefauly', convertDefaultBirthday)
+
 
   useEffect(() => {
     if (user) {
@@ -96,7 +91,7 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
       setValue("nationalCode", user.nationalCode);
       setValue("gender", user.gender);
       setValue("homeAdderess", user.homeAdderess);
-      setValue("birthDay", convertDefaultBirthday);
+      setValue("birthDay", user?.birthDay);
     }
   }, [user, setValue]);
 
@@ -255,7 +250,7 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
               تاریخ تولد کاربر
             </Label>
             <div className="coursesDatePickerWrapper">
-              {/* <Controller
+               <Controller
                 control={control}
                 id="birthDay"
                 name="birthDay"
@@ -277,8 +272,8 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
                     
                   />
                 )}
-              /> */}
-              <Label className="form-label" for="date">
+              /> 
+              {/* <Label className="form-label" for="date">
                 فیلتر بر اساس تاریخ
               </Label>
               <Flatpickr
@@ -288,10 +283,10 @@ const GlobalData = ({ stepper, user, setGlobalData }) => {
                 value={Picker}
                 options={{ dateFormat: "m/d/Y" }}
                 onChange={(date) => handleDate(date)}
-              />
+              /> */}
 
             </div>
-            {errors.date && <FormFeedback>{errors.date.message}</FormFeedback>}
+            {/* {errors.date && <FormFeedback>{errors.date.message}</FormFeedback>} */}
           </Col>
         </Row>
         <div className="d-flex justify-content-between">

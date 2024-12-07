@@ -80,7 +80,7 @@ const CourseGroupForm = ({ group }) => {
       if (sendCourseGroup.success) {
         toast.success(`گروه با موفقیت ${group ? "ویرایش" : "ایجاد"} شد !`);
 
-        navigate("/course-groups");
+        navigate("/coursegroups");
       } else {
         toast.error(
           `مشکلی در ${group ? "ویرایش" : "ایجاد"} گروه به وجود آمد !`

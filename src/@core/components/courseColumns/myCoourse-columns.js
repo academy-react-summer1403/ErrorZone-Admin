@@ -38,7 +38,7 @@ import CourseReservedModal from "./courseReservModal";
 
 
 // ** Table columns
-export const MYCOURSE_COLUMNS = (redirectUrl) => [
+export const MYCOURSE_COLUMNS = (changeFlag) => [
   {
     name: "نام دوره",
     sortable: true,
@@ -128,7 +128,7 @@ export const MYCOURSE_COLUMNS = (redirectUrl) => [
                row.isActive,
                row.courseId,
                navigate,
-               redirectUrl
+               changeFlag()
              )
            }
         >
@@ -153,7 +153,7 @@ export const MYCOURSE_COLUMNS = (redirectUrl) => [
               : "light-warning"
           }
           className="course-column-is-delete "
-           onClick={() => handleDeleteCourse(row.isdelete, row.courseId )}
+           onClick={() => handleDeleteCourse(row.isdelete, row.courseId , changeFlag )}
            style={{cursor: "pointer"}}
         >
           {row.isdelete ? "حذف شده" : "حذف نشده"}
@@ -266,7 +266,7 @@ export const MYCOURSE_COLUMNS = (redirectUrl) => [
               toggleModal={toggleModal}
               modal={modal}
               courseReserve={courseReserve}
-              redirectUrl={redirectUrl}
+             // redirectUrl={redirectUrl}
             /> 
           </div>
         </div>
