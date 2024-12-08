@@ -12,7 +12,7 @@ import { Button, Card, CardHeader, Col, Input, Label, Row } from "reactstrap";
 import useQueryGet from '../../../../customHook/useQueryGet';
 import { CourseMentorColumns } from './CourseMentorColumns';
 //import CourseCreateMentor from './CourseCreateMentor';
-import Createassistance from '../../assistanceCourse/createassistance';
+//import Createassistance from '../../assistanceCourse/createassistance';
 
 
 const CourseMentor = ({course}) => {
@@ -157,7 +157,7 @@ const CourseMentor = ({course}) => {
                toggleEditModal()
                  }}>
                   افزودن منتور 
-                   <Createassistance  isOpen={editModal} toggle={toggleEditModal} refetch={refetch}/>   
+                   {/* <Createassistance  isOpen={editModal} toggle={toggleEditModal} refetch={refetch}/>    */}
              </Button>                
               </Col>   
            </Row>

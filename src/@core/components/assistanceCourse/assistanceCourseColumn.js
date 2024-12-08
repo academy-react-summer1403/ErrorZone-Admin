@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import useQueryGet from '../../../customHook/useQueryGet';
 import { convertDateToPersian } from '../../../utility/hooks/date-helper.utils';
 import { Edit } from 'react-feather';
-import Createassistance from './createassistance';
+//import Createassistance from './createassistance';
 //import CreateClassRooem from './CreateClassRoom';
 
 export const AssistanceCourseColumns = (toggleEditModal) =>  [
@@ -76,7 +76,7 @@ export const AssistanceCourseColumns = (toggleEditModal) =>  [
        
           </div>
 
-        <Createassistance isOpen={show} toggle={toggle}  row={selectedItem} />    
+        {/* <Createassistance isOpen={show} toggle={toggle}  row={selectedItem} />     */}
        </>
 
           );

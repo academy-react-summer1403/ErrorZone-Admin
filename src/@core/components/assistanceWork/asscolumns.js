@@ -5,9 +5,7 @@ import { Link } from 'react-router-dom';
 import useQueryGet from '../../../customHook/useQueryGet';
 import { convertDateToPersian } from '../../../utility/hooks/date-helper.utils';
 import { Edit } from 'react-feather';
-import { Tooltip } from 'reactstrap';
-import CreateAss from './createAss';
-import UpdateAss from './UpdateAss';
+
 
 
 export const Columns = (toggleEditModal) =>  [
@@ -100,7 +98,7 @@ export const Columns = (toggleEditModal) =>  [
             <div  style={{cursor: "pointer"}} onClick={() => {setShow(true), setSelectedItem(row)}}>                  
             <Edit size={18}/> 
             </div>
-            {show && <UpdateAss  show={show} setShow={setShow}   row={selectedItem}/>    }    
+            {/* {show && <UpdateAss  show={show} setShow={setShow}   row={selectedItem}/>    }     */}
            </>
            
           );

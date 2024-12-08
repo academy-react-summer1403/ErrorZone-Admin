@@ -46,8 +46,6 @@ import NewsDetails from "../../pages/NewsDetailPage";
 import EditNews from "../../pages/EditNews";
 import GetNewsReplyCommentsModal from "../../@core/components/NewsDetailPage/GetNewsReplyCommentsModal";
 import UserPaymentsDetail from "../../@core/components/Users/userDetail/UserPaymentsDetail";
-import Building from "../../pages/Building";
-import AssistanceWork from "../../pages/AssistanceWork";
 import ClassRoom from "../../pages/ClassRoom";
 import AssistanceCourse from "../../pages/AssistanceCourse";
 //import CreateUserPage from "../../pages/CreateUser";
@@ -251,18 +249,12 @@ const Routes = [
     element: <Comments />,
   },
 
-  {
-    path: "/building",
-    element: <Building />,
-  },
+
   {
     path: "/departmemnt",
     element: <Department />,
   },
-  {
-    path: "/AssistanceWork",
-    element: <AssistanceWork />,
-  },
+
    {
     path: "/admin-schedual",
     element: <AdminScheduals />,

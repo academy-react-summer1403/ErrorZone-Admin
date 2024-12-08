@@ -6,7 +6,7 @@ import "@styles/react/libs/tables/react-dataTable-component.scss";
 import { Button, Card, CardHeader, Col, Input, Label, Row } from "reactstrap";
 import useQueryGet from '../customHook/useQueryGet'
 import { AssistanceCourseColumns } from '../@core/components/assistanceCourse/assistanceCourseColumn';
-import Createassistance from '../@core/components/assistanceCourse/createassistance';
+//import Createassistance from '../@core/components/assistanceCourse/createassistance';
 
 const AssistanceCourse = () => {
   // ** States
@@ -150,7 +150,7 @@ const AssistanceCourse = () => {
                toggleEditModal();
                  }}>
                   افزودن منتور 
-                <Createassistance  isOpen={editModal}  toggle={toggleEditModal}/>
+                {/* <Createassistance  isOpen={editModal}  toggle={toggleEditModal}/> */}
              </Button>                
               </Col>   
     
