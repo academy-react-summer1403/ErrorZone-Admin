@@ -6,7 +6,7 @@ import useQueryGet from '../../../customHook/useQueryGet';
 import { convertDateToPersian } from '../../../utility/hooks/date-helper.utils';
 import { Calendar, Edit, MoreVertical, Plus } from 'react-feather';
 import { Badge,  UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem  } from 'reactstrap';
-import CreateGroup from './CreateGroup';
+//import CreateGroup from './CreateGroup';
 
 export const SocialGroupColumns = (  refetch) =>  [
     
@@ -57,7 +57,7 @@ export const SocialGroupColumns = (  refetch) =>  [
                  <Edit size={18} style={{cursor: "pointer"}} />
              </div>
        
-             {show && <CreateGroup  show={show} setShow={setShow}  row={selectedItem}/>    }     
+             {/* {show && <CreateGroup  show={show} setShow={setShow}  row={selectedItem}/>    }      */}
             </>
           );
 

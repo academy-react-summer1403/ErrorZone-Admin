@@ -14,7 +14,7 @@ import useQueryGet from "../customHook/useQueryGet";
 //import CreateAss from "../@core/components/assistanceWork/createAss";
 //import CreateClassRooem from "../@core/components/classRoom/CreateClassRoom";
 import { SocialGroupColumns } from "../@core/components/socialgroup/SocialGroupColumns";
-import CreateGroup from "../@core/components/socialgroup/CreateGroup";
+//import CreateGroup from "../@core/components/socialgroup/CreateGroup";
 import BreadCrumbs from "../@core/components/breadcrumbs";
 import StatsHorizontal from "../@core/components/StatsHorizontal";
 
@@ -193,7 +193,7 @@ const SocialGroup = () => {
                     }}
                   >
                     افزودن گروه
-                    <CreateGroup show={show} setShow={setShow} />
+                    {/* <CreateGroup show={show} setShow={setShow} /> */}
                   </Button>
                 </Col>
               </Row>
